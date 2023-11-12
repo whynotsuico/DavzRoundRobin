@@ -21,10 +21,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DavzRoundRobin", "DavzRound
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "53396"
+		SlnRelativePath = "DavzRoundRobin\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{52BDD609-7039-4A3B-ADBD-85306A680219}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Davz.Tournament", "Davz.Tournament\Davz.Tournament.csproj", "{B822D350-F1D7-4334-892A-D7405D3DE16D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +45,10 @@ Global
 		{52BDD609-7039-4A3B-ADBD-85306A680219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52BDD609-7039-4A3B-ADBD-85306A680219}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52BDD609-7039-4A3B-ADBD-85306A680219}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B822D350-F1D7-4334-892A-D7405D3DE16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B822D350-F1D7-4334-892A-D7405D3DE16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B822D350-F1D7-4334-892A-D7405D3DE16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B822D350-F1D7-4334-892A-D7405D3DE16D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
