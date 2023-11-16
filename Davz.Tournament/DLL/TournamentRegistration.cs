@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,83 @@ namespace Davz.Tournament
 {
     public class TournamentRegistration
     {
-        public int TournamentRegistrationID { get; set; }
-        public int TournamentRegistrationEventID { get; set; }
-        public string TournamentRegistrationRiderName { get; set; }
-        public string TournamentRegistrationDragBikeNumber { get; set; }
-        public int TournamentRegistrationCategoryID { get; set; }
-        public string TournamentRegistrationTeamName { get; set; }
+        public string ID { get; set; }
+        public string EventID { get; set; }
+        public string RiderName { get; set; }
+        public string DragBikeNumber { get; set; }
+        public string CategoryID { get; set; }
+        public string TeamName { get; set; }
+
+        public void Create(string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
+        {
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void Delete(int TournamentEventID)
+        {
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void Update(int TournamentEventID, string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
+        {
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void ReadAll()
+        {
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

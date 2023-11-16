@@ -58,14 +58,37 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Stored Procedure" />
+    <Folder Include="Stored Procedure\Tournament Category" />
+    <Folder Include="Stored Procedure\Tournament Event" />
+    <Folder Include="Stored Procedure\Tournament Matching" />
+    <Folder Include="Stored Procedure\Tournament Registration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Tournament_Category.sql" />
     <Build Include="Tables\Tournament_Event.sql" />
     <Build Include="Tables\Tournament_Registration.sql" />
     <Build Include="Tables\Tournament_Matching.sql" />
+    <Build Include="Stored Procedure\Tournament Category\Create_Category.sql" />
+    <Build Include="Stored Procedure\Tournament Category\ReadAll_Category.sql" />
+    <Build Include="Stored Procedure\Tournament Category\Update_Category.sql" />
+    <Build Include="Stored Procedure\Tournament Category\Delete_Category.sql" />
+    <Build Include="Stored Procedure\Tournament Event\Create_Event.sql" />
+    <Build Include="Stored Procedure\Tournament Event\Update_Event.sql" />
+    <Build Include="Stored Procedure\Tournament Event\Delete_Event.sql" />
+    <Build Include="Stored Procedure\Tournament Event\ReadAll_Event.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Create_Matching.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Update_Matching.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Delete_Matching.sql" />
+    <Build Include="Stored Procedure\Tournament Registration\Create_Registration.sql" />
+    <Build Include="Stored Procedure\Tournament Registration\Update_Registration.sql" />
+    <Build Include="Stored Procedure\Tournament Registration\Delete_Registration.sql" />
+    <Build Include="Stored Procedure\Tournament Registration\ReadAll_Registration.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Database.publish.xml" />
   </ItemGroup>
 </Project>

@@ -9,15 +9,15 @@ namespace Davz.Tournament
 {
     public class TournamentEvent
     {
-        public int TournamentEventID { get; set; }
-        public string TournamentEventName { get; set; }
-        public DateTime TournamentEventCreateDate { get; set; }
-        public DateTime TournamentEventStartDate { get; set; }
-        public DateTime TournamentEventEndDate { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         
         public void Create(string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
@@ -35,7 +35,7 @@ namespace Davz.Tournament
 
         public void Delete(int TournamentEventID)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
@@ -53,7 +53,7 @@ namespace Davz.Tournament
 
         public void Update(int TournamentEventID, string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
@@ -71,7 +71,7 @@ namespace Davz.Tournament
 
         public void ReadAll()
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();

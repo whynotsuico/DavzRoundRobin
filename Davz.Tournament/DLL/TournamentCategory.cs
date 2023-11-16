@@ -9,15 +9,19 @@ namespace Davz.Tournament
 {
     public class TournamentCategory
     {
-        public int TournamentCategoryID { get; set; }
-        public string TournamentCategoryName { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
 
-        public void Create(string TournamentCategoryName)
+        public void Create(string Name)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
+                SqlCommand cmd = new SqlCommand("Create_Category", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Category_Name", Name);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
@@ -31,9 +35,9 @@ namespace Davz.Tournament
 
         }
 
-        public void Update(int TournamentCategoryID, string TournamentCategoryName)
+        public void Update(int ID, string Name)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
@@ -52,7 +56,7 @@ namespace Davz.Tournament
 
         public void Delete(int TournamentCategoryID)
         {
-            SqlConnection conn = new SqlConnection("");
+            SqlConnection conn = new SqlConnection(database.ConnectionString());
             try
             {
                 conn.Open();
