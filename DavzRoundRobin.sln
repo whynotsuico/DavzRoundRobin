@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DavzRoundRobin", "DavzRoundRobin\", "{30EAE4CB-9183-491F-9354-D336D7F2959F}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		ProjectReferences = "{b822d350-f1d7-4334-892a-d7405d3de16d}|Davz.Tournament.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_53396"
 		Debug.AspNetCompiler.PhysicalPath = "DavzRoundRobin\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53396\"

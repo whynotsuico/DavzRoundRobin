@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,11 @@ namespace Davz.Tournament
         public string RightBikeNumber { get; set; }
         public string WinnerBikeNumber { get; set; }
 
+        string strcon = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+
         public void Create(string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
         {
-            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
@@ -39,7 +42,7 @@ namespace Davz.Tournament
 
         public void Delete(int TournamentEventID)
         {
-            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
@@ -57,7 +60,7 @@ namespace Davz.Tournament
 
         public void Update(int TournamentEventID, string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
         {
-            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
@@ -75,7 +78,7 @@ namespace Davz.Tournament
 
         public void ReadAll()
         {
-            SqlConnection conn = new SqlConnection(database.ConnectionString());
+            SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
