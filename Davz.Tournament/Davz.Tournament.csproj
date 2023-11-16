@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DLL\TournamentCategory.cs" />
+    <Compile Include="DLL\TournamentEvent.cs" />
+    <Compile Include="DLL\TournamentMatching.cs" />
+    <Compile Include="DLL\TournamentRegistration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
