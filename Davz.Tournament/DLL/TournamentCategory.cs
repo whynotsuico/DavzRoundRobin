@@ -15,6 +15,14 @@ namespace Davz.Tournament
 
         string strcon = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
 
+        public TournamentCategory ReadAll() 
+        {
+            var test = new TournamentCategory();
+            this.ID = test.ID;
+            this.Name = test.Name;
+            return test;
+        }
+
         public void Create(string Name)
         {
             SqlConnection conn = new SqlConnection(strcon);
@@ -44,6 +52,11 @@ namespace Davz.Tournament
             try
             {
                 conn.Open();
+                SqlCommand cmd = new SqlCommand("Update_Category", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Category_Name", Name);
+                cmd.Parameters.AddWithValue("Category_ID", ID);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
@@ -57,12 +70,16 @@ namespace Davz.Tournament
 
         }
 
-        public void Delete(int TournamentCategoryID)
+        public void Delete(int ID)
         {
             SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
+                SqlCommand cmd = new SqlCommand("Update_Category", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Category_ID", ID);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {

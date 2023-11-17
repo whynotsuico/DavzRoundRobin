@@ -18,12 +18,19 @@ namespace Davz.Tournament
 
         string strcon = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
 
-        public void Create(string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
+        public void Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
             SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
+                SqlCommand cmd = new SqlCommand("Create_Event", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Event_Name", Name);
+                cmd.Parameters.AddWithValue("Event_CreateDate", CreateDate);
+                cmd.Parameters.AddWithValue("Event_StartDate", StartDate);
+                cmd.Parameters.AddWithValue("Event_EndDate", EndDate);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
@@ -54,12 +61,20 @@ namespace Davz.Tournament
             }
         }
 
-        public void Update(int TournamentEventID, string TournamentEventName, DateTime TournamentEventCreateDate, DateTime TournamentEventStartDate, DateTime TournamentEventEndDate)
+        public void Update(int ID, string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
             SqlConnection conn = new SqlConnection(strcon);
             try
             {
                 conn.Open();
+                SqlCommand cmd = new SqlCommand("Update_Event", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Event_ID", ID);
+                cmd.Parameters.AddWithValue("Event_Name", Name);
+                cmd.Parameters.AddWithValue("Event_CreateDate", CreateDate);
+                cmd.Parameters.AddWithValue("Event_StartDate", StartDate);
+                cmd.Parameters.AddWithValue("Event_EndDate", EndDate);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
