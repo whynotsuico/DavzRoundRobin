@@ -22,4 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modeText.innerText = "Dark mode";
         }
     });
+
+
 });

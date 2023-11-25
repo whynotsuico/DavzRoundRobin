@@ -403,9 +403,10 @@ body.dark .switch::before {
     background-color: var(--primary-color) !important;
     border: 1px solid var(--primary-color);
 }
-.btn-primary:hover {
-    border: 1px solid var(--primary-color);
-}
+
+    .btn-primary:hover {
+        border: 1px solid var(--primary-color);
+    }
 
 .home-tab .btn, .home-tab .ajax-upload-dragdrop {
     padding: 8px 15px;
@@ -430,15 +431,18 @@ body.dark .switch::before {
 
 .card {
     box-shadow: 2px 4px 12px rgba(0,0,0,.08);
-  
 }
 
 .list-group a {
-    text-decoration:none;
-    color:#393939;
+    text-decoration: none;
+    color: #393939;
 }
+
 .list-group span {
     font-size: 13px;
     color: #737F8B !important;
 }
 
+.matching-container {
+    max-width: 1920px !important;
+}

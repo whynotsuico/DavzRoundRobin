@@ -1,20 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="main.master" %>
 
 <script runat="server">
-    Davz.Tournament.TournamentCategory category = new Davz.Tournament.TournamentCategory();
 
-    public void Btn_Click(object sender, EventArgs e)
-    {
-        category.Create(test.Text);
-    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <asp:TextBox ID="test" runat="server"></asp:TextBox>
-    <asp:Button ID="AddButton" Text="Add" OnClick="Btn_Click" runat="server"/>
     <div class="home-tab">
         <div class="d-sm-flex align-items-center justify-content-between border-bottom">
             <ul class="nav nav-tabs" role="tablist">
