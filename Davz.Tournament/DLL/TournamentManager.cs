@@ -5,11 +5,44 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Davz.Tournament.DLL;
 
 namespace Davz.Tournament
 {
     public class TournamentManager
     {
+
+        public static IEnumerable<RegistrationCategory> ReadAllRegistrationCategory()
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            List<RegistrationCategory> lst = new List<RegistrationCategory>();
+            RegistrationCategory regCat = null;
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ReadAll_Registration_Category", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    regCat = new RegistrationCategory();
+                    regCat.ExtractFromReader(dr);
+                    lst.Add(regCat);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally 
+            { 
+                conn.Close(); 
+            }
+            return lst;
+        }
+
         public static IEnumerable<Category> ReadAllCategory()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);

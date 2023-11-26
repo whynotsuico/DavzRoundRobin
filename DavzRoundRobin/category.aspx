@@ -15,6 +15,13 @@
 
         Response.Redirect(Request.RawUrl);
     }
+
+    protected void DeleteCategory(object sender, CommandEventArgs e)
+    {
+        Category.Delete(e.CommandArgument.ToString());
+
+        Response.Redirect(Request.RawUrl);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -34,8 +41,11 @@
                         <ItemTemplate>
                             <li class="list-group-item">
                                 <a href="javascript:;"><%# Eval("Name") %>
-                                    <br />
+                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end"  OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
+                                        <i class="bx bx-trash-alt icon"></i>
+                                    </asp:LinkButton>
                                 </a>
+
                             </li>
                         </ItemTemplate>
                     </asp:Repeater>

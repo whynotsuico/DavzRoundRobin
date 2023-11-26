@@ -97,13 +97,13 @@ namespace Davz.Tournament
 
         }
 
-        public void Delete(int ID)
+        public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Category", conn);
+                SqlCommand cmd = new SqlCommand("Delete_Category", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Category_ID", ID);
                 cmd.ExecuteNonQuery();

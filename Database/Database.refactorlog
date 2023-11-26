@@ -28,4 +28,60 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Tournament_Matching_ID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e9e6c31b-d29d-4f6e-9228-c9c8590e1c5f" ChangeDateTime="11/26/2023 15:47:58">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Registration_Category" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8f422623-c89d-4c11-b16d-18403a6e58a9" ChangeDateTime="11/26/2023 15:48:07">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Tournament_Registration_Category]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Registration_Category_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c7c8d500-5cf3-4ff4-aefd-7d53c1f4ab62" ChangeDateTime="11/26/2023 15:50:04">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Registraion_Cattegory_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="719eb63b-7d37-4d51-9367-835151219f26" ChangeDateTime="11/26/2023 15:50:54">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Registraion_Cattegory_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Registraion_Category_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6e694e95-ab90-4a16-b35f-5e105a0e058c" ChangeDateTime="11/26/2023 15:51:12">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Registratio_Category_Category ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Registration_Category_Category_ID " />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4f13683e-4ada-41a9-89be-3f948ee1f23e" ChangeDateTime="11/26/2023 15:52:05">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Tournament_Registration_Category_Category_ID ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Registration_Category_Category_ID " />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1fcc7dfc-2a72-405a-a335-c75ce97cd74b" ChangeDateTime="11/26/2023 15:52:08">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Tournament_Registraion_Category_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Registraion_Category_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="88828edc-32bf-4925-812e-cc71083ac9d9" ChangeDateTime="11/26/2023 16:13:17">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Registration_Category].[Registration_Category_Category_ID ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Registration_Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Registration_Category_Category_ID" />
+  </Operation>
 </Operations>
