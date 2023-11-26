@@ -1,14 +1,24 @@
 ﻿CREATE PROCEDURE [dbo].[Create_Registration_Category]
-	@Category_ID varchar(50)
-	, @Event_ID varchar(50)
+	@CategoryID INT
+	, @EventID  INT
 AS
-	INSERT INTO dbo.Tournament_Registration_Category
-	(
-		Registration_Category_Category_ID
-		, Registration_Category_Event_ID
-	)
-	VALUES
-	(
-		@Category_ID
-		, @Event_ID
-	)
+	IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.Tournament_Registration_Category
+        WHERE Registration_Category_Category_ID = @CategoryID
+            AND Registration_Category_Event_ID = @EventID
+    )
+    BEGIN
+        INSERT INTO dbo.Tournament_Registration_Category (
+            Registration_Category_Category_ID,
+            Registration_Category_Event_ID
+        )
+        VALUES (
+            @CategoryID,
+            @EventID
+        )
+    END
+    ELSE
+    BEGIN
+      SELECT 0
+    END

@@ -13,23 +13,35 @@
 
         if (!IsPostBack)
         {
+            var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
+
+
             ddlAddEventCategory.DataSource = TournamentManager.ReadAllCategory();
             ddlAddEventCategory.DataBind();
             ddlAddEventCategory.Items.Insert(0, new ListItem("Select Category", ""));
 
-            ddlFilterCategory.DataSource = TournamentManager.ReadAllCategory();
+
+
+            ddlFilterCategory.DataSource = lstEventCategory;
             ddlFilterCategory.DataBind();
             ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "-1"));
+
+            ddlCategory.DataSource = lstEventCategory;
+            ddlCategory.DataBind();
+            ddlCategory.Items.Insert(0, new ListItem("Select Category", "0"));
         }
     }
 
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
+        rptEventCategory.DataSource = TournamentManager.GetAllRegistrationCategory(_Event.ID);
+        rptEventCategory.DataBind();
+
         rptEntryList.DataSource = TournamentManager.GetAllRegistrationByEventID(_Event.ID, ddlFilterCategory.SelectedValue).Tables[0];
         rptEntryList.DataBind();
 
         notfoundlist.Visible = rptEntryList.Items.Count == 0;
-        rptEntryList.Visible = rptEntryList.Items.Count > 0;
+        categorynotfound.Visible = rptEventCategory.Items.Count == 0;
     }
 
 
@@ -43,7 +55,9 @@
 
     protected void btnAddCategory_Click(object sender, EventArgs e)
     {
+        RegistrationCategory.Create(ddlAddEventCategory.SelectedValue, _Event.ID);
 
+        Response.Redirect(Request.RawUrl);
     }
 </script>
 
@@ -75,7 +89,7 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
+                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
                             <label class="form-label"><b>Category</b></label>
                         </div>
                     </div>
@@ -139,7 +153,7 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlCategory" CssClass="form-select" autocomplete="off" />
+                                        <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlCategory" CssClass="form-select" autocomplete="off" />
                                         <label class="form-label"><b>Category</b></label>
                                     </div>
                                 </div>
@@ -179,6 +193,18 @@
                     <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#EventCategoryModal"><i class="bx bx-add-to-queue"></i>&nbsp;Add Category</a>
                 </div>
                 <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li runat="server" id="categorynotfound" class="list-group-item">No Category Found</li>
+                        <asp:Repeater runat="server" ID="rptEventCategory">
+                            <ItemTemplate>
+                                <li class="list-group-item">
+                                    <a href='javascript:;'><%# Eval("Tournament_Category_Name") %>
+                                        <br />
+                                    </a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
                 </div>
             </div>
             <div class="modal fade" id="EventCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEventCategoryModal" aria-hidden="true">

@@ -7,15 +7,16 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Davz.Tournament.DLL
+namespace Davz.Tournament
 {
     public class RegistrationCategory
     {
-        public int ID { get; set; }
-        public int CategoryID { get; set; }
-        public int EventID { get; set; }
+        public string ID { get; set; }
+        public string CategoryID { get; set; }
+        public string EventID { get; set; }
+        public string CategoryName { get; set; }
 
-        public static void Create(int CategoryID, int EventID)
+        public static void Create(string categoryID, string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -23,8 +24,8 @@ namespace Davz.Tournament.DLL
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Registration_Category", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("Event_ID", EventID);
+                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+                cmd.Parameters.AddWithValue("@EventID", eventID);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
@@ -40,9 +41,11 @@ namespace Davz.Tournament.DLL
 
         public void ExtractFromReader(IDataRecord record)
         {
-            this.ID = int.Parse(record["Registration_Category_Category_ID"].ToString());
-            this.CategoryID = int.Parse(record["Registration_Category_Category_ID"].ToString());
-            this.EventID = int.Parse(record["Registration_Category_Category_ID"].ToString());
+            this.ID = record["Registration_Category_Category_ID"].ToString();
+            this.CategoryID = record["Registration_Category_Category_ID"].ToString();
+            this.EventID = record["Registration_Category_Category_ID"].ToString();
+
+            this.CategoryName = record["Tournament_Category_Name"].ToString();
         }
 
         public static void Update(int ID, int CategoryID, int EventID)
