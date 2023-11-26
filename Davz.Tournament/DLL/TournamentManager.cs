@@ -5,12 +5,28 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Davz.Tournament.DLL;
 
 namespace Davz.Tournament
 {
     public class TournamentManager
     {
+
+        public static DataTable GetAllRegistrationCategory(string eventID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Get_All_Registration_Category_By_Event_ID", con);
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
 
         public static IEnumerable<RegistrationCategory> ReadAllRegistrationCategory()
         {
@@ -36,9 +52,9 @@ namespace Davz.Tournament
 
                 throw;
             }
-            finally 
-            { 
-                conn.Close(); 
+            finally
+            {
+                conn.Close();
             }
             return lst;
         }
@@ -57,6 +73,38 @@ namespace Davz.Tournament
                 while (dr.Read())
                 {
                     cat = new Category();
+                    cat.ExtractFromReader(dr);
+                    lst.Add(cat);
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return lst;
+
+        }
+
+        public static IEnumerable<RegistrationCategory> ReadAllRegistrationCategory(string eventID)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            List<RegistrationCategory> lst = new List<RegistrationCategory>();
+            RegistrationCategory cat = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Get_All_Registration_Category_By_Event_ID", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EventID", eventID);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    cat = new RegistrationCategory();
                     cat.ExtractFromReader(dr);
                     lst.Add(cat);
 

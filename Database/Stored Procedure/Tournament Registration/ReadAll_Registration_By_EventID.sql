@@ -10,7 +10,7 @@ AS
 	AND (@CategoryID = -1 OR Tournament_Registration_Category_ID = @CategoryID)
 	
 	SELECT DISTINCT  Tournament_Category_ID, Tournament_Category_Name FROM #tmpEntry
-	INNER JOIN Tournament_Category ON Tournament_Category_ID = Tournament_Registration_Category_ID
+	INNER JOIN vRegistrationCategory ON Registration_Category_Category_ID = Tournament_Registration_Category_ID
 	
 	SELECT *FROM #tmpEntry
 	
