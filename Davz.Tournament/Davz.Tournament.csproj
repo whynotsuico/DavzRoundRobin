@@ -46,11 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBase.cs" />
+    <Compile Include="DLL\TournamentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DLL\TournamentCategory.cs" />
-    <Compile Include="DLL\TournamentEvent.cs" />
-    <Compile Include="DLL\TournamentMatching.cs" />
-    <Compile Include="DLL\TournamentRegistration.cs" />
+    <Compile Include="DLL\Category.cs" />
+    <Compile Include="DLL\Event.cs" />
+    <Compile Include="DLL\Matching.cs" />
+    <Compile Include="DLL\Registration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

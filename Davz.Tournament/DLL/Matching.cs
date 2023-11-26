@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Davz.Tournament
 {
-    public class TournamentMatching
+    public class Matching
     {
         public string ID { get; set; }
         public string CategoryID { get; set; }
@@ -22,22 +22,6 @@ namespace Davz.Tournament
         public string LeftBikeNumber { get; set; }
         public string RightBikeNumber { get; set; }
         public string WinnerBikeNumber { get; set; }
-
-        public TournamentMatching ReadAll()
-        {
-            var matching = new TournamentMatching();
-            this.ID = matching.ID;
-            this.CategoryID = matching.CategoryID;
-            this.SortNumber = matching.SortNumber;  
-            this.RegistrationID = matching.RegistrationID;  
-            this.RegistrationRiderName = matching.RegistrationRiderName;
-            this.RegistrationBikeNumber = matching.RegistrationBikeNumber;
-            this.LeftBikeNumber = matching.LeftBikeNumber;
-            this.RightBikeNumber = matching.RightBikeNumber;
-            this.WinnerBikeNumber = matching.WinnerBikeNumber;
-            return matching;
-        }
-
 
         public void Create(   int CategoryID
                             , int SortNumber
@@ -86,6 +70,36 @@ namespace Davz.Tournament
             this.LeftBikeNumber = record["Tournament_Matching_Left_Bike_Number"].ToString();
             this.RightBikeNumber = record["Tournament_Matching_Right_Bike_Number"].ToString();
             this.WinnerBikeNumber = record["Tournament_Matching_Winner_Bike_Number"].ToString();
+        }
+
+        public static Matching Read(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Matching matching = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Read_Matching", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    matching = new Matching();
+                    matching.ExtractFromReader(dr);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return matching;
         }
 
         public void Delete(int ID)

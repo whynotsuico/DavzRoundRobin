@@ -10,24 +10,13 @@ using System.Threading.Tasks;
 
 namespace Davz.Tournament
 {
-    public class TournamentEvent
+    public class Event
     {
         public string ID { get; set; }
         public string Name { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
-        public TournamentEvent ReadAll()
-        {
-            var newEvent = new TournamentEvent();
-            this.ID = newEvent.ID;
-            this.Name = newEvent.Name;  
-            this.CreateDate = newEvent.CreateDate;
-            this.StartDate = newEvent.StartDate;
-            this.EndDate = newEvent.EndDate;
-            return newEvent;
-        }
 
         public void Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
@@ -61,6 +50,36 @@ namespace Davz.Tournament
             this.CreateDate = DateTime.Parse(record["Tournament_Event_Create_Date"].ToString());
             this.StartDate = DateTime.Parse(record["Tournament_Event_Start_Date"].ToString());
             this.EndDate = DateTime.Parse(record["Tournament_Event_End_Date"].ToString());
+        }
+
+        public static Event Read(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Event events = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Read_Event", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    events = new Event();
+                    events.ExtractFromReader(dr);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return events;
         }
 
         public void Delete(int ID)

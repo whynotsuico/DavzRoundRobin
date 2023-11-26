@@ -9,18 +9,10 @@ using System.Threading.Tasks;
 
 namespace Davz.Tournament
 {
-    public class TournamentCategory
+    public class Category
     {
         public string ID { get; set; }
         public string Name { get; set; }
-
-        public TournamentCategory ReadAll() 
-        {
-            var cat = new TournamentCategory();
-            this.ID = cat.ID;
-            this.Name = cat.Name;
-            return cat;
-        }
 
         public void Create(string Name)
         {
@@ -51,7 +43,37 @@ namespace Davz.Tournament
             this.Name = record["Tournament_Category_Name"].ToString();
         }
 
-        public void Update(int ID, string Name)
+        public static Category Read(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Category category = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Read_Category", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Category_ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    category = new Category();
+                    category.ExtractFromReader(dr);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return category;
+        }
+
+        public void Update(string ID, string Name)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try

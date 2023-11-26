@@ -45,7 +45,7 @@
     <link href="core/assets/images/icon.jpg" rel="shortcut icon" type="image/x-icon" />
 
     <link type="text/css" href="core/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="core/assets/css/custom.css" rel="stylesheet">
+    <link type="text/css" href="core/assets/css/custom.css?v=1" rel="stylesheet">
     <link type="text/css" href="core/assets/css/custom.matching.css" rel="stylesheet">
     <link type="text/css" href="core/assets/css/boxicons.min.css" rel="stylesheet">
 

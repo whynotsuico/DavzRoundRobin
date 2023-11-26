@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Davz.Tournament
 {
-    public class TournamentRegistration
+    public class Registration
     {
         public string ID { get; set; }
         public string EventID { get; set; }
@@ -17,19 +17,6 @@ namespace Davz.Tournament
         public string DragBikeNumber { get; set; }
         public string CategoryID { get; set; }
         public string TeamName { get; set; }
-
-        public TournamentRegistration ReadAll()
-        {
-            var registration = new TournamentRegistration();
-            this.ID = registration.ID;
-            this.EventID = registration.EventID;
-            this.RiderName = registration.RiderName;
-            this.DragBikeNumber = registration.DragBikeNumber;
-            this.CategoryID = registration.CategoryID;
-            this.TeamName = registration.TeamName;
-            return registration;
-
-        }
 
         public void Create(int EventID, string RiderName, int DragBikeNumber, int CategoryID, string TeamName)
         {
@@ -66,6 +53,36 @@ namespace Davz.Tournament
             this.DragBikeNumber = record["Tournament_Registration_Drag_Bike_Number"].ToString();
             this.CategoryID = record["Tournament_Registration_Category_ID"].ToString();
             this.TeamName = record["Tournament_Registration_Team_Name"].ToString();
+        }
+
+        public static Registration Read(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Registration registration = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Read_Registration", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    registration = new Registration();
+                    registration.ExtractFromReader(dr);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return registration;
         }
 
         public void Delete(int ID)
