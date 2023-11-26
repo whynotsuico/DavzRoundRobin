@@ -3,6 +3,9 @@
 <script runat="server">
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
+        rptCategoryList.DataSource = TournamentManager.ReadAllCategory();
+        rptCategoryList.DataBind();
+
         rptEventList.DataSource = TournamentManager.ReadAllEvent();
         rptEventList.DataBind();
 
@@ -65,14 +68,14 @@
                         <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
                         <asp:Repeater runat="server" ID="rptEventList">
                             <ItemTemplate>
-                                <li class="list-group-item">
-                                    <a href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'><%# Eval("Name") %>
-                                        <br />
-                                        <span>
-                                            <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
-                                        </span>
-                                    </a>
-                                </li>
+                                <a class="list-group-item list-group-item-action" href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'><%# Eval("Name") %>
+
+                                    <br />
+                                    <span>
+                                        <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                    </span>
+
+                                </a>
                             </ItemTemplate>
                         </asp:Repeater>
                     </ul>
@@ -120,12 +123,18 @@
         <div class="col col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Featured
+                    Categories
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <ul class="list-group list-group-flush list-group-numbered">
+                        <asp:Repeater runat="server" ID="rptCategoryList">
+                            <ItemTemplate>
+                                <li class="list-group-item list-group-item-action">
+                                    <a id='<%# Eval("ID") %>'><%# Eval("Name") %></a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
                 </div>
                 <div class="card-footer text-muted">
                     2 days ago
