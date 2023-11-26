@@ -6,8 +6,31 @@
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        rptListofMatches.DataSource = Enumerable.Range(1, 10);
-        rptListofMatches.DataBind();
+        rptTeamStanding.DataSource = Enumerable.Range(1, 10);
+        rptTeamStanding.DataBind();
+        //testasdasd
+        rptNextMatch.DataSource = Enumerable.Range(1, 3);
+        rptNextMatch.DataBind();
+    }
+
+    protected string getFontSize(int index)
+    {
+        string size = "";
+        switch (index)
+        {
+            case 0:
+                size = "style='font-size: 55px !important;width: 720px;margin: auto;'";
+                break;
+            case 1:
+                size = "style='font-size: 40px !important;width: 620px;margin: auto;'";
+                break;
+            case 2:
+                size = "style='font-size: 25px !important;width: 520px;margin: auto;'";
+                break;
+
+        }
+
+        return size;
     }
 </script>
 
@@ -37,65 +60,85 @@
     <form id="form1" runat="server">
         <br />
         <div class="matching-container container">
-            <div class="card full-height-container gradient-border">
+            <script type="text/javascript">
 
-                <div class="row">
-                    <div class="col col-md-3 d-flex justify-content-center">
-                        <script type="text/javascript">
+                $(document).ready(function () {
+                    var words = ['NOW MATCHING...', 'RIDERS READY!'],
+                        part,
+                        i = 0,
+                        offset = 0,
+                        len = words.length,
+                        forwards = true,
+                        skip_count = 0,
+                        skip_delay = 15,
+                        speed = 70;
+                    var wordflick = function () {
+                        setInterval(function () {
+                            if (forwards) {
+                                if (offset >= words[i].length) {
+                                    ++skip_count;
+                                    if (skip_count == skip_delay) {
+                                        forwards = false;
+                                        skip_count = 0;
+                                    }
+                                }
+                            }
+                            else {
+                                if (offset == 0) {
+                                    forwards = true;
+                                    i++;
+                                    offset = 0;
+                                    if (i >= len) {
+                                        i = 0;
+                                    }
+                                }
+                            }
+                            part = words[i].substr(0, offset);
+                            if (skip_count == 0) {
+                                if (forwards) {
+                                    offset++;
+                                }
+                                else {
+                                    offset--;
+                                }
+                            }
+                            $('.word').text(part);
+                        }, speed);
+                    };
 
-                            $(document).ready(function () {
-                                $('.standing-list li').each(function () {
-                                    var delay = ($(this).index() / 4) + 's';
-                                    $(this).css({
-                                        webkitAnimationDelay: delay,
-                                        mozAnimationDelay: delay,
-                                        animationDelay: delay
-                                    });
-                                });
-                            });
-                        </script>
-                        <ul class="standing-list">
-                            <asp:Repeater runat="server" ID="rptListofMatches">
-                                <ItemTemplate>
-                                    <li>
-                                        <span>Davz Racing Team</span>
-                                    </li>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </ul>
-                    </div>
-                    <div class="col col-md-6">
-                        <br />
-                        <br />
-                        <div class="wrapper">
-                            <h1>Now Matching...</h1>
-                        </div>
-                        <div class="flex-main-screen">
-                            <br />
-                            <br />
+                    $(document).ready(function () {
+                        wordflick();
+                    });
+                });
+            </script>
+            <div class="row">
+                <div class="col col-md-7">
+                    <div class="card full-height-container gradient-border  ">
+                        <div class="flex-main-screen  ">
+                            <div class="word"></div>
                             <div class="flex-container text-center">
                                 <div class="flex-item">
-                                    <h5 class="main-identity">Left</h5>
+                                    <h5 class="main-identity">Left Lane</h5>
                                 </div>
                                 <div class="flex-item">
                                 </div>
                                 <div class="flex-item">
-                                    <h5 class="main-identity">Right</h5>
+                                    <h5 class="main-identity">Right Lane</h5>
                                 </div>
                             </div>
-                            <br />
                             <br />
                             <div class="flex-container text-center">
                                 <div class="flex-item">
                                     <h1 class="main-number">101</h1>
                                 </div>
                                 <div class="flex-item">
-                                    <h1 class="animate-charcter main-vs">VS</h1>
+                                    <%--  <h1 class="animate-charcter main-vs">VS</h1>--%>
                                 </div>
                                 <div class="flex-item">
                                     <h1 class="main-number">145</h1>
                                 </div>
                             </div>
+                            <br />
                             <div class="flex-container text-center">
                                 <div class="flex-item">
                                     <h5 class="main-team-name">Davz Racing Team</h5>
@@ -106,71 +149,122 @@
                                     <h5 class="main-team-name">Team Mac</h5>
                                 </div>
                             </div>
-
-
                         </div>
-                    </div>
-                    <%-- <div class="col col-md-3">
-                    </div>--%>
-                </div>
-
-            </div>
-            <br />
-            <div class="container container-control">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <b>Tournament Controls</b>
-                    </div>
-                    <div class="card-body">
-                        <div class="flex-container text-center">
-                            <div class="flex-item">
-                                <a href="#" class="btn btn-primary"><i class="bx bx-left-arrow-alt"></i>&nbsp;Left Win</a>
+                        <div class="up-next-section">
+                            <div class="upnext-text">
+                                NEXT MATCH
                             </div>
-                            <div class="flex-item">
-                                <a href="#" class="btn btn-primary"><i class="bx bx-x-circle"></i>&nbsp;Skip</a>
-                            </div>
-                            <div class="flex-item">
-                                <a href="#" class="btn btn-primary"><i class="bx bx-right-arrow-alt"></i>&nbsp;Right Win</a>
-                            </div>
-                        </div>
-
-                        <%--<script type="text/javascript">
-
-                        $(document).ready(function () {
-                            $('.list-group-flush li').each(function () {
-                                var delay = ($(this).index() / 4) + 's';
-                                $(this).css({
-                                    webkitAnimationDelay: delay,
-                                    mozAnimationDelay: delay,
-                                    animationDelay: delay
-                                });
-                            });
-                        });
-                    </script>--%>
-                        <%-- <ul class="list-group list-group-flush" id="myList">
-                        <asp:Repeater runat="server" ID="rptListofMatches">
-                            <ItemTemplate>
-                                <li>
-                                    <div class="flex-container text-center">
+                            <asp:Repeater runat="server" ID="rptNextMatch">
+                                <ItemTemplate>
+                                    <div class="flex-container gradient-upnext  next-match-div text-center" <%# getFontSize(Container.ItemIndex) %>>
                                         <div class="flex-item">
-                                            <span>102</span>
+                                            <span>40</span>
                                         </div>
                                         <div class="flex-item">
-                                            <span>VS</span>
+                                               <span style="font-size:20px !important;">VS</span>
                                         </div>
                                         <div class="flex-item">
                                             <span>143</span>
                                         </div>
                                     </div>
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>--%>
+                                    <br />
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
                     </div>
                 </div>
+                <div class="col col-md-3">
+                    <asp:Repeater runat="server" ID="rptTeamStanding">
+                        <HeaderTemplate>
+                            <table class="list-group-flush table table-striped table-dark" id="tbl-team-standing">
+                                <thead>
+                                    <tr>
+                                        <th colspan="5">Team Standing</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="list-group-flush text-center">Rank</th>
+                                        <th class="list-group-flush text-center">Team Name</th>
+                                        <th class="list-group-flush text-center">Bike #</th>
+                                        <th class="list-group-flush text-center">W</th>
+                                        <th class="list-group-flush text-center">L</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr>
+                                <td class="list-group-flush text-center"><%# Container.DataItem %></td>
+                                <td class="list-group-flush text-center">Davz Racing Team</td>
+                                <td class="list-group-flush text-center">01</td>
+                                <td class="list-group-flush text-center">10</td>
+                                <td class="list-group-flush text-center">0</td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </tbody>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+                    <br />
+                    <div class="text-center">
+                        <h3 style="text-transform: uppercase;">Powered By:</h3>
+                        <img src="core/assets/images/davz-logo.png" style="width: 260px;" />
+                    </div>
+                </div>
+                <div class="col col-md-2">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <b>Tournament Controls</b>
+                        </div>
+                        <div class="card-body">
+                            <div class="flex-container text-center">
+                                <div class="flex-item">
+                                    <a href="#" class="btn btn-primary"><i class="bx bx-left-arrow-alt"></i>Left</a>
+                                </div>
+                                <div class="flex-item">
+                                    <a href="#" class="btn btn-primary"><i class="bx bx-x-circle"></i>Skip</a>
+                                </div>
+                                <div class="flex-item">
+                                    <a href="#" class="btn btn-primary"><i class="bx bx-right-arrow-alt"></i>Right</a>
+                                </div>
+                            </div>
 
+                            <script type="text/javascript">
+
+                                $(document).ready(function () {
+                                    $('#tbl-team-standing  td').each(function () {
+                                        var delay = ($(this).index() / 4) + 's';
+                                        $(this).css({
+                                            webkitAnimationDelay: delay,
+                                            mozAnimationDelay: delay,
+                                            animationDelay: delay
+                                        });
+                                    });
+                                });
+                            </script>
+                            <%--  <ul class="list-group list-group-flush" id="myList">
+                                    <asp:Repeater runat="server" ID="rptListofMatches">
+                                        <ItemTemplate>
+                                            <li>
+                                                <div class="flex-container text-center">
+                                                    <div class="flex-item">
+                                                        <span>102</span>
+                                                    </div>
+                                                    <div class="flex-item">
+                                                        <span>VS</span>
+                                                    </div>
+                                                    <div class="flex-item">
+                                                        <span>143</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </ul>--%>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
     </form>
 </body>
