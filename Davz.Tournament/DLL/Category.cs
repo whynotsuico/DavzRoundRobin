@@ -14,7 +14,7 @@ namespace Davz.Tournament
         public string ID { get; set; }
         public string Name { get; set; }
 
-        public void Create(string Name)
+        public static void Create(string categoryName)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -22,7 +22,7 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Category", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Category_Name", Name);
+                cmd.Parameters.AddWithValue("Category_Name", categoryName);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)

@@ -133,5 +133,37 @@ namespace Davz.Tournament
             return lst;
 
         }
+
+        public static IEnumerable<Registration> ReadAllRegistrationByEventID(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            List<Registration> lst = new List<Registration>();
+            Registration reg = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_EventID", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    reg = new Registration();
+                    reg.ExtractFromReader(dr);
+                    lst.Add(reg);
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return lst;
+
+        }
     }
 }
