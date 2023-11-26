@@ -18,7 +18,7 @@ namespace Davz.Tournament
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public void Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
+        public static void Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try

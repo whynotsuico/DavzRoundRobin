@@ -1,7 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="main.master" %>
+﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="main.master" %>
 
 <script runat="server">
+    protected void Page_PrerenderComplete(object sender, EventArgs e)
+    {
+        rptEventList.DataSource = TournamentManager.ReadAllEvent();
+        rptEventList.DataBind();
 
+        notfoundlist.Visible = rptEventList.Items.Count == 0;
+    }
+
+    protected void btnCreateEvent_Click(object sender, EventArgs e)
+    {
+        Event.Create(txtEventName.Text, DateTime.Now, DateTime.Parse(txtStartDate.Text), DateTime.Parse(txtEndDate.Text));
+
+        Response.Redirect(Request.RawUrl);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -39,54 +52,63 @@
             <div class="card">
                 <div class="card-header">
                     <b>Recent Racing Event</b>
+                    <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bx bx-add-to-queue"></i>&nbsp;Add Event</a>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <a href="javascript:;">Speed Wards Event 1
-                        <br />
-                            <span>
-                                <i class="bx bx-calendar"></i>&nbsp;December 9, 2020
-                            </span>
-                        </a>
-
-                    </li>
-                    <li class="list-group-item">
-                        <a href="javascript:;">Speed Wards Event 2
-                          <br />
-                            <span>
-                                <i class="bx bx-calendar"></i>&nbsp;September 9, 2021 - September 10, 2021
-                            </span>
-                        </a>
-
-                    </li>
-                    <li class="list-group-item">
-                        <a href="javascript:;">Speed Wards Event 3
-                          <br />
-                            <span>
-                                <i class="bx bx-calendar"></i>&nbsp;August 10, 2023 - August 13, 2023
-                            </span>
-                        </a>
-
-                    </li>
-                    <li class="list-group-item">
-                        <a href="javascript:;">Speed Wards Event 4
-                              <br />
-                            <span>
-                                <i class="bx bx-calendar"></i>&nbsp;August 10, 2023 - August 13, 2023
-                            </span>
-                        </a>
-
-                    </li>
-                    <li class="list-group-item">
-                        <a href="javascript:;">Speed Wards Event 5
-                             <br />
-                            <span>
-                                <i class="bx bx-calendar"></i>&nbsp;August 10, 2023 - August 13, 2023
-                            </span>
-                        </a>
-
-                    </li>
+                    <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
+                    <asp:Repeater runat="server" ID="rptEventList">
+                        <ItemTemplate>
+                            <li class="list-group-item">
+                                <a href="javascript:;"><%# Eval("Name") %>
+                                    <br />
+                                    <span>
+                                        <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                    </span>
+                                </a>
+                            </li>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </ul>
+
+
+
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Add Racing Event</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtEventName" autocomplete="off" />
+                                            <label class="form-label"><b>Event Name</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <asp:TextBox runat="server" type="date" CssClass="form-control" ID="txtStartDate" autocomplete="off" />
+                                            <label class="form-label"><b>Event Start Date</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <asp:TextBox runat="server" type="date" CssClass="form-control" ID="txtEndDate" autocomplete="off" />
+                                            <label class="form-label"><b>Event End Date</b></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <asp:Button runat="server" ID="btnCreateEvent" CssClass="btn btn-primary" OnClick="btnCreateEvent_Click" Text="Save" />
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
