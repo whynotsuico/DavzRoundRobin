@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[Create_Registration]
-	@Event_ID varchar(250)
-	, @Rider_Name varchar(50)
-	, @Bike_Number varchar(50)
-	, @Category_ID varchar(50)
-	, @Team_Name varchar(50)
+	@EventID varchar(250)
+	, @RiderName varchar(50)
+	, @BikeNumber varchar(50)
+	, @CategoryID varchar(50)
+	, @TeamName varchar(50)
 AS
 	INSERT INTO dbo.Tournament_Registration
 	(
@@ -15,9 +15,9 @@ AS
 	)
 	VALUES
 	(
-		@Event_ID  
-		, @Rider_Name 
-		, @Bike_Number 
-		, @Category_ID 
-		, @Team_Name 
+		@EventID  
+		, @RiderName 
+		, @BikeNumber 
+		, @CategoryID 
+		, @TeamName 
 	)

@@ -1,5 +1,18 @@
 ﻿CREATE PROCEDURE [dbo].[ReadAll_Registration_By_EventID]
-	@ID varchar(25)
+	@EventID		INT
+	,@CategoryID    INT
 AS
-	SELECT * FROM Tournament_Registration
-	WHERE Tournament_Registration_Event_ID = @ID
+	SELECT *
+	INTO 
+	#tmpEntry
+	FROM Tournament_Registration
+	WHERE Tournament_Registration_Event_ID = @EventID
+	AND (@CategoryID = -1 OR Tournament_Registration_Category_ID = @CategoryID)
+	
+	SELECT DISTINCT  Tournament_Category_ID, Tournament_Category_Name FROM #tmpEntry
+	INNER JOIN Tournament_Category ON Tournament_Category_ID = Tournament_Registration_Category_ID
+	
+	SELECT *FROM #tmpEntry
+	
+	DROP TABLE #tmpEntry
+

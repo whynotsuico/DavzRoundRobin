@@ -21,6 +21,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
+
     <div class="home-tab">
         <div class="d-sm-flex align-items-center justify-content-between border-bottom">
             <ul class="nav nav-tabs" role="tablist">
@@ -47,6 +48,11 @@
         </div>
     </div>
     <br />
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col col-md-8">
             <div class="card">
@@ -54,24 +60,23 @@
                     <b>Recent Racing Event</b>
                     <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bx bx-add-to-queue"></i>&nbsp;Add Event</a>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
-                    <asp:Repeater runat="server" ID="rptEventList">
-                        <ItemTemplate>
-                            <li class="list-group-item">
-                                <a href="javascript:;"><%# Eval("Name") %>
-                                    <br />
-                                    <span>
-                                        <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
-                                    </span>
-                                </a>
-                            </li>
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </ul>
-
-
-
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
+                        <asp:Repeater runat="server" ID="rptEventList">
+                            <ItemTemplate>
+                                <li class="list-group-item">
+                                    <a href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'><%# Eval("Name") %>
+                                        <br />
+                                        <span>
+                                            <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                </div>
 
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">

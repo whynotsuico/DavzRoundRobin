@@ -198,5 +198,26 @@ namespace Davz.Tournament
             return lst;
 
         }
+
+        public static DataSet GetAllRegistrationByEventID(string eventID, string categoryID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataSet ds = new DataSet();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_EventID", con);
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+            da.Fill(ds);
+
+            con.Close();
+
+            ds.Relations.Add("LineItems", ds.Tables[0].Columns["Tournament_Category_ID"], ds.Tables[1].Columns["Tournament_Registration_Category_ID"]);
+
+            return ds;
+        }
     }
 }

@@ -12,4 +12,6 @@ public abstract class CommonLinks
     public const string Matching = "/matching.aspx";
     public const string Category = "/category.aspx";
 
+    public const string EventDetail = "/event-detail.aspx";
+
 }

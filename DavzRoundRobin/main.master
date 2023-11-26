@@ -65,12 +65,12 @@
                                     <span class="text nav-text">Category</span>
                                 </a>
                             </li>
-                            <li class="nav-link">
+                            <%--<li class="nav-link">
                                 <a href='<%= CommonLinks.Matching %>' target="_blank">
                                     <i class='bx bx-shield-quarter icon'></i>
                                     <span class="text nav-text">Matching UI</span>
                                 </a>
-                            </li>
+                            </li>--%>
                         </ul>
                     </div>
                     <div class="bottom-content">

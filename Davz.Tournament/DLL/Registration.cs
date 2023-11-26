@@ -18,7 +18,7 @@ namespace Davz.Tournament
         public string CategoryID { get; set; }
         public string TeamName { get; set; }
 
-        public void Create(int EventID, string RiderName, int DragBikeNumber, int CategoryID, string TeamName)
+        public static void Create(string EventID, string RiderName, string DragBikeNumber, string CategoryID, string TeamName)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -26,11 +26,11 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Registration", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Event_ID", EventID);
-                cmd.Parameters.AddWithValue("Rider_Name", RiderName);
-                cmd.Parameters.AddWithValue("Bike_Number", DragBikeNumber);
-                cmd.Parameters.AddWithValue("Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("Team_Name", TeamName);
+                cmd.Parameters.AddWithValue("@EventID", EventID);
+                cmd.Parameters.AddWithValue("@RiderName", RiderName);
+                cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
+                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                cmd.Parameters.AddWithValue("@TeamName", TeamName);
                 cmd.ExecuteNonQuery();
 
             }
@@ -107,7 +107,7 @@ namespace Davz.Tournament
             }
         }
 
-        public void Update(int ID, int EventID, string RiderName, int DragBikeNumber, int CategoryID, string TeamName)
+        public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
