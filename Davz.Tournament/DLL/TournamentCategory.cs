@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -13,24 +14,22 @@ namespace Davz.Tournament
         public string ID { get; set; }
         public string Name { get; set; }
 
-        string strcon = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
-
         public TournamentCategory ReadAll() 
         {
-            var test = new TournamentCategory();
-            this.ID = test.ID;
-            this.Name = test.Name;
-            return test;
+            var cat = new TournamentCategory();
+            this.ID = cat.ID;
+            this.Name = cat.Name;
+            return cat;
         }
 
         public void Create(string Name)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Category", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Category_Name", Name);
                 cmd.ExecuteNonQuery();
             }
@@ -46,14 +45,20 @@ namespace Davz.Tournament
 
         }
 
+        public void ExtractFromReader(IDataRecord record)
+        {
+            this.ID = record["Tournament_Category_ID"].ToString();
+            this.Name = record["Tournament_Category_Name"].ToString();
+        }
+
         public void Update(int ID, string Name)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Category", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Category_Name", Name);
                 cmd.Parameters.AddWithValue("Category_ID", ID);
                 cmd.ExecuteNonQuery();
@@ -72,12 +77,12 @@ namespace Davz.Tournament
 
         public void Delete(int ID)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Category", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Category_ID", ID);
                 cmd.ExecuteNonQuery();
             }

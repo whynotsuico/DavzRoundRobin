@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
@@ -22,7 +23,21 @@ namespace Davz.Tournament
         public string RightBikeNumber { get; set; }
         public string WinnerBikeNumber { get; set; }
 
-        string strcon = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+        public TournamentMatching ReadAll()
+        {
+            var matching = new TournamentMatching();
+            this.ID = matching.ID;
+            this.CategoryID = matching.CategoryID;
+            this.SortNumber = matching.SortNumber;  
+            this.RegistrationID = matching.RegistrationID;  
+            this.RegistrationRiderName = matching.RegistrationRiderName;
+            this.RegistrationBikeNumber = matching.RegistrationBikeNumber;
+            this.LeftBikeNumber = matching.LeftBikeNumber;
+            this.RightBikeNumber = matching.RightBikeNumber;
+            this.WinnerBikeNumber = matching.WinnerBikeNumber;
+            return matching;
+        }
+
 
         public void Create(   int CategoryID
                             , int SortNumber
@@ -33,12 +48,12 @@ namespace Davz.Tournament
                             , string RightBikeNumber
                             , string WinnerBikeNumber)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Matching", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Matching_CategoryID", CategoryID);
                 cmd.Parameters.AddWithValue("Matching_SortNumber", SortNumber);
                 cmd.Parameters.AddWithValue("Matching_RegistrationID", RegistrationID);
@@ -60,14 +75,27 @@ namespace Davz.Tournament
             }
         }
 
+        public void ExtractFromReader(IDataRecord record)
+        {
+            this.ID = record["Tournament_Matching_ID"].ToString();
+            this.CategoryID = record["Tournament_Matching_Category_ID"].ToString();
+            this.SortNumber = record["Tournament_Matching_Sort_Number"].ToString();            
+            this.RegistrationID = record["Tournament_Matching_Registration_ID"].ToString();
+            this.RegistrationRiderName = record["Tournament_Matching_Registration_Rider_Name"].ToString();
+            this.RegistrationBikeNumber = record["Tournament_Matching_Registration_Bike_Number"].ToString();
+            this.LeftBikeNumber = record["Tournament_Matching_Left_Bike_Number"].ToString();
+            this.RightBikeNumber = record["Tournament_Matching_Right_Bike_Number"].ToString();
+            this.WinnerBikeNumber = record["Tournament_Matching_Winner_Bike_Number"].ToString();
+        }
+
         public void Delete(int ID)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Matching", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Matching_ID", ID);
                 cmd.ExecuteNonQuery();
             }
@@ -92,12 +120,12 @@ namespace Davz.Tournament
                             , string RightBikeNumber
                             , string WinnerBikeNumber)
         {
-            SqlConnection conn = new SqlConnection(strcon);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Matching", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Matching_ID", ID);
                 cmd.Parameters.AddWithValue("Matching_CategoryID", CategoryID);
                 cmd.Parameters.AddWithValue("Matching_SortNumber", SortNumber);
@@ -108,24 +136,6 @@ namespace Davz.Tournament
                 cmd.Parameters.AddWithValue("Matching_RightBikeNumber", RightBikeNumber);
                 cmd.Parameters.AddWithValue("Matching_WinnerBikeNumber", WinnerBikeNumber);
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        public void ReadAll()
-        {
-            SqlConnection conn = new SqlConnection(strcon);
-            try
-            {
-                conn.Open();
             }
             catch (Exception)
             {
