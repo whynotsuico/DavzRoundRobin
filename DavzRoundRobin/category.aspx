@@ -41,16 +41,19 @@
                         <ItemTemplate>
                             <li class="list-group-item">
                                 <a href="javascript:;"><%# Eval("Name") %>
-                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end"  OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
+                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
                                         <i class="bx bx-trash-alt icon"></i>
                                     </asp:LinkButton>
                                 </a>
-
                             </li>
                         </ItemTemplate>
                     </asp:Repeater>
                 </ul>
-
+                <script type="text/javascript">
+                    function confirmDelete() {
+                        return confirm("Are you sure you want to delete?");
+                    }
+                </script>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
