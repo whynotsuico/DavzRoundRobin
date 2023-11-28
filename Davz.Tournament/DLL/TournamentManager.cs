@@ -5,11 +5,43 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Davz.Tournament.DLL;
 
 namespace Davz.Tournament
 {
     public class TournamentManager
     {
+
+        public static IEnumerable<MatchingBracket> GetAllMatchingBracket()
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            List<MatchingBracket> lst = new List<MatchingBracket>();
+            MatchingBracket matchingBracket = null;
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    matchingBracket = new MatchingBracket();
+                    matchingBracket.ExtractFromReader(dr);
+                    lst.Add(matchingBracket);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return lst;
+        }
 
         public static DataTable GetAllRegistrationCategory(string eventID)
         {

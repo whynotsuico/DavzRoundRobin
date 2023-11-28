@@ -18,7 +18,7 @@ namespace Davz.Tournament
         public string SortNumber { get; set; }
         public string RegistrationID { get; set; }
         public string RegistrationRiderName { get; set; }
-        public string RegistrationBikeNumber { get; set; }
+        public string RegistrationTeamName { get; set; }
         public string LeftBikeNumber { get; set; }
         public string RightBikeNumber { get; set; }
         public string WinnerBikeNumber { get; set; }
@@ -38,14 +38,14 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Matching", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Matching_CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("Matching_SortNumber", SortNumber);
-                cmd.Parameters.AddWithValue("Matching_RegistrationID", RegistrationID);
-                cmd.Parameters.AddWithValue("Matching_RegistrationRiderName", RegistrationRiderName);
-                cmd.Parameters.AddWithValue("Matching_RegistrationBikeNumber", RegistrationBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_LeftBikeNumber", LeftBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_RightBikeNumber", RightBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_WinnerBikeNumber", WinnerBikeNumber);
+                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
+                cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
+                cmd.Parameters.AddWithValue("@Registration_ID", RegistrationID);
+                cmd.Parameters.AddWithValue("@Rider_Name", RegistrationRiderName);
+                cmd.Parameters.AddWithValue("@Registration_Team_Name", RegistrationBikeNumber);
+                cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
+                cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
+                cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
@@ -66,7 +66,7 @@ namespace Davz.Tournament
             this.SortNumber = record["Tournament_Matching_Sort_Number"].ToString();            
             this.RegistrationID = record["Tournament_Matching_Registration_ID"].ToString();
             this.RegistrationRiderName = record["Tournament_Matching_Registration_Rider_Name"].ToString();
-            this.RegistrationBikeNumber = record["Tournament_Matching_Registration_Bike_Number"].ToString();
+            this.RegistrationTeamName = record["Tournament_Matching_Registration_Team_Name"].ToString();
             this.LeftBikeNumber = record["Tournament_Matching_Left_Bike_Number"].ToString();
             this.RightBikeNumber = record["Tournament_Matching_Right_Bike_Number"].ToString();
             this.WinnerBikeNumber = record["Tournament_Matching_Winner_Bike_Number"].ToString();
@@ -108,7 +108,7 @@ namespace Davz.Tournament
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Matching", conn);
+                SqlCommand cmd = new SqlCommand("Delete_Matching", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("Matching_ID", ID);
                 cmd.ExecuteNonQuery();
@@ -140,15 +140,15 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Matching", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Matching_ID", ID);
-                cmd.Parameters.AddWithValue("Matching_CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("Matching_SortNumber", SortNumber);
-                cmd.Parameters.AddWithValue("Matching_RegistrationID", RegistrationID);
-                cmd.Parameters.AddWithValue("Matching_RegistrationRiderName", RegistrationRiderName);
-                cmd.Parameters.AddWithValue("Matching_RegistrationBikeNumber", RegistrationBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_LeftBikeNumber", LeftBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_RightBikeNumber", RightBikeNumber);
-                cmd.Parameters.AddWithValue("Matching_WinnerBikeNumber", WinnerBikeNumber);
+                cmd.Parameters.AddWithValue("@Matching_ID", ID);
+                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
+                cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
+                cmd.Parameters.AddWithValue("@Registration_ID", RegistrationID);
+                cmd.Parameters.AddWithValue("@Rider_Name", RegistrationRiderName);
+                cmd.Parameters.AddWithValue("@Registration_Team_Name", RegistrationBikeNumber);
+                cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
+                cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
+                cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)

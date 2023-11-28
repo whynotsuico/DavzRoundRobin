@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBase.cs" />
+    <Compile Include="DLL\MatchingBracket.cs" />
     <Compile Include="DLL\RegistrationCategory.cs" />
     <Compile Include="DLL\TournamentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
