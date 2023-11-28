@@ -78,7 +78,14 @@
                     <b>Tools</b>
                 </div>
                 <div class="card-body">
-                    <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EntryModal"><i class="bx bx-add-to-queue"></i>&nbsp;New Entry</a>
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EntryModal"><i class="bx bx-add-to-queue"></i>&nbsp;New Entry</a>
+                        </div>
+                        <div class="col col-md-6">
+                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%= _Event.ID %>' class="btn btn-primary text-white me-0"><i class="bx bx-git-compare"></i>&nbsp;Bracket By Category</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br />
