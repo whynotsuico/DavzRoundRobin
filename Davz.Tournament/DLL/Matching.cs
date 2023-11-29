@@ -23,11 +23,11 @@ namespace Davz.Tournament
         public string RightBikeNumber { get; set; }
         public string WinnerBikeNumber { get; set; }
 
-        public void Create(   int CategoryID
+        public static void Create(   int CategoryID
                             , int SortNumber
                             , int RegistrationID
                             , string RegistrationRiderName
-                            , string RegistrationBikeNumber
+                            , string registratonTeamName
                             , string LeftBikeNumber
                             , string RightBikeNumber
                             , string WinnerBikeNumber)
@@ -42,7 +42,7 @@ namespace Davz.Tournament
                 cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
                 cmd.Parameters.AddWithValue("@Registration_ID", RegistrationID);
                 cmd.Parameters.AddWithValue("@Rider_Name", RegistrationRiderName);
-                cmd.Parameters.AddWithValue("@Registration_Team_Name", RegistrationBikeNumber);
+                cmd.Parameters.AddWithValue("@Registration_Team_Name", registratonTeamName);
                 cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
                 cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
                 cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
@@ -124,15 +124,7 @@ namespace Davz.Tournament
             }
         }
 
-        public void Update(   int ID
-                            , int CategoryID
-                            , int SortNumber
-                            , int RegistrationID
-                            , string RegistrationRiderName
-                            , string RegistrationBikeNumber
-                            , string LeftBikeNumber
-                            , string RightBikeNumber
-                            , string WinnerBikeNumber)
+        public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -145,7 +137,7 @@ namespace Davz.Tournament
                 cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
                 cmd.Parameters.AddWithValue("@Registration_ID", RegistrationID);
                 cmd.Parameters.AddWithValue("@Rider_Name", RegistrationRiderName);
-                cmd.Parameters.AddWithValue("@Registration_Team_Name", RegistrationBikeNumber);
+                cmd.Parameters.AddWithValue("@Registration_Team_Name", RegistrationTeamName);
                 cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
                 cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
                 cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);

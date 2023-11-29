@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[Create_Matching_Bracket]
-	@Event_ID int
-	, @Bracket_Name varchar(50)
-	, @Category_ID int
-	, @Is_Done bit
+	@EventID int
+	, @BracketName varchar(50)
+	, @CategoryID int
+	, @IsDone bit
 AS
 	INSERT INTO dbo.Tournament_Matching_Bracket
 	(
@@ -13,8 +13,10 @@ AS
 	)
 	VALUES
 	(
-		@Event_ID 
-		, @Bracket_Name 
-		, @Category_ID 
-		, @Is_Done 
+		@EventID 
+		, @BracketName 
+		, @CategoryID 
+		, @IsDone 
 	)
+
+	SELECT SCOPE_IDENTITY();

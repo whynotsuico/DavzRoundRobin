@@ -216,7 +216,7 @@ namespace Davz.Tournament
 
         }
 
-        public static IEnumerable<Registration> ReadAllRegistration()
+        public static IEnumerable<Registration> ReadAllRegistrationByCategoryAndEventID(string categoryID, string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Registration> lst = new List<Registration>();
@@ -224,8 +224,10 @@ namespace Davz.Tournament
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Registration", conn);
+                SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_Category_And_Event_ID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EventID", eventID);
+                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {

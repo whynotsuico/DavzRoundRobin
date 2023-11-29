@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Davz.Tournament.DLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Davz.Tournament
 {
     public class RoundRobin
     {
-       public static List<Tuple<string, string>> GenerateRoundRobinSchedule(List<string> teams)
+        public static List<Tuple<string, string>> GenerateRoundRobinSchedule(List<string> teams)
         {
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
@@ -40,5 +41,36 @@ namespace Davz.Tournament
 
             return schedule;
         }
+
+        public static void AssignedMatchAndSaveToDataBase(List<Tuple<string, string>> bracketList, string eventID, string categoryID)
+        {
+
+
+            int roundNumber = 1;
+            foreach (var match in bracketList)
+            {
+                //Console.WriteLine($"Round {roundNumber++}: {match.Item1} vs {match.Item2}");
+
+              var matchingBracket =  MatchingBracket.Create(eventID, "Test Bracket Name", categoryID, false);
+
+                var LefPlayer = Registration.Read(match.Item1);
+                var rightPlayer = Registration.Read(match.Item2);
+
+                //Matching.Create(categoryID, roundNumber, 0, );
+
+            }
+        }
+
+
+        public static void GenerateMatchBracket(List<string> bikerNumbers, string eventID, string categoryID)
+        {
+            Random rng = new Random();
+
+            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.OrderBy(x => rng.Next()).ToList());
+
+            AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
+
+        }
+
     }
 }

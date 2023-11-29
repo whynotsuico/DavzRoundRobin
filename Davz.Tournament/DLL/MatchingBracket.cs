@@ -18,30 +18,22 @@ namespace Davz.Tournament.DLL
         public string CategoryID { get; set; }
         public bool IsDone { get; set; }
 
-        public static void Create(string EventID, string BracketName, string CategoryID, bool IsDone)
+        public static MatchingBracket Create(string EventID, string BracketName, string CategoryID, bool IsDone)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Create_Matching_Bracket", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Event_ID", EventID);
-                cmd.Parameters.AddWithValue("@Bracket_Name", BracketName);
-                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("@Is_Done", IsDone);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Create_MatchingBracket", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@EventID", EventID);
+            cmd.Parameters.AddWithValue("@BracketName", BracketName);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+            cmd.Parameters.AddWithValue("@IsDone", IsDone);
+            var result = cmd.ExecuteScalar();
 
+            conn.Close();
+
+            return Read(result.ToString());
         }
 
         public void ExtractFromReader(IDataRecord record)

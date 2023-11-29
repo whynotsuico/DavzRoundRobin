@@ -86,7 +86,7 @@
     <Build Include="Stored Procedure\Tournament Registration\Create_Registration.sql" />
     <Build Include="Stored Procedure\Tournament Registration\Update_Registration.sql" />
     <Build Include="Stored Procedure\Tournament Registration\Delete_Registration.sql" />
-    <Build Include="Stored Procedure\Tournament Registration\ReadAll_Registration.sql" />
+    <Build Include="Stored Procedure\Tournament Registration\ReadAll_Registration_By_Category_And_Event_ID.sql" />
     <Build Include="Stored Procedure\Tournament Category\Read_Category.sql" />
     <Build Include="Stored Procedure\Tournament Event\Read_Event.sql" />
     <Build Include="Stored Procedure\Tournament Matching\Read_Matching.sql" />
@@ -106,5 +106,8 @@
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Delete_Matching_Bracket.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Read_Matching_Bracket.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\ReadAll_Matching_Bracket.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wilrey.publish.xml" />
   </ItemGroup>
 </Project>
