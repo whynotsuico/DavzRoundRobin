@@ -56,7 +56,7 @@ namespace Davz.Tournament
                 var leftPlayer = Registration.Read(match.Item1);
                 var rightPlayer = Registration.Read(match.Item2);
 
-                Matching.Create(categoryID, roundNumber,
+                Matching.Create(roundNumber,
                                 rightPlayer.RiderName, leftPlayer.RiderName,
                                 rightPlayer.TeamName,leftPlayer.TeamName,
                                 rightPlayer.DragBikeNumber, leftPlayer.DragBikeNumber, 

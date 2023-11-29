@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Update_Matching]
 	@ID varchar(50)
-	, @Category_ID varchar(250)
 	, @Sort_Number varchar(250)
 	, @Right_Rider_Name varchar(250)
 	, @Left_Rider_Name varchar(250)
@@ -15,8 +14,7 @@
 AS
 	UPDATE dbo.Tournament_Matching
 	SET
-		Tournament_Matching_Category_ID = @Category_ID
-		, Tournament_Matching_Sort_Number = @Sort_Number
+		Tournament_Matching_Sort_Number = @Sort_Number
 		, Tournament_Matching_Right_Rider_Name = @Right_Rider_Name
 		, Tournament_Matching_Left_Rider_Name = @Left_Rider_Name
 		, Tournament_Matching_Right_Team_Name = @Right_Team_Name

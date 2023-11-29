@@ -1,6 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[Create_Matching]
-	@Category_ID varchar(250)
-	, @Sort_Number varchar(250)
+	@Sort_Number varchar(250)
 	, @Right_Rider_Name varchar(250)
 	, @Left_Rider_Name varchar(250)
 	, @Right_Team_Name varchar(250)
@@ -15,8 +14,7 @@
 AS
 	INSERT INTO dbo.Tournament_Matching
 	(
-		Tournament_Matching_Category_ID
-		, Tournament_Matching_Sort_Number
+		Tournament_Matching_Sort_Number
 		, Tournament_Matching_Right_Rider_Name
 		, Tournament_Matching_Left_Rider_Name
 		, Tournament_Matching_Right_Team_Name
@@ -30,8 +28,7 @@ AS
 	)
 	VALUES
 	(
-		@Category_ID  
-		, @Sort_Number  
+		@Sort_Number  
 		, @Right_Rider_Name  
 		, @Left_Rider_Name  
 		, @Right_Team_Name  

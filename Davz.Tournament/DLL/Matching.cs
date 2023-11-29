@@ -14,7 +14,6 @@ namespace Davz.Tournament
     public class Matching
     {
         public string ID { get; set; }
-        public string CategoryID { get; set; }
         public string SortNumber { get; set; }
         public string RightRiderName { get; set; }
         public string LeftRiderName { get; set; }
@@ -27,8 +26,7 @@ namespace Davz.Tournament
         public bool IsDone { get; set; }
         public string LeftTeamName { get; set; }
 
-        public static void Create(   string CategoryID
-                            , int SortNumber
+        public static void Create(   int SortNumber
                             , string RightRiderName
                             , string LeftRiderName
                             , string RightTeamName
@@ -47,7 +45,6 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Create_Matching", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
                 cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
                 cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
                 cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);
@@ -75,7 +72,6 @@ namespace Davz.Tournament
         public void ExtractFromReader(IDataRecord record)
         {
             this.ID = record["Tournament_Matching_ID"].ToString();
-            this.CategoryID = record["Tournament_Matching_Category_ID"].ToString();
             this.SortNumber = record["Tournament_Matching_Sort_Number"].ToString();
             this.RightRiderName = record["Tournament_Matching_Right_Rider_Name"].ToString();
             this.LeftRiderName = record["Tournament_Matching_Left_Rider_Name"].ToString();
@@ -142,7 +138,6 @@ namespace Davz.Tournament
         }
 
         public void Update(int ID
-                            , int CategoryID
                             , int SortNumber
                             , int RightRiderName
                             , string LeftRiderName
@@ -162,7 +157,6 @@ namespace Davz.Tournament
                 SqlCommand cmd = new SqlCommand("Update_Matching", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ID", ID);
-                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
                 cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
                 cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
                 cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);

@@ -12,6 +12,24 @@ namespace Davz.Tournament
     public class TournamentManager
     {
 
+        public static DataTable GetAllMatchingByCategoryIDAndEventID(string categoryID, string eventID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_By_Category_ID_And_Event_ID", con);
+            cmd.Parameters.AddWithValue("@Category_ID", categoryID);
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
+
         public static IEnumerable<MatchingBracket> GetAllMatchingBracket()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
