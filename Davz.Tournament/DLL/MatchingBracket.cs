@@ -23,7 +23,7 @@ namespace Davz.Tournament.DLL
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
 
             conn.Open();
-            SqlCommand cmd = new SqlCommand("Create_MatchingBracket", conn);
+            SqlCommand cmd = new SqlCommand("Create_Matching_Bracket", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@EventID", EventID);
             cmd.Parameters.AddWithValue("@BracketName", BracketName);

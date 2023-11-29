@@ -19,7 +19,7 @@ namespace Davz.Tournament
 
             con.Open();
             SqlCommand cmd = new SqlCommand("ReadAll_By_Category_ID_And_Event_ID", con);
-            cmd.Parameters.AddWithValue("@Category_ID", categoryID);
+            cmd.Parameters.AddWithValue("@CategoryID", categoryID);
             cmd.Parameters.AddWithValue("@EventID", eventID);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataReader dr = cmd.ExecuteReader();
@@ -41,7 +41,7 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Category_ID", categoryID);
+                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
                 cmd.Parameters.AddWithValue("@EventID", eventID);
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())

@@ -46,12 +46,14 @@ namespace Davz.Tournament
         {
 
 
+
             int roundNumber = 1;
+
+            var matchingBracket = MatchingBracket.Create(eventID, "Test Bracket Name", categoryID, false);
+
             foreach (var match in bracketList)
             {
-                //Console.WriteLine($"Round {roundNumber++}: {match.Item1} vs {match.Item2}");
 
-              var matchingBracket =  MatchingBracket.Create(eventID, "Test Bracket Name", categoryID, false);
 
                 var leftPlayer = Registration.Read(match.Item1);
                 var rightPlayer = Registration.Read(match.Item2);

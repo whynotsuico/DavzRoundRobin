@@ -11,22 +11,27 @@
 
         if (!IsPostBack)
         {
-            ddlFilterCategory.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList(); ;
+            ddlFilterCategory.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID);
             ddlFilterCategory.DataBind();
             ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "0"));
 
 
-            //ddlBracketList.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList(); ;
-            //ddlBracketList.DataBind();
-            ddlBracketList.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
+
         }
 
     }
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
+        ddlBracketList.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        ddlBracketList.DataBind();
+        ddlBracketList.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
+
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
         rptCategoryItems.DataBind();
+
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        rptMatchList.DataBind();
     }
 
     protected void btnCreateCategory_Click(object sender, EventArgs e)
@@ -63,6 +68,34 @@
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <style>
+        .flex-main-screen {
+            display: flex;
+            flex-direction: column; /* Stack the flex containers vertically */
+            justify-content: center; /* Center the flex containers vertically */
+            height: 55vh; /* Set the height to the full viewport height */
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container-control {
+            width: 800px !important;
+        }
+
+        .flex-item {
+            flex: 1;
+            max-width: 50%; /* to ensure items take up half the width */
+        }
+
+            .flex-item span {
+                font-weight: bold;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <nav aria-label="breadcrumb">
@@ -138,15 +171,41 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <asp:DropDownList runat="server" ID="ddlBracketList" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
-                            <label class="form-label"><b>Category</b></label>
+                            <asp:DropDownList runat="server" ID="ddlBracketList" DataValueField="ID" DataTextField="BracketName" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
+                            <label class="form-label"><b>Bracket Name</b></label>
                         </div>
                     </div>
                 </div>
             </div>
+            <br />
+            <div class="card">
+                <div class="card-header">
+                    <b>Match List</b>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <asp:Repeater runat="server" ID="rptMatchList">
+                            <ItemTemplate>
+                                <li class="list-group-item">
+                                    <div class="flex-container text-center">
+                                        <div class="flex-item">
+                                            <span class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
+                                        </div>
+                                        <div class="flex-item">
+                                            <span class="animate-charcter main-vs">VS</span>
+                                        </div>
+                                        <div class="flex-item">
+                                            <span class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-
 
 </asp:Content>
 
