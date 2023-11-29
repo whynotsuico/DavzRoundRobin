@@ -30,7 +30,7 @@
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
         rptCategoryItems.DataBind();
 
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(_Event.ID);
         rptMatchList.DataBind();
     }
 

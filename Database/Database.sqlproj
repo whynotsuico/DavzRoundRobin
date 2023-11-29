@@ -105,7 +105,7 @@
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Update_Matching_Bracket.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Delete_Matching_Bracket.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Read_Matching_Bracket.sql" />
-    <Build Include="Stored Procedure\Tournament Matching\ReadAll_By_Category_ID_And_Event_ID.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching_By_Matching_ID.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID.sql" />
   </ItemGroup>
   <ItemGroup>
