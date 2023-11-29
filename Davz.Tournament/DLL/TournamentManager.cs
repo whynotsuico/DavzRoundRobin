@@ -30,7 +30,7 @@ namespace Davz.Tournament
             return dt;
         }
 
-        public static IEnumerable<MatchingBracket> GetAllMatchingBracket()
+        public static IEnumerable<MatchingBracket> GetAllMatchingBracketByCategoryIDAndEventID(string categoryID, string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<MatchingBracket> lst = new List<MatchingBracket>();
@@ -39,8 +39,10 @@ namespace Davz.Tournament
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket", conn);
+                SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Category_ID", categoryID);
+                cmd.Parameters.AddWithValue("@EventID", eventID);
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
