@@ -53,10 +53,14 @@ namespace Davz.Tournament
 
               var matchingBracket =  MatchingBracket.Create(eventID, "Test Bracket Name", categoryID, false);
 
-                var LefPlayer = Registration.Read(match.Item1);
+                var leftPlayer = Registration.Read(match.Item1);
                 var rightPlayer = Registration.Read(match.Item2);
 
-                //Matching.Create(categoryID, roundNumber, 0, );
+                Matching.Create(categoryID, roundNumber,
+                                rightPlayer.RiderName, leftPlayer.RiderName,
+                                rightPlayer.TeamName,leftPlayer.TeamName,
+                                rightPlayer.DragBikeNumber, leftPlayer.DragBikeNumber, 
+                                "","", matchingBracket.ID, false );
 
             }
         }

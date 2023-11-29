@@ -27,18 +27,19 @@ namespace Davz.Tournament
         public bool IsDone { get; set; }
         public string LeftTeamName { get; set; }
 
-        public static void Create(   int CategoryID
+        public static void Create(   string CategoryID
                             , int SortNumber
-                            , int RightRiderName
+                            , string RightRiderName
                             , string LeftRiderName
                             , string RightTeamName
-                            , string LeftBikeNumber
+                            , string LeftTeamName
                             , string RightBikeNumber
+                            , string LeftBikeNumber
                             , string WinnerBikeNumber
                             , string LoserBikeNumber
-                            , int BracketID
+                            , string BracketID
                             , bool IsDone
-                            , string LeftTeamName)
+                            )
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
