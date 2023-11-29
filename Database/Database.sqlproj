@@ -110,4 +110,7 @@
   <ItemGroup>
     <None Include="wilrey.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Database.refactorlog" />
+  </ItemGroup>
 </Project>

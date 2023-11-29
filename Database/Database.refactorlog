@@ -28,4 +28,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Tournament_Matching_Registration_Team_Name" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="75f748d4-7b87-4958-8192-c30a918c0031" ChangeDateTime="11/29/2023 14:23:21">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Matching].[Tournament_Matching_Registration_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Matching]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Matching_Right_Rider_Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="956ca2cf-a71b-4eb3-ab21-e3cadbe90747" ChangeDateTime="11/29/2023 14:23:24">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Matching].[Tournament_Matching_Registration_Rider_Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Matching]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Matching_Left_Rider_Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43cd36eb-ffd0-48ec-8a77-abce1703f25d" ChangeDateTime="11/29/2023 14:23:30">
+    <Property Name="ElementName" Value="[dbo].[Tournament_Matching].[Tournament_Matching_Registration_Team_Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tournament_Matching]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Tournament_Matching_Right_Team_Name" />
+  </Operation>
 </Operations>
