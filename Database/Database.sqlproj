@@ -107,6 +107,7 @@
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\Read_Matching_Bracket.sql" />
     <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching_By_Matching_ID.sql" />
     <Build Include="Stored Procedure\Tournament_Matching_Bracket\ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching_By_Matching_ID_Top_4.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wilrey.publish.xml" />

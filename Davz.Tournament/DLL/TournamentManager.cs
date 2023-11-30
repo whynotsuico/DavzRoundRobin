@@ -29,6 +29,23 @@ namespace Davz.Tournament
             return dt;
         }
 
+        public static DataTable GetTop4MatchingByMatchingID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Top_4", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
+
         public static IEnumerable<MatchingBracket> GetAllMatchingBracketByCategoryIDAndEventID(string categoryID, string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
