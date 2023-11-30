@@ -29,13 +29,30 @@ namespace Davz.Tournament
             return dt;
         }
 
-        public static DataTable GetTop4MatchingByMatchingID(string ID)
+        public static DataTable GetTop3MatchingByMatchingID(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);
             DataTable dt = new DataTable();
 
             con.Open();
-            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Top_4", con);
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Top_3", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
+
+        public static DataTable GetTop1MatchingByMatchingID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Top_1", con);
             cmd.Parameters.AddWithValue("@ID", ID);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataReader dr = cmd.ExecuteReader();
