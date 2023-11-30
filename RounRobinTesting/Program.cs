@@ -14,9 +14,9 @@ class TEstRoundRobin
 
     static void Main()
     {
-        List<string> teams = new List<string> { "Team B", "Team A", "Team D", "Team C" , "Team F" };
+        List<string> teams = new List<string> { "Team B", "Team A", "Team D" };
 
-        List<Tuple<string, string>> schedule = RoundRobin.GenerateRoundRobinSchedule(teams);
-        PrintSchedule(schedule);
+     RoundRobin.GenerateMatchBracket(teams, "1", "2");
+      
     }
 }

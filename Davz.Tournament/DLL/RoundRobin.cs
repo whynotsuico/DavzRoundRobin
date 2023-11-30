@@ -24,7 +24,12 @@ namespace Davz.Tournament
             {
                 List<string> l1 = teams.GetRange(0, n / 2);
                 List<string> l2 = teams.GetRange(n / 2, n / 2);
-                l2.Reverse();
+
+                // Swap sides alternately in each round
+                if (i % 2 == 1)
+                {
+                    (l1, l2) = (l2, l1);
+                }
 
                 List<Tuple<string, string>> round = new List<Tuple<string, string>>();
                 for (int j = 0; j < n / 2; j++)
@@ -44,35 +49,39 @@ namespace Davz.Tournament
 
         public static void AssignedMatchAndSaveToDataBase(List<Tuple<string, string>> bracketList, string eventID, string categoryID)
         {
-
-
-
             int roundNumber = 1;
 
-            var matchingBracket = MatchingBracket.Create(eventID, "Test Bracket Name", categoryID, false);
+            var lst = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(categoryID, eventID).Count();
+
+            var matchingBracket = MatchingBracket.Create(eventID, $"Bracket {lst += 1}", categoryID, false);
 
             foreach (var match in bracketList)
             {
-
-
                 var leftPlayer = Registration.Read(match.Item1);
                 var rightPlayer = Registration.Read(match.Item2);
 
-                Matching.Create(roundNumber,
-                                rightPlayer.RiderName, leftPlayer.RiderName,
-                                rightPlayer.TeamName,leftPlayer.TeamName,
-                                rightPlayer.DragBikeNumber, leftPlayer.DragBikeNumber, 
-                                "","", matchingBracket.ID, false );
+                var rightRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
+                var rightTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
+                var rightDragBikeNumber = leftPlayer == null ? "BYE" : leftPlayer.DragBikeNumber;
+
+                var leftRiderName = rightPlayer == null ? "BYE" : rightPlayer.RiderName;
+                var leftTeamName = rightPlayer == null ? "BYE" : rightPlayer.TeamName;
+                var leftDragBikeNumber = rightPlayer == null ? "BYE" : rightPlayer.DragBikeNumber;
+
+                Matching.Create(roundNumber++,
+                                rightRiderName, leftRiderName,
+                                rightTeamName, leftTeamName,
+                                rightDragBikeNumber, leftDragBikeNumber,
+                                "", "", matchingBracket.ID, false);
 
             }
         }
-
 
         public static void GenerateMatchBracket(List<string> bikerNumbers, string eventID, string categoryID)
         {
             Random rng = new Random();
 
-            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.OrderBy(x => rng.Next()).ToList());
+            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.ToList());
 
             AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
 

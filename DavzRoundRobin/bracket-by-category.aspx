@@ -23,15 +23,13 @@
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        ddlBracketList.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
-        ddlBracketList.DataBind();
-        ddlBracketList.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
+        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        ddlBracket.DataBind();
+        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
 
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
         rptCategoryItems.DataBind();
 
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(_Event.ID);
-        rptMatchList.DataBind();
     }
 
     protected void btnCreateCategory_Click(object sender, EventArgs e)
@@ -64,6 +62,12 @@
         }
 
         RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, ddlFilterCategory.SelectedValue);
+    }
+
+    protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
+        rptMatchList.DataBind();
     }
 </script>
 
@@ -157,8 +161,8 @@
                     </asp:Repeater>
                 </div>
                 <div class="card-footer text-muted text-center">
-                    <asp:Button runat="server" CssClass="btn  btn-primary" ID="btnAutoGenerateMatch" OnClick="btnAutoGenerateMatch_Click" Text="Auto Generate Bracket" />
-                    <asp:Button runat="server" CssClass="btn  btn-primary" ID="btnGenerateBracket" OnClick="btnGenerateBracket_Click" Text="Generate Bracket" />
+                    <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAutoGenerateMatch" OnClick="btnAutoGenerateMatch_Click" Text="Auto Generate Bracket" />
+                    <asp:Button runat="server" CssClass="btn btn-primary" ID="btnGenerateBracket" OnClick="btnGenerateBracket_Click" Text="Generate Bracket" />
                 </div>
             </div>
         </div>
@@ -171,7 +175,7 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <asp:DropDownList runat="server" ID="ddlBracketList" DataValueField="ID" DataTextField="BracketName" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
+                            <asp:DropDownList runat="server" ID="ddlBracket" DataValueField="ID" DataTextField="BracketName" OnSelectedIndexChanged="ddlBracket_SelectedIndexChanged" CssClass="form-select" AutoPostBack="true" />
                             <label class="form-label"><b>Bracket Name</b></label>
                         </div>
                     </div>
@@ -181,6 +185,7 @@
             <div class="card">
                 <div class="card-header">
                     <b>Match List</b>
+                    <a href='<%= CommonLinks.Matching %>?eventID=<%= _Event.ID %>' class="btn btn-primary float-end">Go to Match UI</a>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
