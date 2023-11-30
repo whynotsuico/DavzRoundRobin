@@ -85,7 +85,7 @@ namespace Davz.Tournament
             return registration;
         }
 
-        public void Delete(int ID)
+        public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try

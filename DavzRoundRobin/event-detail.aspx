@@ -59,6 +59,12 @@
 
         Response.Redirect(Request.RawUrl);
     }
+
+    protected void DeleteEntry(object sender, CommandEventArgs e)
+    {
+        Registration.Delete(e.CommandArgument.ToString());
+        Response.Redirect(Request.RawUrl);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -124,6 +130,7 @@
                                                         <th class="text-center">Team Name</th>
                                                         <th class="text-center">Rider Name</th>
                                                         <th class="text-center">Bike #</th>
+                                                        <th class="text-center">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -133,11 +140,20 @@
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Drag_Bike_Number")%></td>
+                                                <td class="text-center">
+                                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%# Eval("Tournament_Registration_ID") %>'>
+                                                        <i class="bx bx-trash-alt icon"></i>
+                                                    </asp:LinkButton></td>
                                             </tr>
                                         </ItemTemplate>
                                         <FooterTemplate>
                                             </tbody>
-                                                    </table>
+                                            <script type="text/javascript">
+                                                function confirmDelete() {
+                                                    return confirm("Are you sure you want to delete this Entry?");
+                                                }
+                                            </script>
+                                            </table>
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </div>

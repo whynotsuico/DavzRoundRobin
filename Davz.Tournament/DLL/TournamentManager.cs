@@ -18,7 +18,7 @@ namespace Davz.Tournament
             DataTable dt = new DataTable();
 
             con.Open();
-            SqlCommand cmd = new SqlCommand("ReadAll_By_Matching_ID", con);
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID", con);
             cmd.Parameters.AddWithValue("@ID", ID);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataReader dr = cmd.ExecuteReader();

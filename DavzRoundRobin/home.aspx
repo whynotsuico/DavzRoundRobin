@@ -18,6 +18,13 @@
 
         Response.Redirect(Request.RawUrl);
     }
+
+    protected void DeleteEvent(object sender, CommandEventArgs e)
+    {
+        Event.Delete(e.CommandArgument.ToString());
+
+        Response.Redirect(Request.RawUrl);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -68,18 +75,27 @@
                         <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
                         <asp:Repeater runat="server" ID="rptEventList">
                             <ItemTemplate>
-                                <a class="list-group-item list-group-item-action" href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'><%# Eval("Name") %>
-
-                                    <br />
-                                    <span>
-                                        <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
-                                    </span>
-
-                                </a>
+                                <li class="list-group-item list-group-item-action" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
+                                    <a><%# Eval("Name") %>
+                                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
+                                            <i class="bx bx-trash-alt icon"></i>
+                                        </asp:LinkButton>
+                                        <br />
+                                        <span>
+                                            <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                        </span>
+                                    </a>
+                                </li>
                             </ItemTemplate>
                         </asp:Repeater>
                     </ul>
                 </div>
+
+                <script type="text/javascript">
+                    function confirmDelete() {
+                        return confirm("Are you sure you want to delete this Event?");
+                    }
+                </script>
 
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">

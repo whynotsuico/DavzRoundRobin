@@ -30,11 +30,12 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Databa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Davz.Tournament", "Davz.Tournament\Davz.Tournament.csproj", "{B822D350-F1D7-4334-892A-D7405D3DE16D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RounRobinTesting", "RounRobinTesting\RounRobinTesting.csproj", "{896E4374-3853-46EC-9D77-59D7403C4FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RounRobinTesting", "RounRobinTesting\RounRobinTesting.csproj", "{896E4374-3853-46EC-9D77-59D7403C4FD4}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Registration", "Registration\", "{9D156268-48BA-4900-9E87-0930CB196B0C}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		ProjectReferences = "{b822d350-f1d7-4334-892a-d7405d3de16d}|Davz.Tournament.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50539"
 		Debug.AspNetCompiler.PhysicalPath = "Registration\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50539\"
@@ -50,6 +51,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Registration", "Registratio
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "50539"
+		SlnRelativePath = "Registration\"
 	EndProjectSection
 EndProject
 Global

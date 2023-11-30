@@ -39,7 +39,7 @@
                     <li runat="server" id="notfoundlist" class="list-group-item">Not Category Found</li>
                     <asp:Repeater runat="server" ID="rptCategoryList">
                         <ItemTemplate>
-                            <li class="list-group-item">
+                            <li class="list-group-item list-group-item-action">
                                 <a href="javascript:;"><%# Eval("Name") %>
                                     <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
                                         <i class="bx bx-trash-alt icon"></i>
@@ -51,7 +51,7 @@
                 </ul>
                 <script type="text/javascript">
                     function confirmDelete() {
-                        return confirm("Are you sure you want to delete?");
+                        return confirm("Are you sure you want to delete this Category?");
                     }
                 </script>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
