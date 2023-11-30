@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[ReadAll_Matching_By_Matching_ID]
-	@ID varchar(50)
+	@ID INT
 AS
 	SELECT * 
 	FROM dbo.Tournament_Matching

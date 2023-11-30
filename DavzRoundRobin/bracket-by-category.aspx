@@ -14,18 +14,13 @@
             ddlFilterCategory.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID);
             ddlFilterCategory.DataBind();
             ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "0"));
-
-
-
         }
 
     }
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
-        ddlBracket.DataBind();
-        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
+
 
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
         rptCategoryItems.DataBind();
@@ -68,6 +63,13 @@
     {
         rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
         rptMatchList.DataBind();
+    }
+
+    protected void ddlFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        ddlBracket.DataBind();
+        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
     }
 </script>
 
@@ -118,7 +120,7 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
+                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
                             <label class="form-label"><b>Category</b></label>
                         </div>
                     </div>
@@ -185,7 +187,7 @@
             <div class="card">
                 <div class="card-header">
                     <b>Match List</b>
-                    <a href='<%= CommonLinks.Matching %>?eventID=<%= _Event.ID %>' class="btn btn-primary float-end">Go to Match UI</a>
+                    <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' class="btn btn-primary float-end">Go to Match UI</a>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">

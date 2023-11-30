@@ -9,7 +9,10 @@
         rptTeamStanding.DataSource = Enumerable.Range(1, 10);
         rptTeamStanding.DataBind();
         //testasdasd
-        rptNextMatch.DataSource = Enumerable.Range(1, 3);
+        rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(Request["bracketID"].ToString());
+        rptMatchingNow.DataBind();
+        
+        rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(Request["bracketID"].ToString());
         rptNextMatch.DataBind();
     }
 
@@ -116,39 +119,43 @@
                     <div class="card full-height-container gradient-border  ">
                         <div class="flex-main-screen  ">
                             <div class="word"></div>
-                            <div class="flex-container text-center">
-                                <div class="flex-item">
-                                    <h5 class="main-identity">Left Lane</h5>
-                                </div>
-                                <div class="flex-item">
-                                </div>
-                                <div class="flex-item">
-                                    <h5 class="main-identity">Right Lane</h5>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="flex-container text-center">
-                                <div class="flex-item">
-                                    <h1 class="main-number">101</h1>
-                                </div>
-                                <div class="flex-item">
-                                    <%--  <h1 class="animate-charcter main-vs">VS</h1>--%>
-                                </div>
-                                <div class="flex-item">
-                                    <h1 class="main-number">145</h1>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="flex-container text-center">
-                                <div class="flex-item">
-                                    <h5 class="main-team-name">Davz Racing Team</h5>
-                                </div>
-                                <div class="flex-item">
-                                </div>
-                                <div class="flex-item">
-                                    <h5 class="main-team-name">Team Mac</h5>
-                                </div>
-                            </div>
+                            <asp:Repeater runat="server" ID="rptMatchingNow">
+                                <ItemTemplate>
+                                    <div class="flex-container text-center">
+                                        <div class="flex-item">
+                                            <h5 class="main-identity">Left Lane</h5>
+                                        </div>
+                                        <div class="flex-item">
+                                        </div>
+                                        <div class="flex-item">
+                                            <h5 class="main-identity">Right Lane</h5>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="flex-container text-center">
+                                        <div class="flex-item">
+                                            <h1 class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></h1>
+                                        </div>
+                                        <div class="flex-item">
+                                            <%--  <h1 class="animate-charcter main-vs">VS</h1>--%>
+                                        </div>
+                                        <div class="flex-item">
+                                            <h1 class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="flex-container text-center">
+                                        <div class="flex-item">
+                                            <h5 class="main-team-name">Davz Racing Team</h5>
+                                        </div>
+                                        <div class="flex-item">
+                                        </div>
+                                        <div class="flex-item">
+                                            <h5 class="main-team-name">Team Mac</h5>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </div>
                         <div class="up-next-section">
                             <div class="upnext-text">
@@ -158,13 +165,13 @@
                                 <ItemTemplate>
                                     <div class="flex-container gradient-upnext  next-match-div text-center" <%# getFontSize(Container.ItemIndex) %>>
                                         <div class="flex-item">
-                                            <span>40</span>
+                                            <span><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
                                         </div>
                                         <div class="flex-item">
-                                               <span style="font-size:20px !important;">VS</span>
+                                            <span style="font-size: 20px !important;">VS</span>
                                         </div>
                                         <div class="flex-item">
-                                            <span>143</span>
+                                            <span><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
                                         </div>
                                     </div>
                                     <br />
