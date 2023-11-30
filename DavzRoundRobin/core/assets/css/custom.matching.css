@@ -104,48 +104,6 @@ h1 {
     }
 }
 
-ul.standing-list {
-    margin-top: 30px;
-}
-
-ul {
-    counter-reset: index;
-    padding: 0;
-}
-
-/* List element */
-li {
-    counter-increment: index;
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    box-sizing: border-box;
-}
-
-
-    /* Element counter */
-    li::before {
-        content: counters(index, ".", decimal-leading-zero);
-        font-size: 1.5rem;
-        text-align: right;
-        font-weight: bold;
-        min-width: 50px;
-        padding-right: 12px;
-        font-variant-numeric: tabular-nums;
-        align-self: flex-start;
-        background-image: linear-gradient(to bottom, #E84A5F, #E84A5F);
-        background-attachment: fixed;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-
-    /* Element separation */
-    li + li {
-    }
-
-
-
 
 @keyframes rolldown {
     0% {
@@ -232,6 +190,7 @@ li {
     animation-fill-mode: forwards;
     color: #c7c0c0;
 }
+
 /*
     .list-group-flush li:nth-child(2n) {
         background-color: #efefef;
@@ -240,9 +199,6 @@ li {
     .list-group-flush li:nth-child(2n+1) {
         background-color: #dbdada;
     }*/
-
-
-
 .word {
     margin: auto;
     color: white;

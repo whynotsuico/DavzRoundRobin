@@ -11,9 +11,12 @@
         //testasdasd
         rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(Request["bracketID"].ToString());
         rptMatchingNow.DataBind();
-        
+
         rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(Request["bracketID"].ToString());
         rptNextMatch.DataBind();
+
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(Request["bracketID"].ToString());
+        rptMatchList.DataBind();
     }
 
     protected string getFontSize(int index)
@@ -235,6 +238,26 @@
                                     <a href="#" class="btn btn-primary"><i class="bx bx-right-arrow-alt"></i>Right</a>
                                 </div>
                             </div>
+                            <br />
+                            <ul class="list-group list-group-flush">
+                                <asp:Repeater runat="server" ID="rptMatchList">
+                                    <ItemTemplate>
+                                        <li class="list-group-item">
+                                            <div class="flex-container text-center">
+                                                <div class="flex-item">
+                                                    <span style="color:black !important;"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
+                                                </div>
+                                                <div class="flex-item">
+                                                    <span style="color:black !important;">VS</span>
+                                                </div>
+                                                <div class="flex-item">
+                                                    <span style="color:black !important;"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </ul>
 
                             <script type="text/javascript">
 
