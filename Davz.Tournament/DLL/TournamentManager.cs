@@ -11,7 +11,7 @@ namespace Davz.Tournament
 {
     public class TournamentManager
     {
-        public static DataTable GetAllMatchingByMatchingID_IsDoneFalse(string ID)
+        public static DataTable GetAllMatchingByMatchingIDIsDoneFalse(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);
             DataTable dt = new DataTable();

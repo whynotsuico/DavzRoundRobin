@@ -15,7 +15,7 @@
         rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(Request["bracketID"].ToString());
         rptNextMatch.DataBind();
 
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(Request["bracketID"].ToString());
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingIDIsDoneFalse(Request["bracketID"].ToString());
         rptMatchList.DataBind();
     }
 
@@ -125,7 +125,7 @@
                             <asp:Repeater runat="server" ID="rptMatchingNow">
                                 <ItemTemplate>
                                     <div class="flex-container text-center">
-                                        <span class="js-matching-id"><%# Eval("Tournament_Matching_ID") %></span>
+                                        <span style="color: transparent !important;" class="js-matching-id"><%# Eval("Tournament_Matching_ID") %></span>
                                         <div class="flex-item">
                                             <h5 class="main-identity">Left Lane</h5>
                                         </div>
@@ -150,12 +150,12 @@
                                     <br />
                                     <div class="flex-container text-center">
                                         <div class="flex-item">
-                                            <h5 class="main-team-name">Davz Racing Team</h5>
+                                            <h5 class="main-team-name js-left-team-name"><%# Eval("Tournament_Matching_Left_Team_Name") %></h5>
                                         </div>
                                         <div class="flex-item">
                                         </div>
                                         <div class="flex-item">
-                                            <h5 class="main-team-name">Team Mac</h5>
+                                            <h5 class="main-team-name js-right-team-name"><%# Eval("Tournament_Matching_Right_Team_Name") %></h5>
                                         </div>
                                     </div>
                                 </ItemTemplate>
@@ -281,20 +281,31 @@
                                         var id = $('.js-matching-id').text();
                                         var winnernumber = "";
                                         var lossernumber = "";
+                                        var teamname = "";
 
                                         switch (type) {
                                             case "left":
                                                 winnernumber = $('.js-left-winner-bike-number').text();
                                                 lossernumber = $('.js-right-winner-bike-number').text();
+                                                teamname = $('.js-left-team-name').text();
                                                 break;
                                             case "right":
                                                 lossernumber = $('.js-left-winner-bike-number').text();
                                                 winnernumber = $('.js-right-winner-bike-number').text();
+                                                teamname = $('.js-right-team-name').text();
                                                 break;
                                         }
 
-                                        $.get("/handlers/matching-update-handler.ashx", { id: id, winnernumber: winnernumber, lossernumber: lossernumber })
-                                            .done(function () {
+                                        $.get("/handlers/matching-update-handler.ashx", { id: id, winnerNumber: winnernumber, losserNumber: lossernumber })
+                                            .done(function (data) {
+                                                $('.js-btn-created').click();
+
+                                                $('.js-pop-up-number').text(winnernumber);
+                                                $('.js-pop-up-name').text(teamname);
+
+                                                setTimeout(function () {
+                                                    location.reload(true);
+                                                }, 1500); // 500 milliseconds = 0.5 seconds
 
                                             });
                                         return false;
@@ -302,6 +313,22 @@
                                 });
 
                             </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary d-none js-btn-created" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Created
+            </button>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <h1>Winner</h1>
+                            <h2 class="js-pop-up-number"></h2>
+                            <br />
+                            <h5 class="js-pop-up-name"></h5>
                         </div>
                     </div>
                 </div>

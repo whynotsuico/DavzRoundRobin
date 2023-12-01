@@ -9,6 +9,8 @@ using System.Data;
 using System.IO;
 using System.Text;
 using Davz.Tournament;
+using Newtonsoft.Json;
+
 
 public class matching_update_handler : IHttpHandler
 {
@@ -23,13 +25,13 @@ public class matching_update_handler : IHttpHandler
 
         if (matching != null)
         {
-            matching.WinnerBikeNumber =winner;
+            matching.WinnerBikeNumber = winner;
             matching.LoserBikeNumber = losser;
             matching.IsDone = true;
 
             matching.Update();
 
-            s = "{\"status\": \"success\"}";
+            s = JsonConvert.SerializeObject(matching);
         }
 
         context.Response.Write(s);
