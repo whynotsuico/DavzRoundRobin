@@ -125,6 +125,7 @@
                             <asp:Repeater runat="server" ID="rptMatchingNow">
                                 <ItemTemplate>
                                     <div class="flex-container text-center">
+                                        <span class="js-matching-id"><%# Eval("Tournament_Matching_ID") %></span>
                                         <div class="flex-item">
                                             <h5 class="main-identity">Left Lane</h5>
                                         </div>
@@ -137,13 +138,13 @@
                                     <br />
                                     <div class="flex-container text-center">
                                         <div class="flex-item">
-                                            <h1 class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></h1>
+                                            <h1 class="main-number js-left-winner-bike-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></h1>
                                         </div>
                                         <div class="flex-item">
                                             <%--  <h1 class="animate-charcter main-vs">VS</h1>--%>
                                         </div>
                                         <div class="flex-item">
-                                            <h1 class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
+                                            <h1 class="main-number js-right-winner-bike-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
                                         </div>
                                     </div>
                                     <br />
@@ -229,13 +230,13 @@
                         <div class="card-body">
                             <div class="flex-container text-center">
                                 <div class="flex-item">
-                                    <a href="#" class="btn btn-primary"><i class="bx bx-left-arrow-alt"></i>Left</a>
+                                    <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="left"><i class="bx bx-left-arrow-alt"></i>Left</a>
                                 </div>
                                 <div class="flex-item">
-                                    <a href="#" class="btn btn-primary"><i class="bx bx-x-circle"></i>Skip</a>
+                                    <a href="javascript:;" class="btn btn-primary"><i class="bx bx-x-circle"></i>Skip</a>
                                 </div>
                                 <div class="flex-item">
-                                    <a href="#" class="btn btn-primary"><i class="bx bx-right-arrow-alt"></i>Right</a>
+                                    <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="right"><i class="bx bx-right-arrow-alt"></i>Right</a>
                                 </div>
                             </div>
                             <br />
@@ -245,13 +246,13 @@
                                         <li class="list-group-item">
                                             <div class="flex-container text-center">
                                                 <div class="flex-item">
-                                                    <span style="color:black !important;"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
+                                                    <span style="color: black !important;"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
                                                 </div>
                                                 <div class="flex-item">
-                                                    <span style="color:black !important;">VS</span>
+                                                    <span style="color: black !important;">VS</span>
                                                 </div>
                                                 <div class="flex-item">
-                                                    <span style="color:black !important;"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
+                                                    <span style="color: black !important;"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
                                                 </div>
                                             </div>
                                         </li>
@@ -271,26 +272,36 @@
                                         });
                                     });
                                 });
+
+                                $(function () {
+                                    $('[data-action-type="winnerorlosser"]').click(function () {
+                                        var $sender = $(this);
+                                        var type = $sender.data('type');
+
+                                        var id = $('.js-matching-id').text();
+                                        var winnernumber = "";
+                                        var lossernumber = "";
+
+                                        switch (type) {
+                                            case "left":
+                                                winnernumber = $('.js-left-winner-bike-number').text();
+                                                lossernumber = $('.js-right-winner-bike-number').text();
+                                                break;
+                                            case "right":
+                                                lossernumber = $('.js-left-winner-bike-number').text();
+                                                winnernumber = $('.js-right-winner-bike-number').text();
+                                                break;
+                                        }
+
+                                        $.get("/handlers/matching-update-handler.ashx", { id: id, winnernumber: winnernumber, lossernumber: lossernumber })
+                                            .done(function () {
+
+                                            });
+                                        return false;
+                                    });
+                                });
+
                             </script>
-                            <%--  <ul class="list-group list-group-flush" id="myList">
-                                    <asp:Repeater runat="server" ID="rptListofMatches">
-                                        <ItemTemplate>
-                                            <li>
-                                                <div class="flex-container text-center">
-                                                    <div class="flex-item">
-                                                        <span>102</span>
-                                                    </div>
-                                                    <div class="flex-item">
-                                                        <span>VS</span>
-                                                    </div>
-                                                    <div class="flex-item">
-                                                        <span>143</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                </ul>--%>
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ namespace Davz.Tournament
         public bool IsDone { get; set; }
         public string LeftTeamName { get; set; }
 
-        public static void Create(   int SortNumber
+        public static void Create(int SortNumber
                             , string RightRiderName
                             , string LeftRiderName
                             , string RightTeamName
@@ -137,48 +137,29 @@ namespace Davz.Tournament
             }
         }
 
-        public void Update(int ID
-                            , int SortNumber
-                            , int RightRiderName
-                            , string LeftRiderName
-                            , string RightTeamName
-                            , string LeftBikeNumber
-                            , string RightBikeNumber
-                            , string WinnerBikeNumber
-                            , string LoserBikeNumber
-                            , int BracketID
-                            , bool IsDone
-                            , string LeftTeamName)
+        public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Matching", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", ID);
-                cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
-                cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
-                cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);
-                cmd.Parameters.AddWithValue("@Right_Team_Name", RightTeamName);
-                cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
-                cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
-                cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
-                cmd.Parameters.AddWithValue("@Loser_Bike_Number", LoserBikeNumber);
-                cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
-                cmd.Parameters.AddWithValue("@Is_Done", IsDone);
-                cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Update_Matching", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
+            cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
+            cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);
+            cmd.Parameters.AddWithValue("@Right_Team_Name", RightTeamName);
+            cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
+            cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
+            cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
+            cmd.Parameters.AddWithValue("@Loser_Bike_Number", LoserBikeNumber);
+            cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
+            cmd.Parameters.AddWithValue("@Is_Done", IsDone);
+            cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+
         }
     }
 }
