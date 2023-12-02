@@ -321,8 +321,7 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Registration> lst = new List<Registration>();
             Registration reg = null;
-            try
-            {
+          
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_Category_And_Event_ID", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -336,15 +335,9 @@ namespace Davz.Tournament
                     lst.Add(reg);
 
                 }
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
+          
                 conn.Close();
-            }
+
             return lst;
 
         }
