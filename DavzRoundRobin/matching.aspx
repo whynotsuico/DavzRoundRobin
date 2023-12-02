@@ -1,21 +1,37 @@
 ﻿<%@ Page Title="" Language="C#" %>
 
+<%@ Import Namespace="System.Data" %>
+
 <!DOCTYPE html>
 
 <script runat="server">
+    private int _SortNumber;
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        rptTeamStanding.DataSource = TournamentManager.GetAllWinnersAndLosersByMatchingBracketID(Request["bracketID"].ToString());
+        string matchingBracketID = Request["bracketID"].ToString();
+
+        _SortNumber = TournamentManager.ReadLastSortNumberByMatchingID(matchingBracketID);
+
+        var dt = TournamentManager.GetAllWinnersAndLosersByMatchingBracketID(matchingBracketID);
+        int existingRowCount = dt.Rows.Count;
+
+        for (int i = existingRowCount; i < 10; i++)
+        {
+            DataRow newRow = dt.NewRow();
+            dt.Rows.Add(newRow);
+        }
+
+        rptTeamStanding.DataSource = dt;
         rptTeamStanding.DataBind();
-        //testasdasd
-        rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(Request["bracketID"].ToString());
+
+        rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(matchingBracketID);
         rptMatchingNow.DataBind();
 
-        rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(Request["bracketID"].ToString());
+        rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(matchingBracketID);
         rptNextMatch.DataBind();
 
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingIDIsDoneFalse(Request["bracketID"].ToString());
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingIDIsDoneFalse(matchingBracketID);
         rptMatchList.DataBind();
     }
 
@@ -37,6 +53,14 @@
         }
 
         return size;
+    }
+
+    public string GetCleanString(string text)
+    {
+        if (text != string.Empty)
+            return text;
+
+        return "-";
     }
 </script>
 
@@ -204,12 +228,12 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
-                                
-                                <td class="list-group-flush text-center"><%# Container.ItemIndex + 1%></asp:Label></td>
-                                <td class="list-group-flush text-center"><%# Eval("TeamName") %></td>
-                                <td class="list-group-flush text-center"><%# Eval("BikeNumber") %></td>
-                                <td class="list-group-flush text-center"><%# Eval("Wins") %></td>
-                                <td class="list-group-flush text-center"><%# Eval("Losses") %></td>
+
+                                <td class="list-group-flush text-center"><%# Container.ItemIndex + 1%></td>
+                                <td class="list-group-flush text-center"><%# GetCleanString(Eval("TeamName").ToString()) %></td>
+                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("BikeNumber").ToString()) %></td>
+                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("Wins").ToString()) %></td>
+                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("Losses").ToString()) %></td>
                             </tr>
                         </ItemTemplate>
                         <FooterTemplate>
@@ -234,7 +258,7 @@
                                     <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="left"><i class="bx bx-left-arrow-alt"></i>Left</a>
                                 </div>
                                 <div class="flex-item">
-                                    <a href="javascript:;" class="btn btn-primary"><i class="bx bx-x-circle"></i>Skip</a>
+                                    <a href="javascript:;" class="btn btn-primary" data-action-type="skipmatch"><i class="bx bx-x-circle"></i>Skip</a>
                                 </div>
                                 <div class="flex-item">
                                     <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="right"><i class="bx bx-right-arrow-alt"></i>Right</a>
@@ -308,6 +332,20 @@
                                                     location.reload(true);
                                                 }, 1500); // 500 milliseconds = 0.5 seconds
 
+                                            });
+                                        return false;
+                                    });
+
+
+                                    $('[data-action-type="skipmatch"]').click(function () {
+                                        var $sender = $(this);
+                                        var type = $sender.data('type');
+
+                                        var id = $('.js-matching-id').text();
+
+                                        $.get("/handlers/matching-skip-update-handler.ashx", { id: id, sortNumber: <%= _SortNumber %> })
+                                            .done(function (data) {
+                                                location.reload(true);
                                             });
                                         return false;
                                     });

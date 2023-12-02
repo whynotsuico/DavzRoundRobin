@@ -49,24 +49,15 @@ namespace Davz.Tournament
         public static int ReadLastSortNumberByMatchingID(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);
-            DataTable dt = new DataTable();
 
             con.Open();
-            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Is_Done_False", con);
+            SqlCommand cmd = new SqlCommand("Read_Last_Sort_Number_By_Matching_ID", con);
             cmd.Parameters.AddWithValue("@ID", ID);
             cmd.CommandType = CommandType.StoredProcedure;
-            SqlDataReader dr = cmd.ExecuteReader();
-            dt.Load(dr);
+            var result = cmd.ExecuteScalar();
 
-            con.Close();
-            if (dt.Rows.Count > 0)
-            {
-                return Convert.ToInt32(dt.Rows[0]["Tournament_Matching_Sort_Number"]);
-            }
-            return 0;
+            return result != DBNull.Value ? Convert.ToInt32(result) : 0; ;
         }
-
-
 
         public static DataTable GetAllMatchingByMatchingID(string ID)
         {
