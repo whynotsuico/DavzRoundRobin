@@ -109,13 +109,7 @@ namespace Davz.Tournament
             }
         }
 
-        public static void Update(int ID
-                            , string EventID
-                            , string RideName
-                            , string BikeNumber
-                            , string CategoryID
-                            , string TeamName
-                            , bool IsAlreadyBracket)
+        public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -125,8 +119,8 @@ namespace Davz.Tournament
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ID", ID);
                 cmd.Parameters.AddWithValue("@EventID", EventID);
-                cmd.Parameters.AddWithValue("@RideName", RideName);
-                cmd.Parameters.AddWithValue("@BikeNumber", BikeNumber);
+                cmd.Parameters.AddWithValue("@RideName", RiderName);
+                cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
                 cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
                 cmd.Parameters.AddWithValue("@TeamName", TeamName);
                 cmd.Parameters.AddWithValue("@IsAlreadyBracket", IsAlreadyBracket);
