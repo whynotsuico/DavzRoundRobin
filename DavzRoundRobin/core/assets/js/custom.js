@@ -1,26 +1,27 @@
-function validateForm(containerForm) {
-    var x, y, i, valid = true;
-    y = document.querySelectorAll('.'+ containerForm +' .need-validation'); // Use querySelectorAll to select elements with the attribute
-    for (i = 0; i < y.length; i++) {
+document.addEventListener('DOMContentLoaded', function () {
+    const body = document.querySelector("body"),
+        sidebar = body.querySelector("nav"),
+        toggle = body.querySelector(".toggle"),
+        searchBtn = body.querySelector(".search-box"),
+        modeSwitch = body.querySelector(".toggle-switch"),
+        modeText = body.querySelector(".mode-text");
 
-        if (y[i].tagName === "SELECT") {
-            // For dropdowns, check if no option is selected
-            if (y[i].value === "" || y[i].value === "0") {
-                y[i].classList.add("invalid");
-                valid = false;
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+    });
 
-            } else {
-                y[i].classList.remove("invalid"); 
-            }
+    searchBtn.addEventListener("click", () => {
+        sidebar.classList.remove("close");
+    });
+
+    modeSwitch.addEventListener("click", () => {
+        body.classList.toggle("dark");
+        if (body.classList.contains("dark")) {
+            modeText.innerText = "Light mode";
         } else {
-            // For input fields, check if they are empty
-            if (y[i].value === "") {
-                y[i].classList.add("invalid");
-                valid = false;
-            } else {
-                y[i].classList.remove("invalid"); // Remove "invalid" class when it's not empty or not zero
-            }
+            modeText.innerText = "Dark mode";
         }
-    }
-    return valid;
-}
+    });
+
+
+});
