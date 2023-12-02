@@ -74,6 +74,19 @@ namespace Davz.Tournament
                                 rightDragBikeNumber, leftDragBikeNumber,
                                 "", "", matchingBracket.ID, false);
 
+
+                //Update
+                if (leftPlayer != null) {
+                    leftPlayer.IsAlreadyBracket = true;
+                    leftPlayer.Update();
+                }
+
+                if (rightPlayer != null)
+                {
+                    rightPlayer.IsAlreadyBracket = true;
+                    rightPlayer.Update();
+                }
+
             }
         }
 

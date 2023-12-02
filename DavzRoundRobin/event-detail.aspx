@@ -112,7 +112,7 @@
                     <div class="card">
                         <div class="card-header">
                             <b><%# Eval("Tournament_Category_Name") %></b>
-                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Registraion_Category_ID") %>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket By Category</a>
+                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Registraion_Category_ID") %>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket Category</a>
                         </div>
                         <div class="card-body">
                             <asp:Repeater runat="server" ID="rptItems" DataSource='<%#((DataRowView)Container.DataItem).CreateChildView("LineItems") %>'>
@@ -120,9 +120,9 @@
                                     <table class=" table table- table-sm table-hover table-striped" id="tbl-team-standing">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">Team Name</th>
-                                                <th class="text-center">Rider Name</th>
                                                 <th class="text-center">Bike #</th>
+                                                <th class="text-center">Rider Name</th>
+                                                <th class="text-center">Team Name</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                         </thead>
@@ -130,9 +130,9 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <tr class="event-detail-entry-item-list">
-                                        <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
-                                        <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
                                         <td class="text-center"><%# Eval("Tournament_Registration_Drag_Bike_Number")%></td>
+                                        <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
+                                        <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
                                         <td class="text-center">
                                             <asp:LinkButton runat="server" class="btn btn-sm btn-danger" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%# Eval("Tournament_Registration_ID") %>'>
                                                         <i class="bx bx-trash-alt icon"></i>

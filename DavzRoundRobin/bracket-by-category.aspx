@@ -122,6 +122,11 @@
                 font-weight: bold;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
+
+        span.alert.alert-danger, span.alert.alert-success {
+            padding: 4px 10px 4px 10px;
+            border-radius: 0px !important;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -145,9 +150,10 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">Select</th>
-                                        <th class="text-center">Team Name</th>
-                                        <th class="text-center">Rider Name</th>
                                         <th class="text-center">Bike #</th>
+                                        <th class="text-center">Rider Name</th>
+                                        <th class="text-center">Team Name</th>
+                                        <th class="text-center">Bracketed?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,9 +164,10 @@
                                     <asp:CheckBox runat="server" ID="tsSelectPlayer" />
                                     <asp:HiddenField runat="server" ID="hfID" Value='<%# Item.ID %>' />
                                 </td>
-                                <td class="text-center"><%#Item.TeamName %></td>
-                                <td class="text-center"><%#Item.RiderName %></td>
                                 <td class="text-center"><%#Item.DragBikeNumber %></td>
+                                <td class="text-center"><%#Item.RiderName %></td>
+                                <td class="text-center"><%#Item.TeamName %></td>
+                                <td class="text-center"><span class='<%# Item.IsAlreadyBracket ? "alert alert-success" : "alert alert-danger" %>'><%#Item.IsAlreadyBracket ? "Yes" : "No" %></span></td>
                             </tr>
                         </ItemTemplate>
                         <FooterTemplate>
