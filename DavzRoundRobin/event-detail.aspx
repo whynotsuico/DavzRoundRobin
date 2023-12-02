@@ -156,7 +156,7 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </div>
-                            <br />
+                                <br />
                             </ItemTemplate>
                         </asp:Repeater>
 
@@ -206,53 +206,54 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <b>Event Category</b>
-                        <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#EventCategoryModal"><i class="bx bx-add-to-queue"></i>&nbsp;Add Category</a>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li runat="server" id="categorynotfound" class="list-group-item">No Category Found</li>
-                            <asp:Repeater runat="server" ID="rptEventCategory">
-                                <ItemTemplate>
-                                    <li class="list-group-item">
-                                        <a href='javascript:;'><%# Eval("Tournament_Category_Name") %>
-                                            <br />
-                                        </a>
-                                    </li>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </ul>
-                    </div>
+        <div class="col col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <b>Event Category</b>
+                    <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#EventCategoryModal"><i class="bx bx-add-to-queue"></i>&nbsp;Add Category</a>
                 </div>
-                <div class="modal fade" id="EventCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEventCategoryModal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticEventCategoryModal">Add Event Category</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlAddEventCategory" CssClass="form-select" autocomplete="off" />
-                                            <label class="form-label"><b>Category</b></label>
-                                        </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li runat="server" id="categorynotfound" class="list-group-item">No Category Found</li>
+                        <asp:Repeater runat="server" ID="rptEventCategory">
+                            <ItemTemplate>
+                                <li class="list-group-item">
+                                    <a href='javascript:;'><%# Eval("Tournament_Category_Name") %>
+                                        <br />
+                                    </a>
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal fade" id="EventCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEventCategoryModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticEventCategoryModal">Add Event Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlAddEventCategory" CssClass="form-select" autocomplete="off" />
+                                        <label class="form-label"><b>Category</b></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <asp:Button runat="server" ID="btnAddCategory" CssClass="btn btn-primary" OnClick="btnAddCategory_Click" Text="Save" />
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button runat="server" ID="btnAddCategory" CssClass="btn btn-primary" OnClick="btnAddCategory_Click" Text="Save" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </asp:Content>
 
