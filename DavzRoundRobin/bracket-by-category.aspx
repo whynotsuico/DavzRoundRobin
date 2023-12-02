@@ -2,6 +2,7 @@
 
 <script runat="server">
     private Event _Event;
+    private RegistrationCategory _RegistrationCategory;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Request["id"] != null)
@@ -9,11 +10,9 @@
             _Event = Event.Read(Request["id"].ToString());
         }
 
-        if (!IsPostBack)
+        if (Request["id"] != null)
         {
-            ddlFilterCategory.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID);
-            ddlFilterCategory.DataBind();
-            ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "0"));
+            _RegistrationCategory = RegistrationCategory.Read(Request["catid"].ToString());
         }
 
     }
@@ -22,8 +21,12 @@
     {
 
 
-        rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
+        rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
         rptCategoryItems.DataBind();
+
+        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(_RegistrationCategory.ID, _Event.ID);
+        ddlBracket.DataBind();
+        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
 
     }
 
@@ -56,20 +59,13 @@
                 bikernumbers.Add(hfID.Value);
         }
 
-        RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, ddlFilterCategory.SelectedValue);
+        RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
     }
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
     {
         rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
         rptMatchList.DataBind();
-    }
-
-    protected void ddlFilterCategory_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(ddlFilterCategory.SelectedValue, _Event.ID);
-        ddlBracket.DataBind();
-        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
     }
 </script>
 
@@ -115,21 +111,7 @@
         <div class="col col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <b>Filter</b>
-                </div>
-                <div class="card-body">
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" OnSelectedIndexChanged="ddlFilterCategory_SelectedIndexChanged" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
-                            <label class="form-label"><b>Category</b></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <div class="card">
-                <div class="card-header">
-                    <b><%= ddlFilterCategory.SelectedValue == "0" ? "" : $"{ddlFilterCategory.SelectedItem.Text}"    %> Entry List </b>
+                    <b><%= _RegistrationCategory.CategoryName    %> Entry List </b>
                 </div>
                 <div class="card-body">
                     <asp:Repeater runat="server" ID="rptCategoryItems" ItemType="Davz.Tournament.Registration">

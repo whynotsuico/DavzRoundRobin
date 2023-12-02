@@ -39,6 +39,36 @@ namespace Davz.Tournament
             }
         }
 
+        public static RegistrationCategory Read(string id)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            RegistrationCategory regCat = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Read_Registration_Category", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    regCat = new RegistrationCategory();
+                    regCat.ExtractFromReader(dr);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return regCat;
+        }
+
         public void ExtractFromReader(IDataRecord record)
         {
             this.ID = record["Registration_Category_Category_ID"].ToString();
