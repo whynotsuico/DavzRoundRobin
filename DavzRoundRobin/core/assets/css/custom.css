@@ -469,3 +469,19 @@ body.dark .switch::before {
 ol.breadcrumb a {
     color: var(--primary-color) !important;
 }
+
+.dashboard-event-list:hover {
+    cursor: pointer;
+}
+
+.category-item-list:hover {
+    cursor: pointer;
+}
+
+.event-detail-entry-item-list:hover {
+    cursor: pointer;
+}
+
+.event-detail-dropdown-category:hover {
+    cursor: pointer;
+}

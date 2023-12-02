@@ -28,6 +28,28 @@ namespace Davz.Tournament
             return dt;
         }
 
+        public static int ReadLastSortNumberByMatchingID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Is_Done_False", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0]["Tournament_Matching_Sort_Number"]);
+            }
+            return 0; 
+        }
+
+
+
         public static DataTable GetAllMatchingByMatchingID(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);

@@ -102,7 +102,7 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select" autocomplete="off" AutoPostBack="true" />
+                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select event-detail-dropdown-category" autocomplete="off" AutoPostBack="true" />
                             <label class="form-label"><b>Category</b></label>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                                                 <tbody>
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <tr>
+                                            <tr class="event-detail-entry-item-list">
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
                                                 <td class="text-center"><%# Eval("Tournament_Registration_Drag_Bike_Number")%></td>

@@ -39,7 +39,7 @@
                     <li runat="server" id="notfoundlist" class="list-group-item">Not Category Found</li>
                     <asp:Repeater runat="server" ID="rptCategoryList">
                         <ItemTemplate>
-                            <li class="list-group-item list-group-item-action">
+                            <li class="list-group-item list-group-item-action category-item-list">
                                 <a href="javascript:;"><%# Eval("Name") %>
                                     <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
                                         <i class="bx bx-trash-alt icon"></i>
