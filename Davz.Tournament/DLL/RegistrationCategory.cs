@@ -71,9 +71,9 @@ namespace Davz.Tournament
 
         public void ExtractFromReader(IDataRecord record)
         {
-            this.ID = record["Registration_Category_Category_ID"].ToString();
+            this.ID = record["Registraion_Category_ID"].ToString();
             this.CategoryID = record["Registration_Category_Category_ID"].ToString();
-            this.EventID = record["Registration_Category_Category_ID"].ToString();
+            this.EventID = record["Registration_Category_Event_ID"].ToString();
 
             this.CategoryName = record["Tournament_Category_Name"].ToString();
         }

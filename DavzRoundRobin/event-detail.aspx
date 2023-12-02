@@ -13,14 +13,11 @@
 
         if (!IsPostBack)
         {
-            var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
-
-
             ddlAddEventCategory.DataSource = TournamentManager.ReadAllCategory();
             ddlAddEventCategory.DataBind();
             ddlAddEventCategory.Items.Insert(0, new ListItem("Select Category", ""));
 
-
+            var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
             ddlFilterCategory.DataSource = lstEventCategory;
             ddlFilterCategory.DataBind();
@@ -34,13 +31,14 @@
 
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
+        Response.Write(ddlFilterCategory.SelectedValue);
+
         rptEventCategory.DataSource = TournamentManager.GetAllRegistrationCategory(_Event.ID);
         rptEventCategory.DataBind();
 
         rptEntryList.DataSource = TournamentManager.GetAllRegistrationByEventID(_Event.ID, ddlFilterCategory.SelectedValue).Tables[0];
         rptEntryList.DataBind();
 
-        notfoundlist.Visible = rptEntryList.Items.Count == 0;
         categorynotfound.Visible = rptEventCategory.Items.Count == 0;
     }
 
@@ -91,117 +89,111 @@
 
                     </div>
                 </div>
-                <br />
-                <div class="card">
-                    <div class="card-header">
-                        <b>Filter</b>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-md-12">
-                            <div class="form-floating">
-                                <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select event-detail-dropdown-category" autocomplete="off" AutoPostBack="true" />
-                                <label class="form-label"><b>Category</b></label>
-                            </div>
+            </div>
+
+            <br />
+            <div class="card">
+                <div class="card-header">
+                    <b>Filter</b>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlFilterCategory" CssClass="form-select event-detail-dropdown-category" autocomplete="off" AutoPostBack="true" />
+                            <label class="form-label"><b>Category</b></label>
                         </div>
                     </div>
                 </div>
-                <br />
-                <div class="card">
-                    <div class="card-header">
-                        <b>Event Entry</b>
-                    </div>
-                    <div class="card-body">
-                        <label runat="server" id="notfoundlist" class="list-group-item">No Entry Found</label>
-                        <asp:Repeater runat="server" ID="rptEntryList">
-                            <ItemTemplate>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <b><%# Eval("Tournament_Category_Name") %></b>
-                                        <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Tournament_Category_ID")%>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket By Category</a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <asp:Repeater runat="server" ID="rptItems" DataSource='<%#((DataRowView)Container.DataItem).CreateChildView("LineItems") %>'>
-                                        <HeaderTemplate>
-                                            <table class=" table table- table-sm table-hover table-striped" id="tbl-team-standing">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center">Team Name</th>
-                                                        <th class="text-center">Rider Name</th>
-                                                        <th class="text-center">Bike #</th>
-                                                        <th class="text-center">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                        </HeaderTemplate>
-                                        <ItemTemplate>
-                                            <tr class="event-detail-entry-item-list">
-                                                <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
-                                                <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
-                                                <td class="text-center"><%# Eval("Tournament_Registration_Drag_Bike_Number")%></td>
-                                                <td class="text-center">
-                                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%# Eval("Tournament_Registration_ID") %>'>
-                                                        <i class="bx bx-trash-alt icon"></i>
-                                                    </asp:LinkButton></td>
+            </div>
+            <br />
+
+            <asp:Repeater runat="server" ID="rptEntryList">
+                <ItemTemplate>
+                    <div class="card">
+                        <div class="card-header">
+                            <b><%# Eval("Tournament_Category_Name") %></b>
+                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Registraion_Category_ID") %>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket By Category</a>
+                        </div>
+                        <div class="card-body">
+                            <asp:Repeater runat="server" ID="rptItems" DataSource='<%#((DataRowView)Container.DataItem).CreateChildView("LineItems") %>'>
+                                <HeaderTemplate>
+                                    <table class=" table table- table-sm table-hover table-striped" id="tbl-team-standing">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Team Name</th>
+                                                <th class="text-center">Rider Name</th>
+                                                <th class="text-center">Bike #</th>
+                                                <th class="text-center">Actions</th>
                                             </tr>
-                                        </ItemTemplate>
-                                        <FooterTemplate>
-                                            </tbody>
+                                        </thead>
+                                        <tbody>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <tr class="event-detail-entry-item-list">
+                                        <td class="text-center"><%# Eval("Tournament_Registration_Team_Name") %></td>
+                                        <td class="text-center"><%# Eval("Tournament_Registration_Rider_Name")%></td>
+                                        <td class="text-center"><%# Eval("Tournament_Registration_Drag_Bike_Number")%></td>
+                                        <td class="text-center">
+                                            <asp:LinkButton runat="server" class="btn btn-sm btn-danger" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%# Eval("Tournament_Registration_ID") %>'>
+                                                        <i class="bx bx-trash-alt icon"></i>
+                                            </asp:LinkButton></td>
+                                    </tr>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    </tbody>
                                             <script type="text/javascript">
                                                 function confirmDelete() {
                                                     return confirm("Are you sure you want to delete this Entry?");
                                                 }
                                             </script>
-                                            </table>
-                                        </FooterTemplate>
-                                    </asp:Repeater>
-                                </div>
-                                <br />
-                            </ItemTemplate>
-                        </asp:Repeater>
-
+                                    </table>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </div>
                     </div>
-                </div>
+                    <br />
+                </ItemTemplate>
+            </asp:Repeater>
 
-                <div class="modal fade" id="EntryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Add New Entry</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlCategory" CssClass="form-select" autocomplete="off" />
-                                            <label class="form-label"><b>Category</b></label>
-                                        </div>
+
+            <div class="modal fade" id="EntryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Add New Entry</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlCategory" CssClass="form-select" autocomplete="off" />
+                                        <label class="form-label"><b>Category</b></label>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtTeamName" autocomplete="off" />
-                                            <label class="form-label"><b>Team Name</b></label>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtTeamName" autocomplete="off" />
+                                        <label class="form-label"><b>Team Name</b></label>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtRiderName" autocomplete="off" />
-                                            <label class="form-label"><b>Rider Name</b></label>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtRiderName" autocomplete="off" />
+                                        <label class="form-label"><b>Rider Name</b></label>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-floating">
-                                            <asp:TextBox runat="server" type="number" CssClass="form-control" ID="txtBikeNumber" autocomplete="off" />
-                                            <label class="form-label"><b>Drag Bike Number</b></label>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:TextBox runat="server" type="number" CssClass="form-control" ID="txtBikeNumber" autocomplete="off" />
+                                        <label class="form-label"><b>Drag Bike Number</b></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <asp:Button runat="server" ID="btnCreateEntry" CssClass="btn btn-primary" OnClick="btnCreateEntry_Click" Text="Save" />
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button runat="server" ID="btnCreateEntry" CssClass="btn btn-primary" OnClick="btnCreateEntry_Click" Text="Save" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
