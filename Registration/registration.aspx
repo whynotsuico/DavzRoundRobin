@@ -34,10 +34,11 @@
     <script src="core/assets/js/popper.min.js" type="text/javascript"></script>
     <script src="core/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="core/assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+    <script src="core/assets/js/customvalidation.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="container">
-        <form runat="server" id="form">
+        <form runat="server" id="form" class="register-container-form">
             <figure class="text-center">
                 <blockquote class="blockquote">
                     <h3>Tournament Registration</h3>
@@ -50,41 +51,37 @@
             <div class="row g-3">
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlRegistration" CssClass="form-select need-validation" autocomplete="off" />
+                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlRegistration" CssClass="form-select js-category need-validation" autocomplete="off" />
                         <label class="form-label"><b>Category</b></label>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:TextBox runat="server" CssClass="form-control js- need-validation" autocomplete="off" />
+                        <asp:TextBox runat="server" CssClass="form-control js-bike-number need-validation" autocomplete="off" />
+                        <label class="form-label"><b>Bike Number</b></label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        <asp:TextBox runat="server" CssClass="form-control js-team-name need-validation" autocomplete="off" />
                         <label class="form-label"><b>Team Name</b></label>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:TextBox runat="server" CssClass="form-control js- need-validation" autocomplete="off" />
+                        <asp:TextBox runat="server" CssClass="form-control js-rider-name need-validation" autocomplete="off" />
                         <label class="form-label"><b>Rider Name</b></label>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="form-floating">
-                        <asp:TextBox runat="server" CssClass="form-control js- need-validation" autocomplete="off" />
-                        <label class="form-label"><b>Bike Number</b></label>
-                    </div>
-                </div>
             </div>
-
-
             <br />
             <div class="form-footer d-flex">
-                <button type="button" id="prevBtn">Submit</button>
-                <button class="btn btn-success btn-block js-button-submit hide " type="button" disabled="disabled">
+                <button type="button" class="btn-submit-registration">Submit</button>
+                <button class="btn btn-success btn-block js-button-submit d-none" type="button" disabled="disabled">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>
-                <input type="button" class="btn btn-success btn-block hide" id="btnSubmitSampleApplication" value="Submit Application" />
             </div>
-
             <button type="button" class="btn btn-primary d-none js-btn-created" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Created
             </button>
@@ -93,7 +90,6 @@
                     <div class="modal-content">
                         <div class="modal-body text-center">
                             <div class="alert alert-success">
-                                Application Successfully Created!
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -104,7 +100,31 @@
             </div>
             <br />
             <br />
+            <script>
+                $(document).ready(function () {
+                    $('.btn-submit-registration').click(function () {
+                        $sender = $(this);
 
+                        if (!validateForm('register-container-form')) return false;
+
+                        $sender.hide();
+                        $('.js-button-submit').removeClass("d-none");
+
+                        $.get("/handlers/matching-registration-create-handler.ashx", {
+                            eventID: id,
+                            riderName: $('.js-rider-name'),
+                            dragBikeNumber: $('.js-bike-number').val(),
+                            teamName: $('.js-team-name'),
+                            categoryID: $('.js-category').val()
+                        }).done(function (data) {
+                            $('.js-button-submit').addClass("d-none");
+                            $sender.show();
+                        });
+
+                        return false;
+                    });
+                });
+            </script>
         </form>
 
     </div>

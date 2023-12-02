@@ -19,9 +19,10 @@ namespace Davz.Tournament
         public string TeamName { get; set; }
         public bool IsAlreadyBracket { get; set; }
 
-        public static void Create(string EventID, string RiderName, string DragBikeNumber, string CategoryID, string TeamName)
+        public static Registration Create(string EventID, string RiderName, string DragBikeNumber, string CategoryID, string TeamName)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+
             conn.Open();
             SqlCommand cmd = new SqlCommand("Create_Registration", conn);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -30,8 +31,11 @@ namespace Davz.Tournament
             cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
             cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
             cmd.Parameters.AddWithValue("@TeamName", TeamName);
-            cmd.ExecuteNonQuery();
+            var result = cmd.ExecuteNonQuery();
+
             conn.Close();
+
+            return Read(result.ToString());
         }
 
         public void ExtractFromReader(IDataRecord record)
