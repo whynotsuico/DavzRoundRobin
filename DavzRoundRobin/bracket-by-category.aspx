@@ -5,6 +5,15 @@
     private RegistrationCategory _RegistrationCategory;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (IsPostBack)
+        {
+            if (ddlBracket.SelectedIndex > 0)
+            {
+                ddlBracket.SelectedValue = ddlBracket.SelectedValue;
+                rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
+                rptMatchList.DataBind();
+            }
+        }
         if (Request["id"] != null)
         {
             _Event = Event.Read(Request["id"].ToString());
@@ -64,6 +73,7 @@
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
     {
+
         rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
         rptMatchList.DataBind();
     }

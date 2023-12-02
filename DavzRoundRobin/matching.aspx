@@ -6,7 +6,7 @@
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        rptTeamStanding.DataSource = Enumerable.Range(1, 10);
+        rptTeamStanding.DataSource = TournamentManager.GetAllWinnersAndLosersByMatchingBracketID(Request["bracketID"].ToString());
         rptTeamStanding.DataBind();
         //testasdasd
         rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(Request["bracketID"].ToString());
@@ -204,11 +204,12 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
-                                <td class="list-group-flush text-center"><%# Container.DataItem %></td>
-                                <td class="list-group-flush text-center">Davz Racing Team</td>
-                                <td class="list-group-flush text-center">01</td>
-                                <td class="list-group-flush text-center">10</td>
-                                <td class="list-group-flush text-center">0</td>
+                                
+                                <td class="list-group-flush text-center"><%# Container.ItemIndex + 1%></asp:Label></td>
+                                <td class="list-group-flush text-center"><%# Eval("TeamName") %></td>
+                                <td class="list-group-flush text-center"><%# Eval("BikeNumber") %></td>
+                                <td class="list-group-flush text-center"><%# Eval("Wins") %></td>
+                                <td class="list-group-flush text-center"><%# Eval("Losses") %></td>
                             </tr>
                         </ItemTemplate>
                         <FooterTemplate>

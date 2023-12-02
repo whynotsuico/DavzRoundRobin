@@ -11,6 +11,24 @@ namespace Davz.Tournament
 {
     public class TournamentManager
     {
+
+
+        public static DataTable GetAllWinnersAndLosersByMatchingBracketID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Winners_And_Losers_By_Matching_Bracket_ID", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
         public static DataTable GetAllMatchingByMatchingIDIsDoneFalse(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);
@@ -45,7 +63,7 @@ namespace Davz.Tournament
             {
                 return Convert.ToInt32(dt.Rows[0]["Tournament_Matching_Sort_Number"]);
             }
-            return 0; 
+            return 0;
         }
 
 
