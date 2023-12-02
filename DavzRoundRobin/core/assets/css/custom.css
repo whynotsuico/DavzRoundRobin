@@ -485,3 +485,17 @@ ol.breadcrumb a {
 .event-detail-dropdown-category:hover {
     cursor: pointer;
 }
+
+
+#form1 input:focus,
+#form1 select:focus,
+#form1 textarea:focus {
+    border: 1px solid #009688;
+    outline: 0;
+}
+
+#form1 input.invalid,
+#form1 select.invalid,
+#form1 textarea.invalid {
+    border: 1px solid #f31000;
+}

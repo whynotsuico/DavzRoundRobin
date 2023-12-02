@@ -23,6 +23,7 @@
     <script src="core/assets/js/popper.min.js" type="text/javascript"></script>
     <script src="core/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="core/assets/js/custom.js" type="text/javascript"></script>
+    <script src="core/assets/js/customvalidation.js" type="text/javascript"></script>
     <script src="core/assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">

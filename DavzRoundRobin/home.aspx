@@ -75,16 +75,23 @@
                         <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
                         <asp:Repeater runat="server" ID="rptEventList">
                             <ItemTemplate>
-                                <li class="list-group-item list-group-item-action dashboard-event-list" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
-                                    <a><%# Eval("Name") %>
-                                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
-                                            <i class="bx bx-trash-alt icon"></i>
-                                        </asp:LinkButton>
-                                        <br />
-                                        <span>
-                                            <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
-                                        </span>
-                                    </a>
+                                <li class="list-group-item list-group-item-action dashboard-event-list">
+                                    <div class="row">
+                                        <div class="col col-md-11" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
+                                            <a><%# Eval("Name") %>
+                                                <br />
+                                                <span>
+                                                    <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="col col-md-1 text-center" style="vertical-align: middle !important">
+                                            <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
+                                                        <i class="bx bx-trash-alt icon"></i>
+                                            </asp:LinkButton>
+                                        </div>
+                                    </div>
+
                                 </li>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -104,30 +111,33 @@
                                 <h5 class="modal-title" id="staticBackdropLabel">Add Racing Event</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body event-container-form">
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <div class="form-floating">
-                                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtEventName" autocomplete="off" />
+                                            <asp:TextBox runat="server" type="text" CssClass="form-control need-validation" ID="txtEventName" autocomplete="off" />
                                             <label class="form-label"><b>Event Name</b></label>
+                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEventName" CssClass="d-none" ValidationGroup="CreateEvent" ErrorMessage="Required" />
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-floating">
-                                            <asp:TextBox runat="server" type="date" CssClass="form-control" ID="txtStartDate" autocomplete="off" />
+                                            <asp:TextBox runat="server" type="date" CssClass="form-control need-validation" ID="txtStartDate" autocomplete="off" />
                                             <label class="form-label"><b>Event Start Date</b></label>
+                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtStartDate" CssClass="d-none" ValidationGroup="CreateEvent" ErrorMessage="Required" />
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-floating">
-                                            <asp:TextBox runat="server" type="date" CssClass="form-control" ID="txtEndDate" autocomplete="off" />
+                                            <asp:TextBox runat="server" type="date" CssClass="form-control need-validation" ID="txtEndDate" autocomplete="off" />
                                             <label class="form-label"><b>Event End Date</b></label>
+                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEndDate" CssClass="d-none" ValidationGroup="CreateEvent" ErrorMessage="Required" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <asp:Button runat="server" ID="btnCreateEvent" CssClass="btn btn-primary" OnClick="btnCreateEvent_Click" Text="Save" />
+                                <asp:Button runat="server" ID="btnCreateEvent" CssClass="btn btn-primary btn-create-event" OnClick="btnCreateEvent_Click" Text="Save" CausesValidation="true" ValidationGroup="CreateEvent" />
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -135,6 +145,13 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                $('.btn-create-event').click(function () {
+                    if (!validateForm('event-container-form')) return false;
+                });
+            });
+        </script>
 
         <div class="col col-md-4">
             <div class="card">
@@ -155,20 +172,5 @@
             </div>
         </div>
     </div>
-
-
-    <%--<div class="card text-center">
-            <div class="card-header">
-                Featured
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-            <div class="card-footer text-muted">
-                2 days ago
-            </div>
-        </div>--%>
 </asp:Content>
 

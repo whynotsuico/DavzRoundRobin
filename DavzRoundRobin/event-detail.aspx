@@ -25,14 +25,12 @@
 
             ddlCategory.DataSource = lstEventCategory;
             ddlCategory.DataBind();
-            ddlCategory.Items.Insert(0, new ListItem("Select Category", "0"));
+            ddlCategory.Items.Insert(0, new ListItem("Select Category", ""));
         }
     }
 
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
-        Response.Write(ddlFilterCategory.SelectedValue);
-
         rptEventCategory.DataSource = TournamentManager.GetAllRegistrationCategory(_Event.ID);
         rptEventCategory.DataBind();
 
@@ -163,43 +161,53 @@
                             <h5 class="modal-title" id="staticBackdropLabel">Add New Entry</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body entry-container-form">
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlCategory" CssClass="form-select" autocomplete="off" />
+                                        <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlCategory" CssClass="form-select need-validation" autocomplete="off" />
                                         <label class="form-label"><b>Category</b></label>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlCategory" CssClass="d-none" ValidationGroup="CreateEntry" ErrorMessage="Required" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtTeamName" autocomplete="off" />
+                                        <asp:TextBox runat="server" type="text" CssClass="form-control need-validation" ID="txtTeamName" autocomplete="off" />
                                         <label class="form-label"><b>Team Name</b></label>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTeamName" CssClass="d-none" ValidationGroup="CreateEntry" ErrorMessage="Required" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtRiderName" autocomplete="off" />
+                                        <asp:TextBox runat="server" type="text" CssClass="form-control need-validation" ID="txtRiderName" autocomplete="off" />
                                         <label class="form-label"><b>Rider Name</b></label>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRiderName" CssClass="d-none" ValidationGroup="CreateEntry" ErrorMessage="Required" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:TextBox runat="server" type="number" CssClass="form-control" ID="txtBikeNumber" autocomplete="off" />
+                                        <asp:TextBox runat="server" type="number" CssClass="form-control need-validation" ID="txtBikeNumber" autocomplete="off" />
                                         <label class="form-label"><b>Drag Bike Number</b></label>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtBikeNumber" CssClass="d-none" ValidationGroup="CreateEntry" ErrorMessage="Required" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnCreateEntry" CssClass="btn btn-primary" OnClick="btnCreateEntry_Click" Text="Save" />
+                            <asp:Button runat="server" ID="btnCreateEntry" CssClass="btn btn-primary btn-create-entry" OnClick="btnCreateEntry_Click" Text="Save" ValidationGroup="CreateEntry" CausesValidation="true" />
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <script>
+            $(document).ready(function () {
+                $('.btn-create-entry').click(function () {
+                    if (!validateForm('entry-container-form')) return false;
+                });
+            });
+        </script>
         <div class="col col-md-4">
             <div class="card">
                 <div class="card-header">
