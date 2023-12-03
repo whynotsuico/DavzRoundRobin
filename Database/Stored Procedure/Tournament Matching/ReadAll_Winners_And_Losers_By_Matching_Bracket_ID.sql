@@ -14,7 +14,7 @@ BEGIN
                 Tournament_Matching_Winner_Bike_Number AS Winner_Bike_Number,
                 Tournament_Matching_Loser_Bike_Number AS Loser_Bike_Number
             FROM dbo.Tournament_Matching
-            WHERE Tournament_Matching_Is_Done = 1 AND Tournament_Matching_Bracket_ID = @ID
+            WHERE Tournament_Matching_Bracket_ID = @ID
 
             UNION ALL
 
@@ -24,7 +24,7 @@ BEGIN
                 Tournament_Matching_Winner_Bike_Number AS Winner_Bike_Number,
                 Tournament_Matching_Loser_Bike_Number AS Loser_Bike_Number
             FROM dbo.Tournament_Matching
-            WHERE Tournament_Matching_Is_Done = 1 AND Tournament_Matching_Bracket_ID = @ID
+            WHERE Tournament_Matching_Bracket_ID = @ID
         ) AS Teams
     GROUP BY TeamName
     ORDER BY Wins DESC;
