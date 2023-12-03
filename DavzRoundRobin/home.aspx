@@ -77,7 +77,7 @@
                             <ItemTemplate>
                                 <li class="list-group-item list-group-item-action dashboard-event-list" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
                                     <a><%# Eval("Name") %>
-                                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
+                                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
                                             <i class="bx bx-trash-alt icon"></i>
                                         </asp:LinkButton>
                                         <br />
@@ -151,9 +151,6 @@
                             </ItemTemplate>
                         </asp:Repeater>
                     </ul>
-                </div>
-                <div class="card-footer text-muted">
-                    2 days ago
                 </div>
             </div>
         </div>

@@ -42,7 +42,7 @@
                             <li class="list-group-item list-group-item-action category-item-list">
                                 <a href="javascript:;"><%# Eval("Name") %>
                                     <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end btn-delete" OnClientClick="return confirmDelete();" OnCommand="DeleteCategory" CommandArgument='<%# Eval("ID") %>'>
-                                        <i class="bx bx-trash-alt icon"></i>
+                                        <i class="bx bx-trash-alt icon text-white"></i>
                                     </asp:LinkButton>
                                 </a>
                             </li>
@@ -81,21 +81,6 @@
             </div>
         </div>
 
-        <div class="col col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Featured
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                <div class="card-footer text-muted">
-                    2 days ago
-                </div>
-            </div>
-        </div>
     </div>
 
 
