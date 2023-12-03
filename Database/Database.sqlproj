@@ -112,6 +112,7 @@
     <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching_By_Matching_ID_Is_Done_False.sql" />
     <Build Include="Stored Procedure\Tournament Matching\Read_Last_Sort_Number_By_Matching_ID.sql" />
     <Build Include="Stored Procedure\Tournament Matching\ReadAll_Winners_And_Losers_By_Matching_Bracket_ID.sql" />
+    <Build Include="Stored Procedure\Tournament Event\Read_Event_ID_By_Is_Active_True.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wilrey.publish.xml" />

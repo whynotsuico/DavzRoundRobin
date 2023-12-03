@@ -39,33 +39,22 @@ namespace Davz.Tournament
                             )
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Create_Matching", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
-                cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
-                cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);
-                cmd.Parameters.AddWithValue("@Right_Team_Name", RightTeamName);
-                cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
-                cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
-                cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
-                cmd.Parameters.AddWithValue("@Loser_Bike_Number", LoserBikeNumber);
-                cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
-                cmd.Parameters.AddWithValue("@Is_Done", IsDone);
-                cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Create_Matching", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Sort_Number", SortNumber);
+            cmd.Parameters.AddWithValue("@Right_Rider_Name", RightRiderName);
+            cmd.Parameters.AddWithValue("@Left_Rider_Name", LeftRiderName);
+            cmd.Parameters.AddWithValue("@Right_Team_Name", RightTeamName);
+            cmd.Parameters.AddWithValue("@Left_Bike_Number", LeftBikeNumber);
+            cmd.Parameters.AddWithValue("@Right_Bike_Number", RightBikeNumber);
+            cmd.Parameters.AddWithValue("@Winner_Bike_Number", WinnerBikeNumber);
+            cmd.Parameters.AddWithValue("@Loser_Bike_Number", LoserBikeNumber);
+            cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
+            cmd.Parameters.AddWithValue("@Is_Done", IsDone);
+            cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public void ExtractFromReader(IDataRecord record)
@@ -88,52 +77,29 @@ namespace Davz.Tournament
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             Matching matching = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Matching", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Read_Matching", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    matching = new Matching();
-                    matching.ExtractFromReader(dr);
-                }
-
+                matching = new Matching();
+                matching.ExtractFromReader(dr);
             }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-
+            conn.Close();
             return matching;
         }
 
         public void Delete(int ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Delete_Matching", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Matching_ID", ID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Delete_Matching", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Matching_ID", ID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public void Update()

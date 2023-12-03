@@ -19,52 +19,30 @@ namespace Davz.Tournament
         public static void Create(string categoryID, string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Create_Registration_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
-                cmd.Parameters.AddWithValue("@EventID", eventID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Create_Registration_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public static RegistrationCategory Read(string id)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             RegistrationCategory regCat = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Registration_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Read_Registration_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    regCat = new RegistrationCategory();
-                    regCat.ExtractFromReader(dr);
-                }
-
+                regCat = new RegistrationCategory();
+                regCat.ExtractFromReader(dr);
             }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
 
             return regCat;
         }
@@ -81,46 +59,24 @@ namespace Davz.Tournament
         public static void Update(int ID, int CategoryID, int EventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Registration_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("ID", ID);
-                cmd.Parameters.AddWithValue("Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("Event_ID", EventID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Update_Registration_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("ID", ID);
+            cmd.Parameters.AddWithValue("Category_ID", CategoryID);
+            cmd.Parameters.AddWithValue("Event_ID", EventID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
         public static void Delete(int ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Delete_Registration_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("ID", ID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Delete_Registration_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("ID", ID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

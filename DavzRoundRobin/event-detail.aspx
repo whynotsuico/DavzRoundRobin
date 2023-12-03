@@ -236,19 +236,27 @@
                             <h5 class="modal-title" id="staticEventCategoryModal">Add Event Category</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body category-container-form">
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlAddEventCategory" CssClass="form-select" autocomplete="off" />
+                                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlAddEventCategory" CssClass="form-select need-validation" autocomplete="off" />
                                         <label class="form-label"><b>Category</b></label>
+                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAddEventCategory" CssClass="d-none" ValidationGroup="CreateCategory" ErrorMessage="Required" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnAddCategory" CssClass="btn btn-primary" OnClick="btnAddCategory_Click" Text="Save" />
+                            <asp:Button runat="server" ID="btnAddCategory" CssClass="btn btn-primary btn-create-category" OnClick="btnAddCategory_Click" Text="Save" ValidationGroup="CreateCategory" CausesValidation="true" />
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <script>
+                                $(document).ready(function () {
+                                    $('.btn-create-category').click(function () {
+                                        if (!validateForm('category-container-form')) return false;
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

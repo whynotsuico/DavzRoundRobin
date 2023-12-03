@@ -22,28 +22,16 @@ namespace Davz.Tournament
         public static void Create(string EventID, string RiderName, string DragBikeNumber, string CategoryID, string TeamName)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Create_Registration", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EventID", EventID);
-                cmd.Parameters.AddWithValue("@RiderName", RiderName);
-                cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@TeamName", TeamName);
-                cmd.ExecuteNonQuery();
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Create_Registration", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@EventID", EventID);
+            cmd.Parameters.AddWithValue("@RiderName", RiderName);
+            cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+            cmd.Parameters.AddWithValue("@TeamName", TeamName);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public void ExtractFromReader(IDataRecord record)
@@ -61,28 +49,17 @@ namespace Davz.Tournament
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             Registration registration = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Registration", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Read_Registration", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    registration = new Registration();
-                    registration.ExtractFromReader(dr);
-                }
-
+                registration = new Registration();
+                registration.ExtractFromReader(dr);
             }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
 
             return registration;
         }
@@ -90,51 +67,29 @@ namespace Davz.Tournament
         public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Delete_Registration", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Registration_ID", ID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Delete_Registration", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("Registration_ID", ID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Registration", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", ID);
-                cmd.Parameters.AddWithValue("@EventID", EventID);
-                cmd.Parameters.AddWithValue("@RideName", RiderName);
-                cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
-                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
-                cmd.Parameters.AddWithValue("@TeamName", TeamName);
-                cmd.Parameters.AddWithValue("@IsAlreadyBracket", IsAlreadyBracket);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Update_Registration", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@EventID", EventID);
+            cmd.Parameters.AddWithValue("@RideName", RiderName);
+            cmd.Parameters.AddWithValue("@BikeNumber", DragBikeNumber);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+            cmd.Parameters.AddWithValue("@TeamName", TeamName);
+            cmd.Parameters.AddWithValue("@IsAlreadyBracket", IsAlreadyBracket);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

@@ -11,7 +11,16 @@ namespace Davz.Tournament
 {
     public class TournamentManager
     {
+        public static int GetEventIDByIsActive()
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Read_Event_ID_By_Is_Active_True", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            var result = cmd.ExecuteScalar();
 
+            return result != DBNull.Value ? Convert.ToInt32(result) : 0; ;
+        }
 
         public static DataTable GetAllWinnersAndLosersByMatchingBracketID(string ID)
         {
@@ -115,31 +124,19 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<MatchingBracket> lst = new List<MatchingBracket>();
             MatchingBracket matchingBracket = null;
-
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Matching_Bracket_By_Category_ID_And_Event_ID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
-                cmd.Parameters.AddWithValue("@EventID", eventID);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    matchingBracket = new MatchingBracket();
-                    matchingBracket.ExtractFromReader(dr);
-                    lst.Add(matchingBracket);
-                }
+                matchingBracket = new MatchingBracket();
+                matchingBracket.ExtractFromReader(dr);
+                lst.Add(matchingBracket);
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
         }
 
@@ -166,28 +163,17 @@ namespace Davz.Tournament
             List<RegistrationCategory> lst = new List<RegistrationCategory>();
             RegistrationCategory regCat = null;
 
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Registration_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Registration_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    regCat = new RegistrationCategory();
-                    regCat.ExtractFromReader(dr);
-                    lst.Add(regCat);
-                }
+                regCat = new RegistrationCategory();
+                regCat.ExtractFromReader(dr);
+                lst.Add(regCat);
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
         }
 
@@ -196,28 +182,18 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Category> lst = new List<Category>();
             Category cat = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Category", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Category", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    cat = new Category();
-                    cat.ExtractFromReader(dr);
-                    lst.Add(cat);
-
-                }
-            }
-            catch (Exception)
-            {
+                cat = new Category();
+                cat.ExtractFromReader(dr);
+                lst.Add(cat);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
 
         }
@@ -227,29 +203,19 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<RegistrationCategory> lst = new List<RegistrationCategory>();
             RegistrationCategory cat = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Get_All_Registration_Category_By_Event_ID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Get_All_Registration_Category_By_Event_ID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EventID", eventID);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    cat = new RegistrationCategory();
-                    cat.ExtractFromReader(dr);
-                    lst.Add(cat);
-
-                }
-            }
-            catch (Exception)
-            {
+                cat = new RegistrationCategory();
+                cat.ExtractFromReader(dr);
+                lst.Add(cat);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
 
         }
@@ -259,28 +225,18 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Event> lst = new List<Event>();
             Event events = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Event", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    events = new Event();
-                    events.ExtractFromReader(dr);
-                    lst.Add(events);
-
-                }
-            }
-            catch (Exception)
-            {
+                events = new Event();
+                events.ExtractFromReader(dr);
+                lst.Add(events);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
 
         }
@@ -290,28 +246,18 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Matching> lst = new List<Matching>();
             Matching matching = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Matching", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    matching = new Matching();
-                    matching.ExtractFromReader(dr);
-                    lst.Add(matching);
-
-                }
-            }
-            catch (Exception)
-            {
+                matching = new Matching();
+                matching.ExtractFromReader(dr);
+                lst.Add(matching);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
 
         }
@@ -321,22 +267,22 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Registration> lst = new List<Registration>();
             Registration reg = null;
-          
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_Category_And_Event_ID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@EventID", eventID);
-                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    reg = new Registration();
-                    reg.ExtractFromReader(dr);
-                    lst.Add(reg);
 
-                }
-          
-                conn.Close();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_Category_And_Event_ID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@EventID", eventID);
+            cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                reg = new Registration();
+                reg.ExtractFromReader(dr);
+                lst.Add(reg);
+
+            }
+
+            conn.Close();
 
             return lst;
 
@@ -347,29 +293,19 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Registration> lst = new List<Registration>();
             Registration reg = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_EventID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("ReadAll_Registration_By_EventID", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    reg = new Registration();
-                    reg.ExtractFromReader(dr);
-                    lst.Add(reg);
-
-                }
-            }
-            catch (Exception)
-            {
+                reg = new Registration();
+                reg.ExtractFromReader(dr);
+                lst.Add(reg);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
             return lst;
 
         }

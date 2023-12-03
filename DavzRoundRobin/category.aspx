@@ -61,19 +61,27 @@
                                 <h5 class="modal-title" id="staticBackdropLabel">Add Racing Event</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body category-container-form">
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <div class="form-floating">
-                                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="txtCategoryName" autocomplete="off" />
+                                            <asp:TextBox runat="server" type="text" CssClass="form-control need-validation" ID="txtCategoryName" autocomplete="off" />
                                             <label class="form-label"><b>Category Name</b></label>
+                                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategoryName" CssClass="d-none" ValidationGroup="CreateCategory" ErrorMessage="Required" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <asp:Button runat="server" ID="btnCreateCategory" CssClass="btn btn-primary" OnClick="btnCreateCategory_Click" Text="Save" />
+                                <asp:Button runat="server" ID="btnCreateCategory" CssClass="btn btn-primary btn-create-category" OnClick="btnCreateCategory_Click" Text="Save" ValidationGroup="CreateCategory" CausesValidation="true" />
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.btn-create-category').click(function () {
+                                            if (!validateForm('category-container-form')) return false;
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>

@@ -49,28 +49,17 @@ namespace Davz.Tournament.DLL
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             MatchingBracket matchingBracket = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Matching_Bracket", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Read_Matching_Bracket", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    matchingBracket = new MatchingBracket();
-                    matchingBracket.ExtractFromReader(dr);
-                }
-
+                matchingBracket = new MatchingBracket();
+                matchingBracket.ExtractFromReader(dr);
             }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
 
             return matchingBracket;
         }
@@ -78,50 +67,28 @@ namespace Davz.Tournament.DLL
         public void Update(string ID, string EventID, string BracketName, string CategoryID, bool IsDone)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Matching_Bracket", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", ID);
-                cmd.Parameters.AddWithValue("@Event_ID", EventID);
-                cmd.Parameters.AddWithValue("@Bracket_Name", BracketName);
-                cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("@Is_Done", IsDone);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Update_Matching_Bracket", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@Event_ID", EventID);
+            cmd.Parameters.AddWithValue("@Bracket_Name", BracketName);
+            cmd.Parameters.AddWithValue("@Category_ID", CategoryID);
+            cmd.Parameters.AddWithValue("@Is_Done", IsDone);
+            cmd.ExecuteNonQuery();
+            conn.Close();
 
         }
 
         public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Delete_Matching_Bracket", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", ID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Delete_Matching_Bracket", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
 
         }
     }

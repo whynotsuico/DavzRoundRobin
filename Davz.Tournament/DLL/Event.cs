@@ -16,6 +16,7 @@ namespace Davz.Tournament
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsActive { get; set; } 
 
         public static Event Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
@@ -42,34 +43,24 @@ namespace Davz.Tournament
             this.CreateDate = DateTime.Parse(record["Tournament_Event_Create_Date"].ToString());
             this.StartDate = DateTime.Parse(record["Tournament_Event_Start_Date"].ToString());
             this.EndDate = DateTime.Parse(record["Tournament_Event_End_Date"].ToString());
+            this.IsActive = bool.Parse(record["Tournament_Event_Is_Active"].ToString());
         }
 
         public static Event Read(string id)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             Event events = null;
-            try
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("ID", id);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Read_Event", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("ID", id);
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    events = new Event();
-                    events.ExtractFromReader(dr);
-                }
-
+                events = new Event();
+                events.ExtractFromReader(dr);
             }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
 
             return events;
         }
@@ -77,49 +68,28 @@ namespace Davz.Tournament
         public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Delete_Event", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Event_ID", ID);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Delete_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("Event_ID", ID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        public void Update(int ID, string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
+        public void Update()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Update_Event", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Event_ID", ID);
-                cmd.Parameters.AddWithValue("Event_Name", Name);
-                cmd.Parameters.AddWithValue("Event_CreateDate", CreateDate);
-                cmd.Parameters.AddWithValue("Event_StartDate", StartDate);
-                cmd.Parameters.AddWithValue("Event_EndDate", EndDate);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Update_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Event_ID", ID);
+            cmd.Parameters.AddWithValue("@Event_Name", Name);
+            cmd.Parameters.AddWithValue("@Event_CreateDate", CreateDate);
+            cmd.Parameters.AddWithValue("@Event_StartDate", StartDate);
+            cmd.Parameters.AddWithValue("@Event_EndDate", EndDate);
+            cmd.Parameters.AddWithValue("@Event_IsActive", IsActive);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }
