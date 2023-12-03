@@ -17,6 +17,7 @@ namespace Davz.Tournament
         public string DragBikeNumber { get; set; }
         public string CategoryID { get; set; }
         public string TeamName { get; set; }
+        public bool IsAlreadyBracket { get; set; }
 
         public static void Create(string EventID, string RiderName, string DragBikeNumber, string CategoryID, string TeamName)
         {
@@ -53,6 +54,7 @@ namespace Davz.Tournament
             this.DragBikeNumber = record["Tournament_Registration_Drag_Bike_Number"].ToString();
             this.CategoryID = record["Tournament_Registration_Category_ID"].ToString();
             this.TeamName = record["Tournament_Registration_Team_Name"].ToString();
+            this.IsAlreadyBracket = bool.Parse(record["Tournament_Registration_Is_Already_Bracket"].ToString());
         }
 
         public static Registration Read(string id)
@@ -107,7 +109,13 @@ namespace Davz.Tournament
             }
         }
 
-        public void Update()
+        public static void Update(int ID
+                            , string EventID
+                            , string RideName
+                            , string BikeNumber
+                            , string CategoryID
+                            , string TeamName
+                            , bool IsAlreadyBracket)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             try
@@ -115,12 +123,13 @@ namespace Davz.Tournament
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Update_Registration", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Registration_ID", ID);
-                cmd.Parameters.AddWithValue("Event_ID", EventID);
-                cmd.Parameters.AddWithValue("Rider_Name", RiderName);
-                cmd.Parameters.AddWithValue("Bike_Number", DragBikeNumber);
-                cmd.Parameters.AddWithValue("Category_ID", CategoryID);
-                cmd.Parameters.AddWithValue("Team_Name", TeamName);
+                cmd.Parameters.AddWithValue("@ID", ID);
+                cmd.Parameters.AddWithValue("@EventID", EventID);
+                cmd.Parameters.AddWithValue("@RideName", RideName);
+                cmd.Parameters.AddWithValue("@BikeNumber", BikeNumber);
+                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                cmd.Parameters.AddWithValue("@TeamName", TeamName);
+                cmd.Parameters.AddWithValue("@IsAlreadyBracket", IsAlreadyBracket);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
