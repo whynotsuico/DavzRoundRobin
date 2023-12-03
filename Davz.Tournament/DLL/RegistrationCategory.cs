@@ -49,7 +49,7 @@ namespace Davz.Tournament
 
         public void ExtractFromReader(IDataRecord record)
         {
-            this.ID = record["Registraion_Category_ID"].ToString();
+            this.ID = record["Registration_Category_ID"].ToString();
             this.CategoryID = record["Registration_Category_Category_ID"].ToString();
             this.EventID = record["Registration_Category_Event_ID"].ToString();
 
@@ -68,7 +68,7 @@ namespace Davz.Tournament
             cmd.ExecuteNonQuery();
             conn.Close();
         }
-        public static void Delete(int ID)
+        public static void Delete(string ID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             conn.Open();

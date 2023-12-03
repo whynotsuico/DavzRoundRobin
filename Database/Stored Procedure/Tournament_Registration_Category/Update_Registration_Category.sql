@@ -8,4 +8,4 @@ AS
 	Registration_Category_Category_ID =@Category_ID
 	, Registration_Category_Event_ID = @Event_ID
 
-	WHERE Registraion_Category_ID = @ID
+	WHERE Registration_Category_ID = @ID

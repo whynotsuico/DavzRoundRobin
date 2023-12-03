@@ -5,53 +5,33 @@
     private RegistrationCategory _RegistrationCategory;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (IsPostBack)
-        {
-            if (ddlBracket.SelectedIndex > 0)
-            {
-                ddlBracket.SelectedValue = ddlBracket.SelectedValue;
-                rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
-                rptMatchList.DataBind();
-            }
-
-        }
         if (Request["id"] != null)
-        {
             _Event = Event.Read(Request["id"].ToString());
-        }
 
         if (Request["id"] != null)
-        {
             _RegistrationCategory = RegistrationCategory.Read(Request["catid"].ToString());
-        }
 
         if (!IsPostBack)
         {
             ddlAutoGenerateBracket.DataSource = Enumerable.Range(4, 7);
             ddlAutoGenerateBracket.DataBind();
             ddlAutoGenerateBracket.Items.Insert(0, new ListItem("Select Number", "0"));
+
+            ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(_RegistrationCategory.ID, _Event.ID);
+            ddlBracket.DataBind();
+            ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
         }
     }
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
+        pnlViewMatchList.Visible = ddlBracket.SelectedValue != "0";
+
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
         rptCategoryItems.DataBind();
 
-        ddlBracket.DataSource = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(_RegistrationCategory.ID, _Event.ID);
-        ddlBracket.DataBind();
-        ddlBracket.Items.Insert(0, new ListItem("Select Category Bracket", "0"));
-
-    }
-
-    protected void btnCreateCategory_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void DeleteCategory(object sender, CommandEventArgs e)
-    {
-
+        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
+        rptMatchList.DataBind();
     }
 
     protected void btnAutoGenerateMatch_Click(object sender, EventArgs e)
@@ -89,8 +69,13 @@
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
     {
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
-        rptMatchList.DataBind();
+        //Handled in Page_PreRenderComplete
+    }
+
+    protected void DeleteEntry(object sender, CommandEventArgs e)
+    {
+        MatchingBracket.Delete(e.CommandArgument.ToString());
+        Response.Redirect(Request.RawUrl);
     }
 </script>
 
@@ -141,7 +126,7 @@
         <div class="col col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <b><%= _RegistrationCategory.CategoryName    %> Entry List </b>
+                    <b><%= _RegistrationCategory.CategoryName    %></b>
                 </div>
                 <div class="card-body">
                     <asp:Repeater runat="server" ID="rptCategoryItems" ItemType="Davz.Tournament.Registration">
@@ -212,7 +197,7 @@
         <div class="col col-md-4">
             <div class="card">
                 <div class="card-header">
-                    Bracket List
+                    <b>Bracket List</b>
                 </div>
                 <div class="card-body">
                     <div class="col-md-12">
@@ -224,33 +209,43 @@
                 </div>
             </div>
             <br />
-            <div class="card">
-                <div class="card-header">
-                    <b>Match List</b>
-                    <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
+            <asp:PlaceHolder runat="server" ID="pnlViewMatchList">
+                <div class="card">
+                    <div class="card-header">
+                        <b>Match List</b>
+                        <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
+                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%= ddlBracket.SelectedValue %>'>
+                             <i class="bx bx-trash-alt icon"></i>
+                        </asp:LinkButton>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <asp:Repeater runat="server" ID="rptMatchList">
+                                <ItemTemplate>
+                                    <li class="list-group-item">
+                                        <div class="flex-container text-center">
+                                            <div class="flex-item">
+                                                <span class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
+                                            </div>
+                                            <div class="flex-item">
+                                                <span class="animate-charcter main-vs">VS</span>
+                                            </div>
+                                            <div class="flex-item">
+                                                <span class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                    </div>
+                    <script type="text/javascript">
+                        function confirmDelete() {
+                            return confirm("Are you sure you want to delete this Bracket?");
+                        }
+                    </script>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <asp:Repeater runat="server" ID="rptMatchList">
-                            <ItemTemplate>
-                                <li class="list-group-item">
-                                    <div class="flex-container text-center">
-                                        <div class="flex-item">
-                                            <span class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
-                                        </div>
-                                        <div class="flex-item">
-                                            <span class="animate-charcter main-vs">VS</span>
-                                        </div>
-                                        <div class="flex-item">
-                                            <span class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
-                </div>
-            </div>
+            </asp:PlaceHolder>
         </div>
     </div>
 

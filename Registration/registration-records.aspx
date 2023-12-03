@@ -8,6 +8,12 @@
     {
         _Event = TournamentManager.GetEventIDByIsActive();
 
+        if (_Event == null)
+        {
+            Response.Write("No Race Event: Please get in touch with the administrator.");
+            Response.End();
+        }
+
         var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
         ddlFilterCategory.DataSource = lstEventCategory;

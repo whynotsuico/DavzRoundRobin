@@ -2,4 +2,4 @@
 	@ID varchar(50)
 AS
 	DELETE dbo.Tournament_Registration_Category
-	WHERE Registraion_Category_ID = @ID
+	WHERE Registration_Category_ID = @ID

@@ -7,6 +7,12 @@
     {
         _Event = TournamentManager.GetEventIDByIsActive();
 
+        if (_Event == null)
+        {
+            Response.Write("No Race Event: Please get in touch with the administrator.");
+            Response.End();
+        }
+
         if (!IsPostBack)
         {
             ddlRegistration.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID);
@@ -107,7 +113,7 @@
             <br />
             <br />
             <div class="text-center">
-                <span >Powered By:</span>
+                <span>Powered By:</span>
                 <br />
                 <img src="core/assets/images/davz-logo.png" style="width: 150px;" />
             </div>

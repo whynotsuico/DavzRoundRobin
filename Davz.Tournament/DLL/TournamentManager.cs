@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Davz.Tournament.DLL;
 
 namespace Davz.Tournament
 {
@@ -333,7 +332,7 @@ namespace Davz.Tournament
 
             con.Close();
 
-            ds.Relations.Add("LineItems", ds.Tables[0].Columns["Registraion_Category_ID"], ds.Tables[1].Columns["Tournament_Registration_Category_ID"]);
+            ds.Relations.Add("LineItems", ds.Tables[0].Columns["Registration_Category_ID"], ds.Tables[1].Columns["Tournament_Registration_Category_ID"]);
 
             return ds;
         }

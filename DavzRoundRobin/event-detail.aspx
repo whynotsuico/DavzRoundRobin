@@ -61,6 +61,12 @@
         Registration.Delete(e.CommandArgument.ToString());
         Response.Redirect(Request.RawUrl);
     }
+
+    protected void DeleteRegistrationCategoryEntry(object sender, CommandEventArgs e)
+    {
+        RegistrationCategory.Delete(e.CommandArgument.ToString());
+        Response.Redirect(Request.RawUrl);
+    }
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -85,7 +91,6 @@
                             <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EntryModal"><i class="bx bx-add-to-queue"></i>&nbsp;New Entry</a>
                         </div>
                         <div class="col col-md-6">
-                            
                         </div>
                     </div>
                 </div>
@@ -112,7 +117,7 @@
                     <div class="card">
                         <div class="card-header">
                             <b><%# Eval("Tournament_Category_Name") %></b>
-                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Registraion_Category_ID") %>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket Category</a>
+                            <a href='<%= CommonLinks.EventBracketByCategory %>?id=<%# _Event.ID %>&catid=<%# Eval("Registration_Category_ID") %>' class="btn btn-primary text-white me-0 float-end"><i class="bx bx-git-compare"></i>&nbsp;Bracket Category</a>
                         </div>
                         <div class="card-body">
                             <asp:Repeater runat="server" ID="rptItems" DataSource='<%#((DataRowView)Container.DataItem).CreateChildView("LineItems") %>'>
@@ -144,6 +149,10 @@
                                             <script type="text/javascript">
                                                 function confirmDelete() {
                                                     return confirm("Are you sure you want to delete this Entry?");
+                                                }
+
+                                                function confirmRegistrationCategoryDelete() {
+                                                    return confirm("Are you sure you want to delete this Registration Category?");
                                                 }
                                             </script>
                                     </table>
@@ -223,8 +232,10 @@
                             <ItemTemplate>
                                 <li class="list-group-item">
                                     <a href='javascript:;'><%# Eval("Tournament_Category_Name") %>
-                                        <br />
                                     </a>
+                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end text-white" OnClientClick="return confirmRegistrationCategoryDelete();" OnCommand="DeleteRegistrationCategoryEntry" CommandArgument='<%# Eval("Registration_Category_ID") %>'>
+                                          <i class="bx bx-trash-alt icon"></i>
+                                    </asp:LinkButton></td>
                                 </li>
                             </ItemTemplate>
                         </asp:Repeater>

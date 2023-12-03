@@ -3,4 +3,4 @@
 AS
 	SELECT * FROM vRegistrationCategory
 
-	WHERE Registraion_Category_ID = @ID
+	WHERE Registration_Category_ID = @ID

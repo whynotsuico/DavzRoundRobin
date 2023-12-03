@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
-namespace Davz.Tournament.DLL
+namespace Davz.Tournament
 {
     public class MatchingBracket
     {
@@ -90,6 +90,18 @@ namespace Davz.Tournament.DLL
             cmd.ExecuteNonQuery();
             conn.Close();
 
+        }
+
+        public void UpdateAllRegistrationRecordToFalse(string id)
+        {
+            var dt = TournamentManager.GetAllMatchingByMatchingID(id);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string regLeftID = row["Tournament_Matching_Left_Bike_Number"].ToString();
+                string regRightID = row["Tournament_Matching_Right_Bike_Number"].ToString();
+
+            }
         }
     }
 }
