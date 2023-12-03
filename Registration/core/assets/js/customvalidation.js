@@ -6,19 +6,19 @@ function validateForm(containerForm) {
         if (y[i].tagName === "SELECT") {
             // For dropdowns, check if no option is selected
             if (y[i].value === "" || y[i].value === "0") {
-                y[i].classList.add("invalid");
+                y[i].classList.add("is-invalid");
                 valid = false;
 
             } else {
-                y[i].classList.remove("invalid"); 
+                y[i].classList.remove("is-invalid"); 
             }
         } else {
             // For input fields, check if they are empty
             if (y[i].value === "") {
-                y[i].classList.add("invalid");
+                y[i].classList.add("is-invalid");
                 valid = false;
             } else {
-                y[i].classList.remove("invalid"); // Remove "invalid" class when it's not empty or not zero
+                y[i].classList.remove("is-invalid"); // Remove "invalid" class when it's not empty or not zero
             }
         }
     }

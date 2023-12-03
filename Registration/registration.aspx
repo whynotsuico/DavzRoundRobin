@@ -1,20 +1,23 @@
 ﻿<%@ Page Language="C#" %>
 
 <script runat="server">
+    private string _EventID = "0";
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        _EventID = TournamentManager.GetEventIDByIsActive().ToString();
+
         if (!IsPostBack)
         {
-            ddlRegistration.DataSource = TournamentManager.ReadAllCategory();
+            ddlRegistration.DataSource = TournamentManager.ReadAllRegistrationCategory(_EventID);
             ddlRegistration.DataBind();
             ddlRegistration.Items.Insert(0, new ListItem("Select Category", "0"));
         }
-
     }
 
     protected void btnConfirm_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect(Request.RawUrl);
     }
 </script>
 
@@ -51,13 +54,13 @@
             <div class="row g-3">
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlRegistration" CssClass="form-select js-category need-validation" autocomplete="off" />
+                        <asp:DropDownList runat="server" DataTextField="CategoryName" DataValueField="ID" ID="ddlRegistration" CssClass="form-select js-category need-validation" autocomplete="off" />
                         <label class="form-label"><b>Category</b></label>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:TextBox runat="server" CssClass="form-control js-bike-number need-validation" autocomplete="off" />
+                        <asp:TextBox runat="server" type="number" CssClass="form-control js-bike-number need-validation" autocomplete="off" />
                         <label class="form-label"><b>Bike Number</b></label>
                     </div>
                 </div>
@@ -75,12 +78,13 @@
                 </div>
             </div>
             <br />
-            <div class="form-footer d-flex">
+            <div class="form-footer d-flex flex-column">
                 <button type="button" class="btn-submit-registration">Submit</button>
                 <button class="btn btn-success btn-block js-button-submit d-none" type="button" disabled="disabled">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>
+                <button type="button" class="btn-view" onclick="location.href='registration-records.aspx?id=<%= _EventID %>'" style="background-color:green !important;border:1px solid green !important;">View Records</button>
             </div>
             <button type="button" class="btn btn-primary d-none js-btn-created" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Created
@@ -90,6 +94,7 @@
                     <div class="modal-content">
                         <div class="modal-body text-center">
                             <div class="alert alert-success">
+                                Successfully Created!
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -111,16 +116,17 @@
                         $('.js-button-submit').removeClass("d-none");
 
                         $.get("/handlers/matching-registration-create-handler.ashx", {
-                            eventID: id,
-                            riderName: $('.js-rider-name'),
+                            eventID: <%= _EventID %>,
+                            riderName: $('.js-rider-name').val(),
                             dragBikeNumber: $('.js-bike-number').val(),
-                            teamName: $('.js-team-name'),
+                            teamName: $('.js-team-name').val(),
                             categoryID: $('.js-category').val()
                         }).done(function (data) {
                             $('.js-button-submit').addClass("d-none");
                             $sender.show();
-                        });
 
+                            $('.js-btn-created').click();
+                        });
                         return false;
                     });
                 });

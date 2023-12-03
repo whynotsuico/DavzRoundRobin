@@ -35,6 +35,10 @@
     max-width: 800px;
 }
 
+.container, .container-records {
+    max-width: 1000px;
+}
+
 #form {
     background-color: #ffffff;
     margin: 40px auto;
@@ -48,23 +52,23 @@
         text-align: center;
         font-size: .9em;
     }
-        
- 
 
-        #form input:focus,
-        #form select:focus,
-        #form textarea:focus {
-            border: 1px solid #E84A5F;
-            outline: 0;
-        }
 
-        #form input.invalid,
-        #form select.invalid,
-        #form textarea.invalid {
-            border: 1px solid #f31000;
-        }
 
-  
+    #form input:focus,
+    #form select:focus,
+    #form textarea:focus {
+        border: 1px solid #E84A5F;
+        outline: 0;
+    }
+
+    #form input.invalid,
+    #form select.invalid,
+    #form textarea.invalid {
+        border: 1px solid #f31000;
+    }
+
+
 
     #form .form-footer {
         overflow: auto;
@@ -87,5 +91,3 @@
             #form .form-footer button:hover {
                 opacity: 0.8;
             }
-
-        
