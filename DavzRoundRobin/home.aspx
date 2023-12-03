@@ -77,7 +77,7 @@
                             <ItemTemplate>
                                 <li class="list-group-item list-group-item-action dashboard-event-list">
                                     <div class="row">
-                                        <div class="col col-md-11" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
+                                        <div class="col col-md-10" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
                                             <a><%# Eval("Name") %>
                                                 <br />
                                                 <span>
@@ -85,8 +85,11 @@
                                                 </span>
                                             </a>
                                         </div>
-                                        <div class="col col-md-1 text-center" style="vertical-align: middle !important">
-                                            <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
+                                        <div class="col col-md-2 text-center d-flex" style="vertical-align: middle !important">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                            </div>
+                                            <asp:LinkButton runat="server" class="btn btn-sm btn-danger text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
                                                         <i class="bx bx-trash-alt icon"></i>
                                             </asp:LinkButton>
                                         </div>
