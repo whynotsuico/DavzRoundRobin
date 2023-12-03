@@ -3,9 +3,10 @@
 AS
 BEGIN
     SELECT TOP 10
-        TeamName,
-        SUM(CASE WHEN BikeNumber = Winner_Bike_Number THEN 1 ELSE 0 END) AS Wins,
-        SUM(CASE WHEN BikeNumber = Loser_Bike_Number THEN 1 ELSE 0 END) AS Losses
+        TeamName
+        , BikeNumber
+        , SUM(CASE WHEN BikeNumber = Winner_Bike_Number THEN 1 ELSE 0 END) AS Wins
+        , SUM(CASE WHEN BikeNumber = Loser_Bike_Number THEN 1 ELSE 0 END) AS Losses
     FROM
         (
             SELECT 
@@ -26,6 +27,6 @@ BEGIN
             FROM dbo.Tournament_Matching
             WHERE  Tournament_Matching_Bracket_ID = @ID
         ) AS Teams
-    GROUP BY TeamName
+    GROUP BY TeamName, BikeNumber
     ORDER BY Wins DESC;
 END;
