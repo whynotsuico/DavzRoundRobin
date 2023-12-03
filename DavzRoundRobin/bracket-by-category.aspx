@@ -13,6 +13,7 @@
                 rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
                 rptMatchList.DataBind();
             }
+
         }
         if (Request["id"] != null)
         {
@@ -24,6 +25,12 @@
             _RegistrationCategory = RegistrationCategory.Read(Request["catid"].ToString());
         }
 
+        if (!IsPostBack)
+        {
+            ddlAutoGenerateBracket.DataSource = Enumerable.Range(4, 7);
+            ddlAutoGenerateBracket.DataBind();
+            ddlAutoGenerateBracket.Items.Insert(0, new ListItem("Select Number", "0"));
+        }
     }
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
@@ -49,7 +56,19 @@
 
     protected void btnAutoGenerateMatch_Click(object sender, EventArgs e)
     {
+        List<string> bikernumbers = new List<string>();
 
+        var registrations = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
+
+        // Take a random set of registrations
+        var randomRegistrations = registrations.OrderBy(x => Guid.NewGuid()).Take(int.Parse(ddlAutoGenerateBracket.SelectedValue));
+
+        foreach (Registration reg in randomRegistrations)
+        {
+            bikernumbers.Add(reg.ID);
+        }
+
+        RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
     }
 
     protected void btnGenerateBracket_Click(object sender, EventArgs e)
@@ -58,7 +77,6 @@
 
         foreach (RepeaterItem item in rptCategoryItems.Items)
         {
-
             HiddenField hfID = (HiddenField)item.FindControl("hfID");
             CheckBox tsSelectPlayer = (CheckBox)item.FindControl("tsSelectPlayer");
 
@@ -71,7 +89,6 @@
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
     {
-
         rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
         rptMatchList.DataBind();
     }
@@ -153,8 +170,34 @@
                     </asp:Repeater>
                 </div>
                 <div class="card-footer text-muted text-center">
-                    <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAutoGenerateMatch" OnClick="btnAutoGenerateMatch_Click" Text="Auto Generate Bracket" />
+                    <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EventGenerateBracket"><i class="bx bx-add-to-queue"></i>&nbsp;Auto Generate Bracket</a>
+
                     <asp:Button runat="server" CssClass="btn btn-primary" ID="btnGenerateBracket" OnClick="btnGenerateBracket_Click" Text="Generate Bracket" />
+                </div>
+            </div>
+
+            <div class="modal fade" id="EventGenerateBracket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEventAutoGenerateModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticEventAutoGenerateModal">Auto Generate Bracket</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <asp:DropDownList runat="server" ID="ddlAutoGenerateBracket" CssClass="form-select" />
+                                        <label class="form-label"><b>Number of Player</b></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAutoGenerateMatch" OnClick="btnAutoGenerateMatch_Click" Text="Generate Bracket" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -177,7 +220,7 @@
             <div class="card">
                 <div class="card-header">
                     <b>Match List</b>
-                    <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank"  class="btn btn-primary float-end">Go to Match UI</a>
+                    <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
