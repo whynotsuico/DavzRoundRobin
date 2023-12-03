@@ -11,15 +11,22 @@ namespace Davz.Tournament
 {
     public class TournamentManager
     {
-        public static int GetEventIDByIsActive()
+        public static Event GetEventIDByIsActive()
         {
-            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
-            con.Open();
-            SqlCommand cmd = new SqlCommand("Read_Event_ID_By_Is_Active_True", con);
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Event events = null;
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Event_ID_By_Is_Active_True", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            var result = cmd.ExecuteScalar();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                events = new Event();
+                events.ExtractFromReader(dr);
+            }
+            conn.Close();
 
-            return result != DBNull.Value ? Convert.ToInt32(result) : 0; ;
+            return events;
         }
 
         public static DataTable GetAllWinnersAndLosersByMatchingBracketID(string ID)
