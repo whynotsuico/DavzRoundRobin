@@ -156,7 +156,6 @@
                                         </FooterTemplate>
                                     </asp:Repeater>
                                 </div>
-                                </div>
                             <br />
                             </ItemTemplate>
                         </asp:Repeater>
