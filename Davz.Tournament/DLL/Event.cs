@@ -17,29 +17,22 @@ namespace Davz.Tournament
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public static void Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
+        public static Event Create(string Name, DateTime CreateDate, DateTime StartDate, DateTime EndDate)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
-            try
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Create_Event", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Event_Name", Name);
-                cmd.Parameters.AddWithValue("Event_CreateDate", CreateDate);
-                cmd.Parameters.AddWithValue("Event_StartDate", StartDate);
-                cmd.Parameters.AddWithValue("Event_EndDate", EndDate);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Create_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("Event_Name", Name);
+            cmd.Parameters.AddWithValue("Event_CreateDate", CreateDate);
+            cmd.Parameters.AddWithValue("Event_StartDate", StartDate);
+            cmd.Parameters.AddWithValue("Event_EndDate", EndDate);
+            var result = cmd.ExecuteScalar();
+
+            conn.Close();
+
+            return Read(result.ToString());
         }
 
         public void ExtractFromReader(IDataRecord record)

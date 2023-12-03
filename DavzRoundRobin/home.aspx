@@ -14,9 +14,9 @@
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
     {
-        Event.Create(txtEventName.Text, DateTime.Now, DateTime.Parse(txtStartDate.Text), DateTime.Parse(txtEndDate.Text));
+        var eventCreate = Event.Create(txtEventName.Text, DateTime.Now, DateTime.Parse(txtStartDate.Text), DateTime.Parse(txtEndDate.Text));
 
-        Response.Redirect(Request.RawUrl);
+        Response.Redirect($"{CommonLinks.EventDetail}?id={eventCreate.ID}");
     }
 
     protected void DeleteEvent(object sender, CommandEventArgs e)

@@ -28,8 +28,6 @@
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-
-
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
         rptCategoryItems.DataBind();
 

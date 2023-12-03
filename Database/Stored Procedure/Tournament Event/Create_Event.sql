@@ -18,3 +18,5 @@ AS
 		, @Event_StartDate
 		, @Event_EndDate
 	)
+
+	SELECT SCOPE_IDENTITY();
