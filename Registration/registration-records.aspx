@@ -57,6 +57,7 @@
             <div class="card">
                 <div class="card-header">
                     <b>Filter</b>
+                    <a href="registration.aspx" class="btn btn-primary btn-sm btn-primary text-white me-0 float-end"><i class="bx bx-add-to-queue"></i>&nbsp;New Entry</a>
                 </div>
                 <div class="card-body">
                     <div class="col-md-12">

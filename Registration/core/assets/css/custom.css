@@ -1,6 +1,28 @@
-﻿body {
+﻿:root {
+    --body-color: #e7e7e7;
+    --sidebar-color: #fff;
+    --primary-color: #E84A5F;
+    --primary-color-light: #f6f5ff;
+    --toggle-color: #ddd;
+    --text-color: #707070;
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.3s ease;
+}
+
+body {
     background-color: #e5e5e5;
 }
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--primary-color);
+}
+
+    .btn-primary:hover {
+        border: 1px solid var(--primary-color);
+    }
 
 .form-switch {
     padding-left: 3.5em !important;
@@ -35,7 +57,7 @@
     max-width: 800px;
 }
 
-.container, .container-records {
+ .container-records {
     max-width: 1000px;
 }
 
