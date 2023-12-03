@@ -9,14 +9,21 @@
         rptEventList.DataSource = TournamentManager.ReadAllEvent();
         rptEventList.DataBind();
 
-        notfoundlist.Visible = rptEventList.Items.Count == 0;
+        // notfoundlist.Visible = rptEventList.Items.Count == 0;
     }
 
     protected void btnCreateEvent_Click(object sender, EventArgs e)
     {
         var eventCreate = Event.Create(txtEventName.Text, DateTime.Now, DateTime.Parse(txtStartDate.Text), DateTime.Parse(txtEndDate.Text));
 
-        Response.Redirect($"{CommonLinks.EventDetail}?id={eventCreate.ID}");
+        if (eventCreate != null)
+        {
+            eventCreate.IsActive = true;
+            eventCreate.Update();
+
+            Response.Redirect($"{CommonLinks.EventDetail}?id={eventCreate.ID}");
+        }
+
     }
 
     protected void DeleteEvent(object sender, CommandEventArgs e)
@@ -28,6 +35,11 @@
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <style>
+        .form-switch {
+            padding-left: 6.5em !important;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
@@ -71,37 +83,58 @@
                     <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bx bx-add-to-queue"></i>&nbsp;Add Event</a>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li runat="server" id="notfoundlist" class="list-group-item">No Event Found</li>
-                        <asp:Repeater runat="server" ID="rptEventList">
-                            <ItemTemplate>
-                                <li class="list-group-item list-group-item-action dashboard-event-list">
-                                    <div class="row">
-                                        <div class="col col-md-10" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'">
-                                            <a><%# Eval("Name") %>
-                                                <br />
-                                                <span>
-                                                    <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="col col-md-2 text-center d-flex" style="vertical-align: middle !important">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                            </div>
-                                            <asp:LinkButton runat="server" class="btn btn-sm btn-danger text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
-                                                        <i class="bx bx-trash-alt icon"></i>
-                                            </asp:LinkButton>
-                                        </div>
+                    <asp:Repeater runat="server" ID="rptEventList">
+                        <HeaderTemplate>
+                            <table class=" table table- table-sm table-hover table-striped" id="tbl-team-standing">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th class="text-center">Current Event</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr>
+                                <td style="cursor: pointer !important;" onclick="location.href='<%# CommonLinks.EventDetail %>?id=<%# Eval("ID") %>'"><a><%# Eval("Name") %>
+                                    <br />
+                                    <span>
+                                        <i class="bx bx-calendar"></i>&nbsp;<%# Eval("StartDate","{0:MMMM d, yyyy}") %> - <i class="bx bx-calendar"></i>&nbsp;<%# Eval("EndDate","{0:MMMM d, yyyy}") %>
+                                    </span>
+                                </a></td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    <div class="form-check form-switch d-flex">
+                                        <input runat="server" class="form-check-input js-input-type" data-id='<%# Eval("ID") %>' type="checkbox" checked='<%# Eval("IsActive") %>'>
                                     </div>
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    <asp:LinkButton runat="server" class="btn btn-sm btn-danger text-white" OnClientClick="return confirmDelete();" OnCommand="DeleteEvent" CommandArgument='<%# Eval("ID") %>'>
+                                       <i class="bx bx-trash-alt icon"></i>
+                                    </asp:LinkButton></td>
+                            </tr>
 
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </tbody>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
                 </div>
 
                 <script type="text/javascript">
+
+                    $(document).ready(function () {
+                        $('.js-input-type').change(function () {
+                            var id = $(this).data('id');
+                            $.get("/handlers/event-update-handler.ashx", {
+                                id: id,
+                            }).done(function (data) {
+                                location.reload(true);
+                            });
+                        });
+                    });
+
                     function confirmDelete() {
                         return confirm("Are you sure you want to delete this Event?");
                     }

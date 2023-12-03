@@ -1,15 +1,15 @@
 ﻿<%@ Page Language="C#" %>
 
 <script runat="server">
-    private string _EventID = "0";
+    private Event _Event;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        _EventID = TournamentManager.GetEventIDByIsActive().ToString();
+        _Event = TournamentManager.GetEventIDByIsActive();
 
         if (!IsPostBack)
         {
-            ddlRegistration.DataSource = TournamentManager.ReadAllRegistrationCategory(_EventID);
+            ddlRegistration.DataSource = TournamentManager.ReadAllRegistrationCategory(_Event.ID);
             ddlRegistration.DataBind();
             ddlRegistration.Items.Insert(0, new ListItem("Select Category", "0"));
         }
@@ -44,7 +44,8 @@
         <form runat="server" id="form" class="register-container-form">
             <figure class="text-center">
                 <blockquote class="blockquote">
-                    <h3>Tournament Registration</h3>
+                    <h1 style="color: #e84a5f !important;"><b><%= _Event.Name %></b></h1>
+                    <h4>Tournament Registration</h4>
                 </blockquote>
                 <figcaption class="blockquote-footer">DAVZ RACING 
                 </figcaption>
@@ -79,12 +80,12 @@
             </div>
             <br />
             <div class="form-footer d-flex flex-column">
-                <button type="button" class="btn-submit-registration">Submit</button>
+                <button type="button" class="btn-submit-registration"><b>Submit</b></button>
                 <button class="btn btn-success btn-block js-button-submit d-none" type="button" disabled="disabled">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>
-                <button type="button" class="btn-view" onclick="location.href='registration-records.aspx?id=<%= _EventID %>'" style="background-color:green !important;border:1px solid green !important;">View Records</button>
+                <button type="button" class="btn-view" onclick="location.href='registration-records.aspx'" style="background-color: #ffc107 !important; border: 1px solid #ffc107 !important; color: #000 !important;"><b>View Records</b></button>
             </div>
             <button type="button" class="btn btn-primary d-none js-btn-created" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Created
@@ -94,7 +95,7 @@
                     <div class="modal-content">
                         <div class="modal-body text-center">
                             <div class="alert alert-success">
-                                Successfully Created!
+                                Successfully Added!
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -105,6 +106,11 @@
             </div>
             <br />
             <br />
+            <div class="text-center">
+                <span >Powered By:</span>
+                <br />
+                <img src="core/assets/images/davz-logo.png" style="width: 150px;" />
+            </div>
             <script>
                 $(document).ready(function () {
                     $('.btn-submit-registration').click(function () {
@@ -116,7 +122,7 @@
                         $('.js-button-submit').removeClass("d-none");
 
                         $.get("/handlers/matching-registration-create-handler.ashx", {
-                            eventID: <%= _EventID %>,
+                            eventID: <%= _Event.ID %>,
                             riderName: $('.js-rider-name').val(),
                             dragBikeNumber: $('.js-bike-number').val(),
                             teamName: $('.js-team-name').val(),

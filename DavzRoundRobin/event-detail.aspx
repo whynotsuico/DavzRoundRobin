@@ -84,7 +84,9 @@
                         <div class="col col-md-6">
                             <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EntryModal"><i class="bx bx-add-to-queue"></i>&nbsp;New Entry</a>
                         </div>
-
+                        <div class="col col-md-6">
+                            
+                        </div>
                     </div>
                 </div>
             </div>

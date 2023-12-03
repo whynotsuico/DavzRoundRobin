@@ -14,5 +14,10 @@ AS
 		, Tournament_Event_End_Date = @Event_EndDate
 		, Tournament_Event_Is_Active = @Event_IsActive
 	WHERE
-		Tournament_Event_ID = @Event_ID
+	Tournament_Event_ID = @Event_ID
+
+
+   UPDATE Tournament_Event
+   SET Tournament_Event_Is_Active = 0
+   WHERE Tournament_Event_ID <> @Event_ID
 

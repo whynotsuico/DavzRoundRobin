@@ -2,10 +2,13 @@
 
 <%@ Import Namespace="System.Data" %>
 <script runat="server">
+    private Event _Event;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(Request["id"]).ToList();
+        _Event = TournamentManager.GetEventIDByIsActive();
+
+        var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
         ddlFilterCategory.DataSource = lstEventCategory;
         ddlFilterCategory.DataBind();
@@ -13,7 +16,7 @@
     }
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
-        rptEntryList.DataSource = TournamentManager.GetAllRegistrationByEventID(Request["id"], ddlFilterCategory.SelectedValue).Tables[0];
+        rptEntryList.DataSource = TournamentManager.GetAllRegistrationByEventID(_Event.ID, ddlFilterCategory.SelectedValue).Tables[0];
         rptEntryList.DataBind();
     }
 
@@ -48,11 +51,13 @@
         <form runat="server" id="form">
             <figure class="text-center">
                 <blockquote class="blockquote">
-                    <h3>Tournament Registration</h3>
+                    <h1 style="color: #e84a5f !important;"><b><%= _Event.Name %></b></h1>
+                    <h4>Tournament Registration</h4>
                 </blockquote>
                 <figcaption class="blockquote-footer">DAVZ RACING 
                 </figcaption>
             </figure>
+            <br />
             <br />
             <div class="card">
                 <div class="card-header">
@@ -116,6 +121,13 @@
                     <br />
                 </ItemTemplate>
             </asp:Repeater>
+            <br />
+            <br />
+            <div class="text-center">
+                <span>Powered By:</span>
+                <br />
+                <img src="core/assets/images/davz-logo.png" style="width: 150px;" />
+            </div>
         </form>
 
     </div>

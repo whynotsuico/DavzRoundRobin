@@ -57,8 +57,14 @@ namespace Davz.Tournament
 
             foreach (var match in bracketList)
             {
-                var leftPlayer = Registration.Read(match.Item1);
-                var rightPlayer = Registration.Read(match.Item2);
+                Registration leftPlayer = null;
+                Registration rightPlayer = null;
+
+                if (match.Item1 != "BYE")
+                    leftPlayer = Registration.Read(match.Item1);
+
+                if (match.Item2 != "BYE")
+                    rightPlayer = Registration.Read(match.Item2);
 
                 var rightRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
                 var rightTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
@@ -76,7 +82,8 @@ namespace Davz.Tournament
 
 
                 //Update
-                if (leftPlayer != null) {
+                if (leftPlayer != null)
+                {
                     leftPlayer.IsAlreadyBracket = true;
                     leftPlayer.Update();
                 }

@@ -58,7 +58,7 @@
     {
         List<string> bikernumbers = new List<string>();
 
-        var registrations = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
+        var registrations = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID).Where(x => !x.IsAlreadyBracket);
 
         // Take a random set of registrations
         var randomRegistrations = registrations.OrderBy(x => Guid.NewGuid()).Take(int.Parse(ddlAutoGenerateBracket.SelectedValue));
