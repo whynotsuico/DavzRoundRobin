@@ -12,7 +12,6 @@ namespace Davz.Tournament
         {
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
-            Random rng = new Random();
 
             if (n % 2 == 1)
             {
@@ -25,16 +24,12 @@ namespace Davz.Tournament
                 List<string> l1 = teams.GetRange(0, n / 2);
                 List<string> l2 = teams.GetRange(n / 2, n / 2);
 
-                // Randomly determine which side each bike number should be on
-                for (int j = 0; j < n / 2; j++)
+                // Rotate positions of teams in the right side
+                if (i % 2 == 1)
                 {
-                    if (rng.Next(2) == 1)
-                    {
-                        // Swap positions
-                        string temp = l1[j];
-                        l1[j] = l2[j];
-                        l2[j] = temp;
-                    }
+                    string temp = l2[0];
+                    l2.RemoveAt(0);
+                    l2.Add(temp);
                 }
 
                 List<Tuple<string, string>> round = new List<Tuple<string, string>>();
@@ -46,9 +41,10 @@ namespace Davz.Tournament
 
                 schedule.AddRange(round);
 
-                // Rotate the teams in the list
-                teams.Insert(1, teams[n - 1]);
-                teams.RemoveAt(n);
+                // Rotate the teams in the list, including the first team
+                string firstTeam = teams[0];
+                teams.RemoveAt(0);
+                teams.Add(firstTeam);
             }
 
             return schedule;
@@ -101,6 +97,7 @@ namespace Davz.Tournament
 
             AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
         }
+
 
 
     }
