@@ -49,6 +49,8 @@
         }
 
         RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
+
+        Response.Redirect(Request.RawUrl);
     }
 
     protected void btnGenerateBracket_Click(object sender, EventArgs e)
@@ -65,6 +67,8 @@
         }
 
         RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
+
+        Response.Redirect(Request.RawUrl);
     }
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)

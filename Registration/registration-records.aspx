@@ -14,11 +14,14 @@
             Response.End();
         }
 
-        var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
+        if (!IsPostBack)
+        {
+            var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
-        ddlFilterCategory.DataSource = lstEventCategory;
-        ddlFilterCategory.DataBind();
-        ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "-1"));
+            ddlFilterCategory.DataSource = lstEventCategory;
+            ddlFilterCategory.DataBind();
+            ddlFilterCategory.Items.Insert(0, new ListItem("Select Category", "-1"));
+        }
     }
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {

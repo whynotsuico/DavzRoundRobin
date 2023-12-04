@@ -24,10 +24,12 @@ namespace Davz.Tournament
                 List<string> l1 = teams.GetRange(0, n / 2);
                 List<string> l2 = teams.GetRange(n / 2, n / 2);
 
-                // Swap sides alternately in each round
+                // Rotate positions of teams in the right side
                 if (i % 2 == 1)
                 {
-                    (l1, l2) = (l2, l1);
+                    string temp = l2[0];
+                    l2.RemoveAt(0);
+                    l2.Add(temp);
                 }
 
                 List<Tuple<string, string>> round = new List<Tuple<string, string>>();
@@ -39,8 +41,10 @@ namespace Davz.Tournament
 
                 schedule.AddRange(round);
 
-                teams.Insert(1, teams[n - 1]);
-                teams.RemoveAt(n);
+                // Rotate the teams in the list, including the first team
+                string firstTeam = teams[0];
+                teams.RemoveAt(0);
+                teams.Add(firstTeam);
             }
 
             return schedule;
@@ -56,22 +60,16 @@ namespace Davz.Tournament
 
             foreach (var match in bracketList)
             {
-                Registration leftPlayer = null;
-                Registration rightPlayer = null;
+                Registration leftPlayer = Registration.Read(match.Item1);
+                Registration rightPlayer = Registration.Read(match.Item2);
 
-                if (match.Item1 != "BYE")
-                    leftPlayer = Registration.Read(match.Item1);
+                var rightRiderName = rightPlayer.RiderName;
+                var rightTeamName = rightPlayer.TeamName;
+                var rightDragBikeNumber = rightPlayer.DragBikeNumber;
 
-                if (match.Item2 != "BYE")
-                    rightPlayer = Registration.Read(match.Item2);
-
-                var rightRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
-                var rightTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
-                var rightDragBikeNumber = leftPlayer == null ? "BYE" : leftPlayer.DragBikeNumber;
-
-                var leftRiderName = rightPlayer == null ? "BYE" : rightPlayer.RiderName;
-                var leftTeamName = rightPlayer == null ? "BYE" : rightPlayer.TeamName;
-                var leftDragBikeNumber = rightPlayer == null ? "BYE" : rightPlayer.DragBikeNumber;
+                var leftRiderName = leftPlayer.RiderName;
+                var leftTeamName = leftPlayer.TeamName;
+                var leftDragBikeNumber = leftPlayer.DragBikeNumber;
 
                 Matching.Create(roundNumber++,
                                 rightRiderName, leftRiderName,
@@ -79,20 +77,12 @@ namespace Davz.Tournament
                                 rightDragBikeNumber, leftDragBikeNumber,
                                 "", "", matchingBracket.ID, false);
 
+                // Update
+                leftPlayer.IsAlreadyBracket = true;
+                leftPlayer.Update();
 
-                //Update
-                if (leftPlayer != null)
-                {
-                    leftPlayer.IsAlreadyBracket = true;
-                    leftPlayer.Update();
-                }
-
-                if (rightPlayer != null)
-                {
-                    rightPlayer.IsAlreadyBracket = true;
-                    rightPlayer.Update();
-                }
-
+                rightPlayer.IsAlreadyBracket = true;
+                rightPlayer.Update();
             }
         }
 
@@ -100,11 +90,12 @@ namespace Davz.Tournament
         {
             Random rng = new Random();
 
-            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.ToList());
+            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.OrderBy(x => rng.Next()).ToList());
 
             AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
-
         }
+
+
 
     }
 }
