@@ -28,6 +28,26 @@ namespace Davz.Tournament
             return events;
         }
 
+        public static Registration ReadBikeNumberByBikeNumber(string BikeNumber)
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            Registration reg = null;
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("Read_Event_ID_By_Is_Active_True", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@bikeNumber", BikeNumber);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                reg = new Registration();
+                reg.ExtractFromReader(dr);
+            }
+            conn.Close();
+
+            return reg;
+        }
+
+
         public static DataTable GetAllWinnersAndLosersByMatchingBracketID(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);
