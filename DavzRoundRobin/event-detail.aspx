@@ -43,8 +43,16 @@
 
     protected void btnCreateEntry_Click(object sender, EventArgs e)
     {
+        Registration reg = TournamentManager.ReadBikeNumberByBikeNumber(txtBikeNumber.Text);
+
+        if (reg != null)
+        {
+            pnlViewAlreadyExist.Visible = true;
+            return;
+        }
 
         Registration.Create(_Event.ID, txtRiderName.Text, txtBikeNumber.Text, ddlCategory.SelectedValue, txtTeamName.Text);
+
 
         Response.Redirect(Request.RawUrl);
     }
@@ -78,7 +86,11 @@
             <li class="breadcrumb-item active" aria-current="page">Event Detail</li>
         </ol>
     </nav>
-
+    <asp:PlaceHolder runat="server" ID="pnlViewAlreadyExist" Visible="false">
+        <div class="alert alert-danger" role="alert">
+            A bike number that already exists cannot be created.
+        </div>
+    </asp:PlaceHolder>
     <div class="row">
         <div class="col col-md-8">
             <div class="card">

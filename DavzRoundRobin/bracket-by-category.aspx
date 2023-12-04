@@ -78,7 +78,7 @@
 
     protected void DeleteEntry(object sender, CommandEventArgs e)
     {
-        MatchingBracket.Delete(e.CommandArgument.ToString());
+        MatchingBracket.Delete(ddlBracket.SelectedValue);
         Response.Redirect(Request.RawUrl);
     }
 </script>
@@ -218,9 +218,6 @@
                     <div class="card-header">
                         <b>Match List</b>
                         <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
-                        <asp:LinkButton runat="server" class="btn btn-sm btn-danger float-end" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry" CommandArgument='<%= ddlBracket.SelectedValue %>'>
-                             <i class="bx bx-trash-alt icon"></i>
-                        </asp:LinkButton>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
@@ -242,6 +239,11 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                         </ul>
+                    </div>
+                    <div class="card-footer text-center">
+
+                        <asp:LinkButton runat="server" class="btn  btn-primary" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry">Delete
+                        </asp:LinkButton>
                     </div>
                     <script type="text/javascript">
                         function confirmDelete() {

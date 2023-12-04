@@ -33,7 +33,7 @@ namespace Davz.Tournament
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             Registration reg = null;
             conn.Open();
-            SqlCommand cmd = new SqlCommand("Read_Event_ID_By_Is_Active_True", conn);
+            SqlCommand cmd = new SqlCommand("Read_Bike_Number_By_Bike_Number", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@bikeNumber", BikeNumber);
             SqlDataReader dr = cmd.ExecuteReader();
