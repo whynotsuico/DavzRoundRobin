@@ -28,7 +28,7 @@ namespace Davz.Tournament
             return events;
         }
 
-        public static Registration ReadBikeNumberByBikeNumber(string BikeNumber)
+        public static Registration ReadBikeNumberByBikeNumber(string BikeNumber, string CategoryID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             Registration reg = null;
@@ -36,6 +36,7 @@ namespace Davz.Tournament
             SqlCommand cmd = new SqlCommand("Read_Bike_Number_By_Bike_Number", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@bikeNumber", BikeNumber);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
