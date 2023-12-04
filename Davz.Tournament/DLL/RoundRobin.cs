@@ -12,7 +12,6 @@ namespace Davz.Tournament
         {
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
-            Random rng = new Random();
 
             if (n % 2 == 1)
             {
@@ -25,16 +24,10 @@ namespace Davz.Tournament
                 List<string> l1 = teams.GetRange(0, n / 2);
                 List<string> l2 = teams.GetRange(n / 2, n / 2);
 
-                // Randomly determine which side each bike number should be on
-                for (int j = 0; j < n / 2; j++)
+                // Swap sides alternately in each round
+                if (i % 2 == 1)
                 {
-                    if (rng.Next(2) == 1)
-                    {
-                        // Swap positions
-                        string temp = l1[j];
-                        l1[j] = l2[j];
-                        l2[j] = temp;
-                    }
+                    (l1, l2) = (l2, l1);
                 }
 
                 List<Tuple<string, string>> round = new List<Tuple<string, string>>();
@@ -46,16 +39,12 @@ namespace Davz.Tournament
 
                 schedule.AddRange(round);
 
-                // Rotate the teams in the list
                 teams.Insert(1, teams[n - 1]);
                 teams.RemoveAt(n);
             }
 
             return schedule;
         }
-
-
-
 
         public static void AssignedMatchAndSaveToDataBase(List<Tuple<string, string>> bracketList, string eventID, string categoryID)
         {
@@ -67,16 +56,22 @@ namespace Davz.Tournament
 
             foreach (var match in bracketList)
             {
-                Registration leftPlayer = Registration.Read(match.Item1);
-                Registration rightPlayer = Registration.Read(match.Item2);
+                Registration leftPlayer = null;
+                Registration rightPlayer = null;
 
-                var rightRiderName = rightPlayer.RiderName;
-                var rightTeamName = rightPlayer.TeamName;
-                var rightDragBikeNumber = rightPlayer.DragBikeNumber;
+                if (match.Item1 != "BYE")
+                    leftPlayer = Registration.Read(match.Item1);
 
-                var leftRiderName = leftPlayer.RiderName;
-                var leftTeamName = leftPlayer.TeamName;
-                var leftDragBikeNumber = leftPlayer.DragBikeNumber;
+                if (match.Item2 != "BYE")
+                    rightPlayer = Registration.Read(match.Item2);
+
+                var rightRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
+                var rightTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
+                var rightDragBikeNumber = leftPlayer == null ? "BYE" : leftPlayer.DragBikeNumber;
+
+                var leftRiderName = rightPlayer == null ? "BYE" : rightPlayer.RiderName;
+                var leftTeamName = rightPlayer == null ? "BYE" : rightPlayer.TeamName;
+                var leftDragBikeNumber = rightPlayer == null ? "BYE" : rightPlayer.DragBikeNumber;
 
                 Matching.Create(roundNumber++,
                                 rightRiderName, leftRiderName,
@@ -84,12 +79,20 @@ namespace Davz.Tournament
                                 rightDragBikeNumber, leftDragBikeNumber,
                                 "", "", matchingBracket.ID, false);
 
-                // Update
-                leftPlayer.IsAlreadyBracket = true;
-                leftPlayer.Update();
 
-                rightPlayer.IsAlreadyBracket = true;
-                rightPlayer.Update();
+                //Update
+                if (leftPlayer != null)
+                {
+                    leftPlayer.IsAlreadyBracket = true;
+                    leftPlayer.Update();
+                }
+
+                if (rightPlayer != null)
+                {
+                    rightPlayer.IsAlreadyBracket = true;
+                    rightPlayer.Update();
+                }
+
             }
         }
 
@@ -100,8 +103,8 @@ namespace Davz.Tournament
             List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.ToList());
 
             AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
-        }
 
+        }
 
     }
 }
