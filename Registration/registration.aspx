@@ -100,8 +100,12 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center">
-                            <div class="alert alert-success">
+                            <div class="alert alert-success d-none success" role="alert">
                                 Successfully Added!
+                            </div>
+                            <div class="alert alert-danger d-none failed" role="alert">
+                                A bike number that already exists cannot be created.
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -134,9 +138,13 @@
                             teamName: $('.js-team-name').val(),
                             categoryID: $('.js-category').val()
                         }).done(function (data) {
+                            if (data === "failed") {
+                                $('.failed').removeClass("d-none");
+                            } else {
+                                $('.success').removeClass("d-none");
+                            }
                             $('.js-button-submit').addClass("d-none");
                             $sender.show();
-
                             $('.js-btn-created').click();
                         });
                         return false;

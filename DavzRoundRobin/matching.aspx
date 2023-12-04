@@ -79,6 +79,7 @@
     <link type="text/css" href="core/assets/css/custom.matching.css" rel="stylesheet">
     <link type="text/css" href="core/assets/css/boxicons.min.css" rel="stylesheet">
 
+
     <script src="core/assets/js/popper.min.js" type="text/javascript"></script>
     <script src="core/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="core/assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
@@ -142,7 +143,12 @@
                 });
             </script>
             <div class="row">
+
                 <div class="col col-md-7">
+                    <div class="pyro d-none">
+                        <div class="before"></div>
+                        <div class="after"></div>
+                    </div>
                     <div class="card full-height-container gradient-border  ">
                         <div class="flex-main-screen  ">
                             <div class="word"></div>
@@ -162,36 +168,36 @@
                                     <br />
                                     <div class="flex-container text-center">
                                         <div class="flex-item">
-                                            <h1 class="main-number js-left-winner-bike-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></h1>
+                                            <h1 class="main-number js-left-winner-bike-number  cssanimation leFadeInLeft"><%# Eval("Tournament_Matching_Left_Bike_Number") %></h1>
                                         </div>
                                         <div class="flex-item">
                                             <%--  <h1 class="animate-charcter main-vs">VS</h1>--%>
                                         </div>
                                         <div class="flex-item">
-                                            <h1 class="main-number js-right-winner-bike-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
+                                            <h1 class="main-number js-right-winner-bike-number  cssanimation leFadeInRight"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
                                         </div>
                                     </div>
                                     <br />
                                     <div class="flex-container text-center">
                                         <div class="flex-item">
-                                            <h5 class="main-team-name js-left-team-name"><%# Eval("Tournament_Matching_Left_Team_Name") %></h5>
+                                            <h5 class="main-team-name js-left-team-name  cssanimation leFadeIn"><%# Eval("Tournament_Matching_Left_Team_Name") %></h5>
                                         </div>
                                         <div class="flex-item">
                                         </div>
                                         <div class="flex-item">
-                                            <h5 class="main-team-name js-right-team-name"><%# Eval("Tournament_Matching_Right_Team_Name") %></h5>
+                                            <h5 class="main-team-name js-right-team-name  cssanimation leFadeIn"><%# Eval("Tournament_Matching_Right_Team_Name") %></h5>
                                         </div>
                                     </div>
                                 </ItemTemplate>
                             </asp:Repeater>
                         </div>
-                        <div class="up-next-section">
+                        <div class="up-next-section cssanimation  leFadeInTop">
                             <div class="upnext-text">
                                 NEXT MATCH
                             </div>
                             <asp:Repeater runat="server" ID="rptNextMatch">
                                 <ItemTemplate>
-                                    <div class="flex-container gradient-upnext  next-match-div text-center" <%# getFontSize(Container.ItemIndex) %>>
+                                    <div class="flex-container gradient-upnext  next-match-div text-center " <%# getFontSize(Container.ItemIndex) %>>
                                         <div class="flex-item">
                                             <span><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
                                         </div>
@@ -324,13 +330,13 @@
                                         $.get("/handlers/matching-update-handler.ashx", { id: id, winnerNumber: winnernumber, losserNumber: lossernumber })
                                             .done(function (data) {
                                                 $('.js-btn-created').click();
-
+                                                $('.pyro').removeClass("d-none");;
                                                 $('.js-pop-up-number').text(winnernumber);
                                                 $('.js-pop-up-name').text(teamname);
 
                                                 setTimeout(function () {
                                                     location.reload(true);
-                                                }, 1500); // 500 milliseconds = 0.5 seconds
+                                                }, 2500); // 500 milliseconds = 0.5 seconds
 
                                             });
                                         return false;
@@ -361,12 +367,11 @@
                 Created
             </button>
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
+                <div class="modal-dialog modal-dialog-centered" >
+                    <div class="modal-content  modal-background-winner" style="width:1200px !important;">
                         <div class="modal-body text-center">
-                            <h1>Winner</h1>
+                            <h1 class="winner-modal-h1 ">Winner</h1>
                             <h2 class="js-pop-up-number"></h2>
-                            <br />
                             <h5 class="js-pop-up-name"></h5>
                         </div>
                     </div>

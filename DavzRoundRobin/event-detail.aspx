@@ -43,7 +43,7 @@
 
     protected void btnCreateEntry_Click(object sender, EventArgs e)
     {
-        Registration reg = TournamentManager.ReadBikeNumberByBikeNumber(txtBikeNumber.Text);
+        Registration reg = TournamentManager.ReadBikeNumberByBikeNumber(txtBikeNumber.Text, ddlCategory.SelectedValue);
 
         if (reg != null)
         {

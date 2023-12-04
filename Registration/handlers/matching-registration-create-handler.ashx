@@ -22,11 +22,17 @@ public class matching_registration_create_handler : IHttpHandler
         string teamName = context.Request["teamName"];
 
         string s = string.Empty;
+        Registration reg = TournamentManager.ReadBikeNumberByBikeNumber(dragBikeNumber, categoryID);
 
-        var registration = Registration.Create(eventID, riderName, dragBikeNumber, categoryID, teamName);
-
-        if (registration != null)
-            s = JsonConvert.SerializeObject(registration);
+        if (reg != null)
+        {
+            s = "failed";
+        }
+        else
+        {
+            var registration = Registration.Create(eventID, riderName, dragBikeNumber, categoryID, teamName);
+            s = "success";
+        }
 
         context.Response.Write(s);
     }
