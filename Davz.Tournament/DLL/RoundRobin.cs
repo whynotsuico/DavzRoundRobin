@@ -60,16 +60,22 @@ namespace Davz.Tournament
 
             foreach (var match in bracketList)
             {
-                Registration leftPlayer = Registration.Read(match.Item1);
-                Registration rightPlayer = Registration.Read(match.Item2);
+                Registration leftPlayer = null;
+                Registration rightPlayer = null;
 
-                var rightRiderName = rightPlayer.RiderName;
-                var rightTeamName = rightPlayer.TeamName;
-                var rightDragBikeNumber = rightPlayer.DragBikeNumber;
+                if (match.Item1 != "BYE")
+                    leftPlayer = Registration.Read(match.Item1);
 
-                var leftRiderName = leftPlayer.RiderName;
-                var leftTeamName = leftPlayer.TeamName;
-                var leftDragBikeNumber = leftPlayer.DragBikeNumber;
+                if (match.Item2 != "BYE")
+                    rightPlayer = Registration.Read(match.Item2);
+
+                var leftRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
+                var leftTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
+                var leftDragBikeNumber = leftPlayer == null ? "BYE" : leftPlayer.DragBikeNumber;
+
+                var rightRiderName = rightPlayer == null ? "BYE" : rightPlayer.RiderName;
+                var rightTeamName = rightPlayer == null ? "BYE" : rightPlayer.TeamName;
+                var rightDragBikeNumber = rightPlayer == null ? "BYE" : rightPlayer.DragBikeNumber;
 
                 Matching.Create(roundNumber++,
                                 rightRiderName, leftRiderName,
@@ -77,20 +83,26 @@ namespace Davz.Tournament
                                 rightDragBikeNumber, leftDragBikeNumber,
                                 "", "", matchingBracket.ID, false);
 
-                // Update
-                leftPlayer.IsAlreadyBracket = true;
-                leftPlayer.Update();
 
-                rightPlayer.IsAlreadyBracket = true;
-                rightPlayer.Update();
+                //Update
+                if (leftPlayer != null)
+                {
+                    leftPlayer.IsAlreadyBracket = true;
+                    leftPlayer.Update();
+                }
+
+                if (rightPlayer != null)
+                {
+                    rightPlayer.IsAlreadyBracket = true;
+                    rightPlayer.Update();
+                }
             }
         }
 
         public static void GenerateMatchBracket(List<string> bikerNumbers, string eventID, string categoryID)
         {
-            Random rng = new Random();
 
-            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.OrderBy(x => rng.Next()).ToList());
+            List<Tuple<string, string>> bracketMatch = GenerateRoundRobinSchedule(bikerNumbers.ToList());
 
             AssignedMatchAndSaveToDataBase(bracketMatch, eventID, categoryID);
         }

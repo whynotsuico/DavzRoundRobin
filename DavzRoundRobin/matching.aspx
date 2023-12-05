@@ -250,7 +250,7 @@
                             </table>
                         </FooterTemplate>
                     </asp:Repeater>
-                   
+
                 </div>
             </div>
             <style>
@@ -292,6 +292,14 @@
                             case "skip":
                                 SkipMatch();
                                 break;
+                            case "reload":
+                                location.reload(true);
+                                break;
+                            case "redirect":
+                                const redirectURL = 'matching.aspx?bracketID=' + user;
+                                // Redirect to the specified URL
+                                window.location.href = redirectURL;
+                                break;
                         }
                     });
 
@@ -326,6 +334,8 @@
                                 $('.pyro').removeClass("d-none");;
                                 $('.js-pop-up-number').text(winnernumber);
                                 $('.js-pop-up-name').text(teamname);
+
+                                hub.invoke('send', "wilrey", "reload");
 
                                 setTimeout(function () {
                                     location.reload(true);

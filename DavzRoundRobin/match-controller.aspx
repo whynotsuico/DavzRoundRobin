@@ -67,7 +67,7 @@
             <li class="breadcrumb-item active" aria-current="page"><%= _MatchingBracket.BracketName %></li>
         </ol>
     </nav>
-    <div class="alert alert-info" role="alert">
+    <%-- <div class="alert alert-info" role="alert">
         <b>Please set up your matching user interface (see the instructions below) in order to use this match controller.</b>
         <ol>
             <li>Click "Matching UI" in the left sidebar.
@@ -79,6 +79,17 @@
             <li>Await the full loading of the page.
             </li>
             <li>You're ready to go. "HAPPY RACING"
+            </li>
+        </ol>
+    </div>--%>
+
+
+    <div class="alert alert-info" role="alert">
+        <b style="font-size: 14px;">Please set up your matching user interface (see the instructions below) in order to use this match controller.</b>
+        <ol style="font-size: 13px;">
+            <li>Click "Matching UI" in the left sidebar  
+            </li>
+            <li>Click Generate Matching UI. <a href="javascript:;" data-action-type="matchinguicontrol">[Generate Matching UI]</a>
             </li>
         </ol>
     </div>
@@ -156,6 +167,7 @@
             </div>
         </div>
         <div class="col col-md-5">
+
             <div class="card">
                 <div class="card-header">
                     <b>Match History</b>
@@ -202,9 +214,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <b>
-                            <h5 class="modal-title" id="staticBackdropLabel">Team  Standing</h5>
-                        </b>
+                        <h5 class="modal-title" id="staticBackdropLabel"><b>Team  Standing</b></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -242,15 +252,52 @@
                 </div>
             </div>
         </div>
+        <button type="button" class="btn btn-primary d-none js-btn-match-created" data-bs-toggle="modal" data-bs-target="#LoadingMatchController">
+            Created
+        </button>
+        <div class="modal fade" id="LoadingMatchController" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="text-center">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-success" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-dark" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script>
         $(function () {
+
             // Establish a connection to the SignalR hub
             var connection = $.hubConnection();
             var hub = connection.createHubProxy('myHub');
 
             hub.on('receiveMessage', function (user, message) {
 
+                if (message == "reload")
+                    location.reload(true);
             });
 
             // Start the SignalR connection
@@ -277,25 +324,34 @@
                             hub.invoke('send', "wilrey", "skip");
                             break;
                     }
-                    location.reload(true);
+
+                    $('.js-btn-match-created').click();
                 }
 
-                location.reload(true);
+                return false;
             });
+
+            $('[data-action-type="swapwinner"]').click(function () {
+                var $sender = $(this);
+
+                var confirmed = confirm("Are you sure you want to swap winner?");
+
+                if (confirmed) {
+
+                    $.get("/handlers/matching-swap-winner-handler.ashx", { id: $sender.data("id") })
+                        .done(function (data) {
+                            hub.invoke('send', "wilrey", "reload");
+                            location.reload(true);
+                        });
+                }
+            });
+
+            $('[data-action-type="matchinguicontrol"]').click(function () {
+                hub.invoke('send', <%= _MatchingBracket.ID%>, "redirect");
+            });
+
         });
 
-        $('[data-action-type="swapwinner"]').click(function () {
-            var $sender = $(this);
-
-            var confirmed = confirm("Are you sure you want to swap winner?");
-
-            $.get("/handlers/matching-swap-winner-handler.ashx", { id: $sender.data("id") })
-                .done(function (data) {
-                    location.reload(true);
-                });
-        });
     </script>
-
-
 </asp:Content>
 
