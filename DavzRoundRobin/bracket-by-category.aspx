@@ -25,13 +25,8 @@
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        pnlViewMatchList.Visible = ddlBracket.SelectedValue != "0";
-
         rptCategoryItems.DataSource = TournamentManager.ReadAllRegistrationByCategoryAndEventID(_RegistrationCategory.ID, _Event.ID);
         rptCategoryItems.DataBind();
-
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingID(ddlBracket.SelectedValue);
-        rptMatchList.DataBind();
     }
 
     protected void btnAutoGenerateMatch_Click(object sender, EventArgs e)
@@ -48,7 +43,8 @@
             bikernumbers.Add(reg.ID);
         }
 
-        RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
+        if (bikernumbers.Count() > 0)
+            RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
 
         Response.Redirect(Request.RawUrl);
     }
@@ -66,7 +62,8 @@
                 bikernumbers.Add(hfID.Value);
         }
 
-        RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
+        if (bikernumbers.Count() > 0)
+            RoundRobin.GenerateMatchBracket(bikernumbers, _Event.ID, _RegistrationCategory.ID);
 
         Response.Redirect(Request.RawUrl);
     }
@@ -76,11 +73,7 @@
         Response.Redirect($"{CommonLinks.MatchController}?id={ddlBracket.SelectedValue}");
     }
 
-    protected void DeleteEntry(object sender, CommandEventArgs e)
-    {
-        MatchingBracket.Delete(ddlBracket.SelectedValue);
-        Response.Redirect(Request.RawUrl);
-    }
+   
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -168,7 +161,7 @@
                 <div class="card-footer text-muted text-center">
                     <a href="javascript:;" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#EventGenerateBracket"><i class="bx bx-add-to-queue"></i>&nbsp;Auto Generate Bracket</a>
 
-                    <asp:Button runat="server" CssClass="btn btn-primary" ID="btnGenerateBracket" OnClick="btnGenerateBracket_Click" Text="Generate Bracket" />
+                    <asp:Button runat="server" CssClass="btn btn-primary" ID="btnGenerateBracket" OnClientClick="return confirmGenerateButton();" OnClick="btnGenerateBracket_Click" Text="Generate Bracket" />
                 </div>
             </div>
 
@@ -190,14 +183,18 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAutoGenerateMatch" OnClick="btnAutoGenerateMatch_Click" Text="Generate Bracket" />
+                            <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAutoGenerateMatch"  OnClientClick="return confirmGenerateButton();" OnClick="btnAutoGenerateMatch_Click" Text="Generate Bracket" />
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <script type="text/javascript">
+            function confirmGenerateButton() {
+                return confirm("Are you sure you want to generate a bracket?");
+            }
+        </script>
         <div class="col col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -213,45 +210,6 @@
                 </div>
             </div>
             <br />
-            <asp:PlaceHolder runat="server" ID="pnlViewMatchList">
-                <div class="card">
-                    <div class="card-header">
-                        <b>Match List</b>
-                        <a href='<%= CommonLinks.MatchController %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <asp:Repeater runat="server" ID="rptMatchList">
-                                <ItemTemplate>
-                                    <li class="list-group-item">
-                                        <div class="flex-container text-center">
-                                            <div class="flex-item">
-                                                <span class="main-number"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
-                                            </div>
-                                            <div class="flex-item">
-                                                <span class="animate-charcter main-vs">VS</span>
-                                            </div>
-                                            <div class="flex-item">
-                                                <span class="main-number"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </ul>
-                    </div>
-                    <div class="card-footer text-center">
-
-                        <asp:LinkButton runat="server" class="btn  btn-primary" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry">Delete
-                        </asp:LinkButton>
-                    </div>
-                    <script type="text/javascript">
-                        function confirmDelete() {
-                            return confirm("Are you sure you want to delete this Bracket?");
-                        }
-                    </script>
-                </div>
-            </asp:PlaceHolder>
         </div>
     </div>
 

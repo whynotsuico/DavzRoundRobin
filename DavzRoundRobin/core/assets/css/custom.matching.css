@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column; /* Stack the flex containers vertically */
     justify-content: center; /* Center the flex containers vertically */
-    height: 58vh; /* Set the height to the full viewport height */
+    height: 68vh; /* Set the height to the full viewport height */
 }
 
 .flex-container {
@@ -37,7 +37,7 @@ h1 {
 
 .animate-charcter {
     text-transform: uppercase;
-    background-image: linear-gradient( -225deg, #e84a5f 0%, #44107a 29%, #ff1361 67%, #fff800 100% );
+    background-image: linear-gradient( -225deg, #fff7f8 0%, #e9d7fb 29%, #ea0c00 67%, #ffc600 100% );
     background-size: auto auto;
     background-clip: border-box;
     background-size: 200% auto;
@@ -171,7 +171,7 @@ h1 {
 }
 
 .main-identity {
-    font-size: 3rem;
+    font-size: 2rem;
     color: #e84a5f;
     text-transform: uppercase;
     font-weight: bold;
@@ -194,13 +194,11 @@ h1 {
 
 .word {
     margin: auto;
-    color: white;
     font: 700 normal 2.5em 'tahoma';
-    text-shadow: 5px 2px #222324, 2px 4px #222324, 3px 5px #222324;
 }
 
 table {
-    line-height: 58.5px;
+    line-height: 43px;
     border-spacing: 0;
 }
 
@@ -230,7 +228,7 @@ table {
 }
 
 .up-next-section {
-    margin-top: 99px;
+    margin-top: 34px;
 }
 
 .pyro {
@@ -538,7 +536,7 @@ table {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translate3d(0, 100%, 0);
+        transform: translateZ();
     }
 
     to {

@@ -56,7 +56,9 @@ namespace Davz.Tournament
 
             var lst = TournamentManager.GetAllMatchingBracketByCategoryIDAndEventID(categoryID, eventID).Count();
 
-            var matchingBracket = MatchingBracket.Create(eventID, $"Bracket {lst += 1}", categoryID, false);
+            RegistrationCategory regCat = RegistrationCategory.Read(categoryID);
+
+            var matchingBracket = MatchingBracket.Create(eventID, $"{regCat.CategoryName} B-[{lst += 1}]", categoryID, false);
 
             foreach (var match in bracketList)
             {

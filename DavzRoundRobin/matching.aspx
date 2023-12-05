@@ -5,31 +5,36 @@
 <!DOCTYPE html>
 
 <script runat="server">
+    private MatchingBracket _MatchingBracket;
     private int _SortNumber;
 
     protected void Page_PreRenderComplete(object sender, EventArgs e)
     {
-        string matchingBracketID = Request["bracketID"].ToString();
+        _MatchingBracket = MatchingBracket.Read(Request["bracketID"].ToString());
 
-        _SortNumber = TournamentManager.ReadLastSortNumberByMatchingID(matchingBracketID);
 
-        var dt = TournamentManager.GetAllWinnersAndLosersByMatchingBracketID(matchingBracketID);
-        int existingRowCount = dt.Rows.Count;
-
-        for (int i = existingRowCount; i < 10; i++)
+        if (_MatchingBracket != null)
         {
-            DataRow newRow = dt.NewRow();
-            dt.Rows.Add(newRow);
+            _SortNumber = TournamentManager.ReadLastSortNumberByMatchingID(_MatchingBracket?.ID);
+
+            var dt = TournamentManager.GetAllWinnersAndLosersByMatchingBracketID(_MatchingBracket?.ID);
+            int existingRowCount = dt.Rows.Count;
+
+            for (int i = existingRowCount; i < 10; i++)
+            {
+                DataRow newRow = dt.NewRow();
+                dt.Rows.Add(newRow);
+            }
+
+            rptTeamStanding.DataSource = dt;
+            rptTeamStanding.DataBind();
+
+            rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(_MatchingBracket?.ID);
+            rptMatchingNow.DataBind();
+
+            rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(_MatchingBracket?.ID);
+            rptNextMatch.DataBind();
         }
-
-        rptTeamStanding.DataSource = dt;
-        rptTeamStanding.DataBind();
-
-        rptMatchingNow.DataSource = TournamentManager.GetTop1MatchingByMatchingID(matchingBracketID);
-        rptMatchingNow.DataBind();
-
-        rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(matchingBracketID);
-        rptNextMatch.DataBind();
 
     }
 
@@ -93,57 +98,6 @@
     <form id="form1" runat="server">
         <br />
         <div class="matching-container container">
-            <script type="text/javascript">
-
-                $(document).ready(function () {
-                    var words = ['NOW MATCHING...', 'RIDERS READY!'],
-                        part,
-                        i = 0,
-                        offset = 0,
-                        len = words.length,
-                        forwards = true,
-                        skip_count = 0,
-                        skip_delay = 15,
-                        speed = 70;
-                    var wordflick = function () {
-                        setInterval(function () {
-                            if (forwards) {
-                                if (offset >= words[i].length) {
-                                    ++skip_count;
-                                    if (skip_count == skip_delay) {
-                                        forwards = false;
-                                        skip_count = 0;
-                                    }
-                                }
-                            }
-                            else {
-                                if (offset == 0) {
-                                    forwards = true;
-                                    i++;
-                                    offset = 0;
-                                    if (i >= len) {
-                                        i = 0;
-                                    }
-                                }
-                            }
-                            part = words[i].substr(0, offset);
-                            if (skip_count == 0) {
-                                if (forwards) {
-                                    offset++;
-                                }
-                                else {
-                                    offset--;
-                                }
-                            }
-                            $('.word').text(part);
-                        }, speed);
-                    };
-
-                    $(document).ready(function () {
-                        wordflick();
-                    });
-                });
-            </script>
             <div class="row">
 
                 <div class="col col-md-9">
@@ -152,11 +106,11 @@
                         <div class="after"></div>
                     </div>
                     <div class="card full-height-container gradient-border">
-                        <div class="flex-main-screen  ">
-                            <div class="word"></div>
+                        <div class="flex-main-screen">
+                            <div class="word animate-charcter text-center">NOW MATCHING <br /> <%= _MatchingBracket?.BracketName  %></div>
                             <asp:Repeater runat="server" ID="rptMatchingNow">
                                 <ItemTemplate>
-                                    <div class="flex-container text-center">
+                                    <div class="flex-container text-center" style="margin-top:50px !important;">
                                         <span style="color: transparent !important;" class="js-matching-id"><%# Eval("Tournament_Matching_ID") %></span>
                                         <div class="flex-item">
                                             <h5 class="main-identity">Left Lane</h5>
@@ -194,7 +148,7 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                         </div>
-                        <div class="up-next-section cssanimation  leFadeInTop">
+                        <div class="up-next-section cssanimation leFadeInTop">
                             <div class="upnext-text">
                                 NEXT MATCH
                             </div>
@@ -250,6 +204,11 @@
                             </table>
                         </FooterTemplate>
                     </asp:Repeater>
+                    <br />
+                    <div class="text-center">
+                        <h5 style="text-transform: uppercase;">Powered By:</h5>
+                        <img src="core/assets/images/davz-logo.png" style="width: 260px;" />
+                    </div>
 
                 </div>
             </div>
@@ -348,6 +307,9 @@
                         var id = $('.js-matching-id').text();
                         $.get("/handlers/matching-skip-update-handler.ashx", { id: id, sortNumber: <%= _SortNumber %> })
                             .done(function (data) {
+
+                                hub.invoke('send', "wilrey", "reload");
+
                                 location.reload(true);
                             });
                     }

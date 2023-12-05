@@ -4,11 +4,14 @@
     private MatchingBracket _MatchingBracket;
     private Event _Event;
 
-    protected void Page_PreRenderComplete(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
     {
         _MatchingBracket = MatchingBracket.Read(Request["id"].ToString());
         _Event = Event.Read(_MatchingBracket.EventID);
+    }
 
+    protected void Page_PreRenderComplete(object sender, EventArgs e)
+    {
         rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingIDIsDoneFalse(_MatchingBracket.ID);
         rptMatchList.DataBind();
 
@@ -22,6 +25,15 @@
         rptTeamStanding.DataBind();
     }
 
+    protected void DeleteEntry(object sender, CommandEventArgs e)
+    {
+        string oldBracketCategoryID = _MatchingBracket.CategoryID;
+
+        MatchingBracket.Delete(_MatchingBracket.ID);
+
+        Response.Redirect($"{CommonLinks.EventBracketByCategory}?id={_Event.ID}&catid={oldBracketCategoryID}");
+    }
+
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -31,6 +43,7 @@
     <script src="signalr/hubs"></script>
 
     <style>
+
         .btn-control {
             padding: 22px;
             font-size: 1rem !important;
@@ -55,6 +68,11 @@
             padding: 4px 10px 4px 10px;
             border-radius: 0px !important;
             color: black !important;
+        }
+
+        .moda-loading-content {
+            background: transparent !important;
+            border: none !important;
         }
     </style>
 </asp:Content>
@@ -97,7 +115,7 @@
         <div class="col col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <b>Match Controller</b>
+                    <b><%= _MatchingBracket.BracketName %> - Controller</b>
                     <a href="javascript:;" class="btn btn-primary text-white me-0 float-end" data-bs-toggle="modal" data-bs-target="#StandingModal"><i class="bx bx-user-check"></i>&nbsp;View Standing</a>
                 </div>
                 <div class="card-body">
@@ -167,10 +185,16 @@
             </div>
         </div>
         <div class="col col-md-5">
-
+            <script type="text/javascript">
+                function confirmDelete() {
+                    return confirm("Are you sure you want to delete this Bracket?");
+                }
+            </script>
             <div class="card">
                 <div class="card-header">
                     <b>Match History</b>
+                    <asp:LinkButton runat="server" class="btn btn-primary float-end" OnClientClick="return confirmDelete();" OnCommand="DeleteEntry">Delete Bracket
+                    </asp:LinkButton>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
@@ -257,30 +281,34 @@
         </button>
         <div class="modal fade" id="LoadingMatchController" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="text-center">
-                    <div class="spinner-grow text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-success" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-danger" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-warning" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-info" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-light" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="spinner-grow text-dark" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <div class="modal-content moda-loading-content">
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-secondary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-success" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-danger" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-warning" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-info" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-light" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
