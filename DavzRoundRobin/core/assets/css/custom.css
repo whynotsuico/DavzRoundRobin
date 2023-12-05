@@ -6,10 +6,10 @@
     font-style: normal;
 }
 
-    *, *::before, *::after {
-        margin: 0;
-        padding: 0;
-    }
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+}
 
 :root {
     --body-color: #e7e7e7;
@@ -29,7 +29,6 @@
 body {
     min-height: 100vh;
     background-color: var(--body-color);
-    transition: var(--tran-05);
 }
 
 ::selection {

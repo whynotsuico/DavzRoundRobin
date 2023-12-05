@@ -204,15 +204,7 @@
                                 </ItemTemplate>
                                 <FooterTemplate>
                                     </tbody>
-                                            <script type="text/javascript">
-                                                function confirmDelete() {
-                                                    return confirm("Are you sure you want to delete this Entry?");
-                                                }
-
-                                                function confirmRegistrationCategoryDelete() {
-                                                    return confirm("Are you sure you want to delete this Registration Category?");
-                                                }
-                                            </script>
+                                            
                                     </table>
                                 </FooterTemplate>
                             </asp:Repeater>
@@ -222,7 +214,15 @@
                 </ItemTemplate>
             </asp:Repeater>
 
+            <script type="text/javascript">
+                function confirmDelete() {
+                    return confirm("Are you sure you want to delete this Entry?");
+                }
 
+                function confirmRegistrationCategoryDelete() {
+                    return confirm("Are you sure you want to delete this Registration Category?");
+                }
+            </script>
 
         </div>
         <script>
