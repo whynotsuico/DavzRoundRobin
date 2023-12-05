@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column; /* Stack the flex containers vertically */
     justify-content: center; /* Center the flex containers vertically */
-    height: 55vh; /* Set the height to the full viewport height */
+    height: 58vh; /* Set the height to the full viewport height */
 }
 
 .flex-container {
@@ -132,12 +132,13 @@ h1 {
 }
 
 .main-team-name {
-    font-size: 2em !important;
-    color: white;
+    font-size: 3em !important;
     text-transform: uppercase !important;
     font-family: unset;
     font-weight: bold;
-    color: #E84A5F;
+    text-shadow: 0 0 10px red;
+    color: #fff;
+    text-align: center;
 }
 
 .wrapper {
@@ -191,14 +192,6 @@ h1 {
     color: #c7c0c0;
 }
 
-/*
-    .list-group-flush li:nth-child(2n) {
-        background-color: #efefef;
-    }
-
-    .list-group-flush li:nth-child(2n+1) {
-        background-color: #dbdada;
-    }*/
 .word {
     margin: auto;
     color: white;
@@ -207,12 +200,12 @@ h1 {
 }
 
 table {
-    line-height: 40px;
+    line-height: 58.5px;
     border-spacing: 0;
 }
 
     table thead tr:first-child {
-        background: #ed1c40 !important;
+        background: #1d1d1f !important;
         color: #fff;
         border: none;
     }
@@ -561,6 +554,14 @@ table {
     to {
         opacity: 1
     }
+}
+
+.matching-standing {
+    background: url("/core/assets/images/standing.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
 }
 
 .modal-background-winner {

@@ -82,6 +82,23 @@ namespace Davz.Tournament
             return dt;
         }
 
+        public static DataTable GetAllMatchingByMatchingIDIsDoneTrue(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID_Is_Done_True", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
+
         public static int ReadLastSortNumberByMatchingID(string ID)
         {
             SqlConnection con = new SqlConnection(DataBase.ConnectionString);

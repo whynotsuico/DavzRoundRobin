@@ -31,8 +31,6 @@
         rptNextMatch.DataSource = TournamentManager.GetTop3MatchingByMatchingID(matchingBracketID);
         rptNextMatch.DataBind();
 
-        rptMatchList.DataSource = TournamentManager.GetAllMatchingByMatchingIDIsDoneFalse(matchingBracketID);
-        rptMatchList.DataBind();
     }
 
     protected string getFontSize(int index)
@@ -83,6 +81,10 @@
     <script src="core/assets/js/popper.min.js" type="text/javascript"></script>
     <script src="core/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="core/assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="signalr/hubs"></script>
+
     <style>
       
     </style>
@@ -144,12 +146,12 @@
             </script>
             <div class="row">
 
-                <div class="col col-md-7">
+                <div class="col col-md-9">
                     <div class="pyro d-none">
                         <div class="before"></div>
                         <div class="after"></div>
                     </div>
-                    <div class="card full-height-container gradient-border  ">
+                    <div class="card full-height-container gradient-border">
                         <div class="flex-main-screen  ">
                             <div class="word"></div>
                             <asp:Repeater runat="server" ID="rptMatchingNow">
@@ -177,6 +179,7 @@
                                             <h1 class="main-number js-right-winner-bike-number  cssanimation leFadeInRight"><%# Eval("Tournament_Matching_Right_Bike_Number") %></h1>
                                         </div>
                                     </div>
+                                    <br />
                                     <br />
                                     <div class="flex-container text-center">
                                         <div class="flex-item">
@@ -217,14 +220,14 @@
                 <div class="col col-md-3">
                     <asp:Repeater runat="server" ID="rptTeamStanding">
                         <HeaderTemplate>
-                            <table class="list-group-flush table table-striped table-dark" id="tbl-team-standing">
+                            <table class="list-group-flush table  matching-standing" id="tbl-team-standing">
                                 <thead>
                                     <tr>
                                         <th colspan="5">Team Standing</th>
                                     </tr>
                                     <tr>
                                         <th class="list-group-flush text-center">Rank</th>
-                                        <th class="list-group-flush text-center">Team Name</th>
+                                        <th class="list-group-flush text-left">Team Name</th>
                                         <th class="list-group-flush text-center">Bike #</th>
                                         <th class="list-group-flush text-center">W</th>
                                         <th class="list-group-flush text-center">L</th>
@@ -236,10 +239,10 @@
                             <tr>
 
                                 <td class="list-group-flush text-center"><%# Container.ItemIndex + 1%></td>
-                                <td class="list-group-flush text-center"><%# GetCleanString(Eval("TeamName").ToString()) %></td>
-                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("BikeNumber").ToString()) %></td>
-                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("Wins").ToString()) %></td>
-                                <td class="list-group-flush text-center"><%#  GetCleanString(Eval("Losses").ToString()) %></td>
+                                <td class="list-group-flush text-left"><%#  Eval("TeamName").ToString() %></td>
+                                <td class="list-group-flush text-center"><%#  Eval("BikeNumber").ToString() %></td>
+                                <td class="list-group-flush text-center"><%#  Eval("Wins").ToString() %></td>
+                                <td class="list-group-flush text-center"><%#  Eval("Losses").ToString() %></td>
                             </tr>
                         </ItemTemplate>
                         <FooterTemplate>
@@ -247,128 +250,107 @@
                             </table>
                         </FooterTemplate>
                     </asp:Repeater>
-                    <br />
-                    <div class="text-center">
-                        <h3 style="text-transform: uppercase;">Powered By:</h3>
-                        <img src="core/assets/images/davz-logo.png" style="width: 260px;" />
-                    </div>
-                </div>
-                <div class="col col-md-2">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <b>Tournament Controls</b>
-                        </div>
-                        <div class="card-body">
-                            <div class="flex-container text-center">
-                                <div class="flex-item">
-                                    <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="left"><i class="bx bx-left-arrow-alt"></i>Left</a>
-                                </div>
-                                <div class="flex-item">
-                                    <a href="javascript:;" class="btn btn-primary" data-action-type="skipmatch"><i class="bx bx-x-circle"></i>Skip</a>
-                                </div>
-                                <div class="flex-item">
-                                    <a href="javascript:;" class="btn btn-primary" data-action-type="winnerorlosser" data-type="right"><i class="bx bx-right-arrow-alt"></i>Right</a>
-                                </div>
-                            </div>
-                            <br />
-                            <ul class="list-group list-group-flush">
-                                <asp:Repeater runat="server" ID="rptMatchList">
-                                    <ItemTemplate>
-                                        <li class="list-group-item">
-                                            <div class="flex-container text-center">
-                                                <div class="flex-item">
-                                                    <span style="color: black !important;"><%# Eval("Tournament_Matching_Left_Bike_Number") %></span>
-                                                </div>
-                                                <div class="flex-item">
-                                                    <span style="color: black !important;">VS</span>
-                                                </div>
-                                                <div class="flex-item">
-                                                    <span style="color: black !important;"><%# Eval("Tournament_Matching_Right_Bike_Number") %></span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </ul>
-
-                            <script type="text/javascript">
-
-                                $(document).ready(function () {
-                                    $('#tbl-team-standing  td').each(function () {
-                                        var delay = ($(this).index() / 4) + 's';
-                                        $(this).css({
-                                            webkitAnimationDelay: delay,
-                                            mozAnimationDelay: delay,
-                                            animationDelay: delay
-                                        });
-                                    });
-                                });
-
-                                $(function () {
-                                    $('[data-action-type="winnerorlosser"]').click(function () {
-                                        var $sender = $(this);
-                                        var type = $sender.data('type');
-
-                                        var id = $('.js-matching-id').text();
-                                        var winnernumber = "";
-                                        var lossernumber = "";
-                                        var teamname = "";
-
-                                        switch (type) {
-                                            case "left":
-                                                winnernumber = $('.js-left-winner-bike-number').text();
-                                                lossernumber = $('.js-right-winner-bike-number').text();
-                                                teamname = $('.js-left-team-name').text();
-                                                break;
-                                            case "right":
-                                                lossernumber = $('.js-left-winner-bike-number').text();
-                                                winnernumber = $('.js-right-winner-bike-number').text();
-                                                teamname = $('.js-right-team-name').text();
-                                                break;
-                                        }
-
-                                        $.get("/handlers/matching-update-handler.ashx", { id: id, winnerNumber: winnernumber, losserNumber: lossernumber })
-                                            .done(function (data) {
-                                                $('.js-btn-created').click();
-                                                $('.pyro').removeClass("d-none");;
-                                                $('.js-pop-up-number').text(winnernumber);
-                                                $('.js-pop-up-name').text(teamname);
-
-                                                setTimeout(function () {
-                                                    location.reload(true);
-                                                }, 2500); // 500 milliseconds = 0.5 seconds
-
-                                            });
-                                        return false;
-                                    });
-
-
-                                    $('[data-action-type="skipmatch"]').click(function () {
-                                        var $sender = $(this);
-                                        var type = $sender.data('type');
-
-                                        var id = $('.js-matching-id').text();
-
-                                        $.get("/handlers/matching-skip-update-handler.ashx", { id: id, sortNumber: <%= _SortNumber %> })
-                                            .done(function (data) {
-                                                location.reload(true);
-                                            });
-                                        return false;
-                                    });
-                                });
-
-                            </script>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
+            <style>
+                .table > :not(caption) > * > * {
+                    background: transparent !important;
+                    color: white !important;
+                }
+            </style>
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    $('#tbl-team-standing  td').each(function () {
+                        var delay = ($(this).index() / 4) + 's';
+                        $(this).css({
+                            webkitAnimationDelay: delay,
+                            mozAnimationDelay: delay,
+                            animationDelay: delay
+                        });
+                    });
+                });
+
+                $(function () {
+
+                    // Establish a connection to the SignalR hub
+                    var connection = $.hubConnection();
+                    var hub = connection.createHubProxy('myHub');
+
+                    // Define a method to handle incoming messages
+                    hub.on('receiveMessage', function (user, message) {
+
+                        switch (message) {
+                            case "right":
+                                UpdateMatch("right");
+                                break;
+                            case "left":
+                                UpdateMatch("left");
+                                break;
+                            case "skip":
+                                SkipMatch();
+                                break;
+                        }
+                    });
+
+                    // Start the SignalR connection
+                    connection.start().done(function () {
+                        console.log('Connection established');
+                    });
+
+                    function UpdateMatch(winnersender) {
+
+                        var id = $('.js-matching-id').text();
+                        var winnernumber = "";
+                        var lossernumber = "";
+                        var teamname = "";
+
+                        switch (winnersender) {
+                            case "left":
+                                winnernumber = $('.js-left-winner-bike-number').text();
+                                lossernumber = $('.js-right-winner-bike-number').text();
+                                teamname = $('.js-left-team-name').text();
+                                break;
+                            case "right":
+                                lossernumber = $('.js-left-winner-bike-number').text();
+                                winnernumber = $('.js-right-winner-bike-number').text();
+                                teamname = $('.js-right-team-name').text();
+                                break;
+                        }
+
+                        $.get("/handlers/matching-update-handler.ashx", { id: id, winnerNumber: winnernumber, losserNumber: lossernumber })
+                            .done(function (data) {
+                                $('.js-btn-created').click();
+                                $('.pyro').removeClass("d-none");;
+                                $('.js-pop-up-number').text(winnernumber);
+                                $('.js-pop-up-name').text(teamname);
+
+                                setTimeout(function () {
+                                    location.reload(true);
+                                }, 2500); // 500 milliseconds = 0.5 seconds
+
+                            });
+                    }
+
+                    function SkipMatch() {
+                        var id = $('.js-matching-id').text();
+                        $.get("/handlers/matching-skip-update-handler.ashx", { id: id, sortNumber: <%= _SortNumber %> })
+                            .done(function (data) {
+                                location.reload(true);
+                            });
+                    }
+                });
+
+            </script>
 
             <button type="button" class="btn btn-primary d-none js-btn-created" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Created
             </button>
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" >
-                    <div class="modal-content  modal-background-winner" style="width:1200px !important;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content  modal-background-winner" style="width: 1200px !important;">
                         <div class="modal-body text-center">
                             <h1 class="winner-modal-h1 ">Winner</h1>
                             <h2 class="js-pop-up-number"></h2>

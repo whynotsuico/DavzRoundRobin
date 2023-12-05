@@ -73,7 +73,7 @@
 
     protected void ddlBracket_SelectedIndexChanged(object sender, EventArgs e)
     {
-        //Handled in Page_PreRenderComplete
+        Response.Redirect($"{CommonLinks.MatchController}?id={ddlBracket.SelectedValue}");
     }
 
     protected void DeleteEntry(object sender, CommandEventArgs e)
@@ -217,7 +217,7 @@
                 <div class="card">
                     <div class="card-header">
                         <b>Match List</b>
-                        <a href='<%= CommonLinks.Matching %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
+                        <a href='<%= CommonLinks.MatchController %>?bracketID=<%= ddlBracket.SelectedValue %>' target="_blank" class="btn btn-primary float-end">Go to Match UI</a>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
