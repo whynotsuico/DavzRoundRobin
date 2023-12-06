@@ -324,7 +324,7 @@
 
             hub.on('receiveMessage', function (user, message) {
 
-                if (message == "reload")
+                if (message == "reloadcontroller")
                     location.reload(true);
             });
 

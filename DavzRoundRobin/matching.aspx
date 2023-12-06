@@ -294,7 +294,7 @@
                                 $('.js-pop-up-number').text(winnernumber);
                                 $('.js-pop-up-name').text(teamname);
 
-                                hub.invoke('send', "wilrey", "reload");
+                                hub.invoke('send', "wilrey", "reloadcontroller");
 
                                 setTimeout(function () {
                                     location.reload(true);
@@ -308,7 +308,7 @@
                         $.get("/handlers/matching-skip-update-handler.ashx", { id: id, sortNumber: <%= _SortNumber %> })
                             .done(function (data) {
 
-                                hub.invoke('send', "wilrey", "reload");
+                                hub.invoke('send', "wilrey", "reloadcontroller");
 
                                 location.reload(true);
                             });
