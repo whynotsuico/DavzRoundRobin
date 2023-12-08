@@ -13,6 +13,8 @@ namespace Davz.Tournament
 
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
+              
+
 
             if (n % 2 == 1)
             {
