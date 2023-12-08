@@ -10,6 +10,7 @@ namespace Davz.Tournament
     {
         public static List<Tuple<string, string>> GenerateRoundRobinSchedule(List<string> teams)
         {
+
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
 
@@ -23,14 +24,7 @@ namespace Davz.Tournament
             {
                 List<string> l1 = teams.GetRange(0, n / 2);
                 List<string> l2 = teams.GetRange(n / 2, n / 2);
-
-                // Rotate positions of teams in the right side
-                if (i % 2 == 1)
-                {
-                    string temp = l2[0];
-                    l2.RemoveAt(0);
-                    l2.Add(temp);
-                }
+                l2.Reverse();
 
                 List<Tuple<string, string>> round = new List<Tuple<string, string>>();
                 for (int j = 0; j < n / 2; j++)
@@ -41,10 +35,8 @@ namespace Davz.Tournament
 
                 schedule.AddRange(round);
 
-                // Rotate the teams in the list, including the first team
-                string firstTeam = teams[0];
-                teams.RemoveAt(0);
-                teams.Add(firstTeam);
+                teams.Insert(1, teams[n - 1]);
+                teams.RemoveAt(n);
             }
 
             return schedule;
