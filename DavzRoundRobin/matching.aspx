@@ -100,7 +100,7 @@
         <div class="matching-container container">
             <div class="row">
 
-                <div class="col col-md-9">
+                <div class="col col-md-8">
                     <div class="pyro d-none">
                         <div class="before"></div>
                         <div class="after"></div>
@@ -211,12 +211,19 @@
                     </div>
 
                 </div>
+                <div class="col col-md-1">
+                    
+                </div>
             </div>
             <style>
+
+                
                 .table > :not(caption) > * > * {
                     background: transparent !important;
                     color: white !important;
                 }
+
+                .
             </style>
 
             <script type="text/javascript">
