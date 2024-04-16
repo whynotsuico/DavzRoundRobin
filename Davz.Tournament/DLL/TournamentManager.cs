@@ -285,7 +285,7 @@ namespace Davz.Tournament
 
         }
 
-        public static IEnumerable<Matching> ReadAllMatching()
+        public static IEnumerable<Matching> ReadAllMatchingByBracketID(string bracketID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Matching> lst = new List<Matching>();
@@ -293,6 +293,7 @@ namespace Davz.Tournament
             conn.Open();
             SqlCommand cmd = new SqlCommand("ReadAll_Matching", conn);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BracketID", bracketID);
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {

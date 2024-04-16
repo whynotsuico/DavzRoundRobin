@@ -171,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-md-3">
+                <div class="col col-md-4">
                     <asp:Repeater runat="server" ID="rptTeamStanding">
                         <HeaderTemplate>
                             <table class="list-group-flush table  matching-standing" id="tbl-team-standing">

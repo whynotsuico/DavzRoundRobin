@@ -10,6 +10,8 @@
 	, @Bracket_ID varchar(250)
 	, @Is_Done bit
 	, @Left_Team_Name varchar(250)
+	, @RegistrationLeftID INT
+	, @RegistrationRightID INT
 
 AS
 	INSERT INTO dbo.Tournament_Matching
@@ -25,6 +27,8 @@ AS
 		, Tournament_Matching_Bracket_ID
 		, Tournament_Matching_Is_Done
 		, Tournament_Matching_Left_Team_Name
+		, Tournament_Matching_Tournament_Left_Registration_ID
+		, Tournament_Matching_Tournament_Right_Registration_ID
 	)
 	VALUES
 	(
@@ -39,4 +43,6 @@ AS
 		, @Bracket_ID  
 		, @Is_Done  
 		, @Left_Team_Name  
+		, @RegistrationLeftID
+		, @RegistrationRightID
 	)
