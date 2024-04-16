@@ -177,7 +177,7 @@
                             <table class="list-group-flush table  matching-standing" id="tbl-team-standing">
                                 <thead>
                                     <tr>
-                                        <th colspan="5">Team Standing</th>
+                                        <th colspan="5"><b> <%= _MatchingBracket.BracketName %></b> Team Standing</th>
                                     </tr>
                                     <tr>
                                         <th class="list-group-flush text-center">Rank</th>
