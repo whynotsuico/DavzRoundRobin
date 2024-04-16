@@ -23,6 +23,8 @@ public class matching_undo_match_history : IHttpHandler
         if (undoMatch != null)
         {
             undoMatch.IsDone = false;
+            undoMatch.WinnerBikeNumber =string.Empty;
+            undoMatch.LoserBikeNumber =string.Empty;
             undoMatch.Update();
         }
 
