@@ -25,6 +25,7 @@ public class event_update_handler : IHttpHandler
             eventR.IsActive = true;
             eventR.Update();
 
+
             s = JsonConvert.SerializeObject(eventR);
         }
 
