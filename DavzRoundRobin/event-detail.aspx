@@ -32,6 +32,8 @@
         rptCategoryList.DataSource = TournamentManager.ReadAllCategory();
         rptCategoryList.DataBind();
 
+        lblAddCategoryNotFound.Visible = rptCategoryList.Items.Count == 0;
+
         rptEventCategory.DataSource = TournamentManager.GetAllRegistrationCategory(_Event.ID);
         rptEventCategory.DataBind();
 
@@ -275,6 +277,7 @@
                         <div class="modal-body category-container-form">
                             <div class="row g-3">
                                 <div class="col-md-12">
+                                    <label runat="server" id="lblAddCategoryNotFound">No Category Found</label>
                                     <asp:Repeater runat="server" ID="rptCategoryList" ItemType="Davz.Tournament.Category">
                                         <ItemTemplate>
                                             <div class="col-md-12 category-section">
