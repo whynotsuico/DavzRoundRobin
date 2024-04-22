@@ -221,6 +221,27 @@ namespace Davz.Tournament
             return lst;
         }
 
+        public static IEnumerable<Category> ReadAllEventCategory()
+        {
+            SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
+            List<Category> lst = new List<Category>();
+            Category cat = null;
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Category_Not_In_Event", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                cat = new Category();
+                cat.ExtractFromReader(dr);
+                lst.Add(cat);
+
+            }
+            conn.Close();
+            return lst;
+
+        }
+
         public static IEnumerable<Category> ReadAllCategory()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);

@@ -29,7 +29,7 @@
 
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
-        rptCategoryList.DataSource = TournamentManager.ReadAllCategory();
+        rptCategoryList.DataSource = TournamentManager.ReadAllEventCategory();
         rptCategoryList.DataBind();
 
         lblAddCategoryNotFound.Visible = rptCategoryList.Items.Count == 0;
