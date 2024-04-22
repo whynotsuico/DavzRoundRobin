@@ -13,9 +13,7 @@
 
         if (!IsPostBack)
         {
-            ddlAddEventCategory.DataSource = TournamentManager.ReadAllCategory();
-            ddlAddEventCategory.DataBind();
-            ddlAddEventCategory.Items.Insert(0, new ListItem("Select Category", ""));
+
 
             var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
@@ -31,6 +29,9 @@
 
     protected void Page_PrerenderComplete(object sender, EventArgs e)
     {
+        rptCategoryList.DataSource = TournamentManager.ReadAllCategory();
+        rptCategoryList.DataBind();
+
         rptEventCategory.DataSource = TournamentManager.GetAllRegistrationCategory(_Event.ID);
         rptEventCategory.DataBind();
 
@@ -59,7 +60,16 @@
 
     protected void btnAddCategory_Click(object sender, EventArgs e)
     {
-        RegistrationCategory.Create(ddlAddEventCategory.SelectedValue, _Event.ID);
+
+        foreach (RepeaterItem item in rptCategoryList.Items)
+        {
+            CheckBox chkAddCategory = item.FindControl("chkAddCategory") as CheckBox;
+            HiddenField hfCategoryID = item.FindControl("hfCategoryID") as HiddenField;
+
+            if (chkAddCategory.Checked)
+                RegistrationCategory.Create(hfCategoryID.Value, _Event.ID);
+
+        }
 
         Response.Redirect(Request.RawUrl);
     }
@@ -265,28 +275,29 @@
                         <div class="modal-body category-container-form">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <asp:DropDownList runat="server" DataTextField="Name" DataValueField="ID" ID="ddlAddEventCategory" CssClass="form-select need-validation" autocomplete="off" />
-                                        <label class="form-label"><b>Category</b></label>
-                                        <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlAddEventCategory" CssClass="d-none" ValidationGroup="CreateCategory" ErrorMessage="Required" />
-                                    </div>
+                                    <asp:Repeater runat="server" ID="rptCategoryList" ItemType="Davz.Tournament.Category">
+                                        <ItemTemplate>
+                                            <div class="col-md-12 category-section">
+                                                <asp:HiddenField runat="server" ID="hfCategoryID" Value='<%# Item.ID %>' />
+                                                <asp:CheckBox runat="server" ID="chkAddCategory" Text='<%# Item.Name %>' />
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <asp:Button runat="server" ID="btnAddCategory" CssClass="btn btn-primary btn-create-category" OnClick="btnAddCategory_Click" Text="Save" ValidationGroup="CreateCategory" CausesValidation="true" />
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <script>
-                                $(document).ready(function () {
-                                    $('.btn-create-category').click(function () {
-                                        if (!validateForm('category-container-form')) return false;
-                                    });
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
             </div>
+            <style>
+                .category-section label {
+                    padding-left: 5px !important;
+                }
+            </style>
         </div>
     </div>
 </asp:Content>
