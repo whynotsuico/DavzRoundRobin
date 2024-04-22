@@ -221,7 +221,7 @@ namespace Davz.Tournament
             return lst;
         }
 
-        public static IEnumerable<Category> ReadAllEventCategory()
+        public static IEnumerable<Category> ReadAllEventCategory(string eventID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             List<Category> lst = new List<Category>();
@@ -229,6 +229,7 @@ namespace Davz.Tournament
             conn.Open();
             SqlCommand cmd = new SqlCommand("ReadAll_Category_Not_In_Event", conn);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@EventID", eventID);
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
