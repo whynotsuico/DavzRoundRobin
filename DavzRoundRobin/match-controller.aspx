@@ -326,8 +326,6 @@
 
                 if (message == "reloadcontroller")
                     location.reload(true);
-
-                console.log(message);
             });
 
             // Start the SignalR connection
