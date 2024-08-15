@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="event_update_handler" %>
+﻿<%@ WebHandler Language="C#" Class="matching_undo_match_history" %>
 
 using System;
 using System.Web;
@@ -12,22 +12,23 @@ using Davz.Tournament;
 using Newtonsoft.Json;
 
 
-public class event_update_handler : IHttpHandler
+public class matching_undo_match_history : IHttpHandler
 {
     public void ProcessRequest(HttpContext context)
     {
         string s = string.Empty;
 
-        var eventR = Event.Read(context.Request["id"]);
+        Matching undoMatch = Matching.Read(context.Request["id"]);
 
-        if (eventR != null)
+        if (undoMatch != null)
         {
-            eventR.IsActive = true;
-            eventR.Update();
-
-
-            s = JsonConvert.SerializeObject(eventR);
+            undoMatch.IsDone = false;
+            undoMatch.WinnerBikeNumber =string.Empty;
+            undoMatch.LoserBikeNumber =string.Empty;
+            undoMatch.Update();
         }
+
+        s = JsonConvert.SerializeObject(undoMatch);
 
         context.Response.Write(s);
     }

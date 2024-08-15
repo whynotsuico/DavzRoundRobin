@@ -100,7 +100,7 @@
         <div class="matching-container container">
             <div class="row">
 
-                <div class="col col-md-9">
+                <div class="col col-md-8">
                     <div class="pyro d-none">
                         <div class="before"></div>
                         <div class="after"></div>
@@ -171,13 +171,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-md-3">
+                <div class="col col-md-4">
                     <asp:Repeater runat="server" ID="rptTeamStanding">
                         <HeaderTemplate>
                             <table class="list-group-flush table  matching-standing" id="tbl-team-standing">
                                 <thead>
                                     <tr>
-                                        <th colspan="5">Team Standing</th>
+                                        <th colspan="5"><b> <%= _MatchingBracket.BracketName %></b> Team Standing</th>
                                     </tr>
                                     <tr>
                                         <th class="list-group-flush text-center">Rank</th>
@@ -211,12 +211,19 @@
                     </div>
 
                 </div>
+                <div class="col col-md-1">
+                    
+                </div>
             </div>
             <style>
+
+                
                 .table > :not(caption) > * > * {
                     background: transparent !important;
                     color: white !important;
                 }
+
+                .
             </style>
 
             <script type="text/javascript">

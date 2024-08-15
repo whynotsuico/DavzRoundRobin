@@ -29,9 +29,28 @@
     {
         string oldBracketCategoryID = _MatchingBracket.CategoryID;
 
+        foreach (Matching match in TournamentManager.ReadAllMatchingByBracketID(_MatchingBracket.ID))
+        {
+
+            UpdateRegistrationBracketStatus(match.RegistrationLeftID);//Left Player    
+            UpdateRegistrationBracketStatus(match.RegistrationRightID);//Right Player
+
+        }
+
         MatchingBracket.Delete(_MatchingBracket.ID);
 
         Response.Redirect($"{CommonLinks.EventBracketByCategory}?id={_Event.ID}&catid={oldBracketCategoryID}");
+    }
+
+    protected void UpdateRegistrationBracketStatus(string id)
+    {
+        var registration = Registration.Read(id);
+
+        if (registration != null)
+        {
+            registration.IsAlreadyBracket = false;
+            registration.Update();
+        }
     }
 
 </script>
@@ -43,7 +62,6 @@
     <script src="signalr/hubs"></script>
 
     <style>
-
         .btn-control {
             padding: 22px;
             font-size: 1rem !important;
@@ -221,8 +239,11 @@
                                         <div class="col col-md-3 text-right">
                                             W - [ <%# Eval("Tournament_Matching_Winner_Bike_Number") %> ]
                                         </div>
-                                        <div class="col col-md-2">
-                                            <a href="javascript:;" data-action-type="swapwinner" data-id="<%# Eval("Tournament_Matching_ID") %>" class="btn btn-primary btn-sm float-end"><i class="bx bx-street-view icon text-white"></i></a>
+                                        <div class="col col-md-1">
+                                            <a href="javascript:;" data-action-type="swapwinner" title="Swap Winner" data-id="<%# Eval("Tournament_Matching_ID") %>" class="btn btn-primary btn-sm float-end"><i class="bx bx-street-view icon text-white"></i></a>
+                                        </div>
+                                        <div class="col col-md-1">
+                                            <a href="javascript:;" data-action-type="undomatch" title="Undo Match"  data-id="<%# Eval("Tournament_Matching_ID") %>" class="btn btn-primary btn-sm float-end"><i class="bx bx-undo icon text-white"></i></a>
                                         </div>
                                     </div>
 
@@ -238,7 +259,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel"><b>Team  Standing</b></h5>
+                        <h5 class="modal-title" id="staticBackdropLabel"><b> <%= _MatchingBracket.BracketName %></b> Team Standing</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -369,6 +390,21 @@
                 if (confirmed) {
 
                     $.get("/handlers/matching-swap-winner-handler.ashx", { id: $sender.data("id") })
+                        .done(function (data) {
+                            hub.invoke('send', "wilrey", "reload");
+                            location.reload(true);
+                        });
+                }
+            });
+
+            $('[data-action-type="undomatch"]').click(function () {
+                var $sender = $(this);
+
+                var confirmed = confirm("Are you sure you want to undo match history?");
+
+                if (confirmed) {
+
+                    $.get("/handlers/matching-undo-match-history.ashx", { id: $sender.data("id") })
                         .done(function (data) {
                             hub.invoke('send', "wilrey", "reload");
                             location.reload(true);

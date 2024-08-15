@@ -24,6 +24,8 @@ namespace Davz.Tournament
         public string BracketID { get; set; }
         public bool IsDone { get; set; }
         public string LeftTeamName { get; set; }
+        public string RegistrationLeftID { get; set; }
+        public string RegistrationRightID { get; set; }
 
         public static void Create(int SortNumber
                             , string RightRiderName
@@ -36,7 +38,8 @@ namespace Davz.Tournament
                             , string LoserBikeNumber
                             , string BracketID
                             , bool IsDone
-                            )
+                            , string registrationLeftID
+                            , string registrationRightID)
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
             conn.Open();
@@ -53,6 +56,8 @@ namespace Davz.Tournament
             cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
             cmd.Parameters.AddWithValue("@Is_Done", IsDone);
             cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
+            cmd.Parameters.AddWithValue("@RegistrationLeftID", registrationLeftID);
+            cmd.Parameters.AddWithValue("@RegistrationRightID", registrationRightID);
             cmd.ExecuteNonQuery();
             conn.Close();
         }
@@ -71,6 +76,8 @@ namespace Davz.Tournament
             this.BracketID = record["Tournament_Matching_Bracket_ID"].ToString();
             this.IsDone = bool.Parse(record["Tournament_Matching_Is_Done"].ToString());
             this.LeftTeamName = record["Tournament_Matching_Left_Team_Name"].ToString();
+            this.RegistrationLeftID = record["Tournament_Matching_Tournament_Left_Registration_ID"].ToString();
+            this.RegistrationRightID = record["Tournament_Matching_Tournament_Right_Registration_ID"].ToString();
         }
 
         public static Matching Read(string id)

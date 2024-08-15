@@ -13,9 +13,7 @@ namespace Davz.Tournament
 
             int n = teams.Count;
             List<Tuple<string, string>> schedule = new List<Tuple<string, string>>();
-              
-
-
+            
             if (n % 2 == 1)
             {
                 teams.Add("BYE");
@@ -68,16 +66,19 @@ namespace Davz.Tournament
                 var leftRiderName = leftPlayer == null ? "BYE" : leftPlayer.RiderName;
                 var leftTeamName = leftPlayer == null ? "BYE" : leftPlayer.TeamName;
                 var leftDragBikeNumber = leftPlayer == null ? "BYE" : leftPlayer.DragBikeNumber;
+                var registrationLeftID = leftPlayer == null ? "0" : leftPlayer.ID;
+
 
                 var rightRiderName = rightPlayer == null ? "BYE" : rightPlayer.RiderName;
                 var rightTeamName = rightPlayer == null ? "BYE" : rightPlayer.TeamName;
                 var rightDragBikeNumber = rightPlayer == null ? "BYE" : rightPlayer.DragBikeNumber;
+                var registrationRightID = rightPlayer == null ? "0" : rightPlayer.ID;
 
                 Matching.Create(roundNumber++,
                                 rightRiderName, leftRiderName,
                                 rightTeamName, leftTeamName,
                                 rightDragBikeNumber, leftDragBikeNumber,
-                                "", "", matchingBracket.ID, false);
+                                "", "", matchingBracket.ID, false, registrationLeftID, registrationRightID);
 
 
                 //Update
