@@ -23,7 +23,7 @@
 
     protected void btnConfirm_Click(object sender, EventArgs e)
     {
-        Response.Redirect(Request.RawUrl);
+        
     }
 </script>
 
@@ -67,12 +67,6 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-floating">
-                        <asp:TextBox runat="server" type="number" CssClass="form-control js-bike-number need-validation" autocomplete="off" />
-                        <label class="form-label"><b>Bike Number</b></label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-floating">
                         <asp:TextBox runat="server" CssClass="form-control js-team-name need-validation" autocomplete="off" />
                         <label class="form-label"><b>Team Name</b></label>
                     </div>
@@ -81,6 +75,12 @@
                     <div class="form-floating">
                         <asp:TextBox runat="server" CssClass="form-control js-rider-name need-validation" autocomplete="off" />
                         <label class="form-label"><b>Rider Name</b></label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        <asp:TextBox runat="server" type="number" CssClass="form-control js-bike-number need-validation" autocomplete="off" />
+                        <label class="form-label"><b>Bike Number</b></label>
                     </div>
                 </div>
             </div>
@@ -146,6 +146,10 @@
                             $('.js-button-submit').addClass("d-none");
                             $sender.show();
                             $('.js-btn-created').click();
+
+                            $('.js-rider-name').val("");
+                            $('.js-bike-number').val("")
+                            $('.js-team-name').val("");
                         });
                         return false;
                     });

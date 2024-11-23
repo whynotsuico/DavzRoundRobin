@@ -14,4 +14,8 @@
     , [Tournament_Matching_Tournament_Right_Registration_ID]         INT                 NULL     DEFAULT(0)
     , [Tournament_Matching_Is_Done]                                  BIT                 NOT NULL DEFAULT(0)
     , [Tournament_Matching_Left_Team_Name]                           NVARCHAR(250)       NULL
+    , [Tournament_Matching_Left_Team_Time]                           VARCHAR(250)        NULL
+    , [Tournament_Matching_Left_Team_Top_Speed]                      VARCHAR(250)        NULL
+    , [Tournament_Matching_Right_Team_Time]                          VARCHAR(250)        NULL
+    , [Tournament_Matching_Right_Team_Top_Speed]                     VARCHAR(250)        NULL
 )

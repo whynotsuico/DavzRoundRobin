@@ -26,6 +26,10 @@ namespace Davz.Tournament
         public string LeftTeamName { get; set; }
         public string RegistrationLeftID { get; set; }
         public string RegistrationRightID { get; set; }
+        public string LeftTime { get; set; }
+        public string LeftTopSpeed { get; set; }
+        public string RightTime { get; set; }
+        public string RightTopSpeed { get; set; }
 
         public static void Create(int SortNumber
                             , string RightRiderName
@@ -78,6 +82,10 @@ namespace Davz.Tournament
             this.LeftTeamName = record["Tournament_Matching_Left_Team_Name"].ToString();
             this.RegistrationLeftID = record["Tournament_Matching_Tournament_Left_Registration_ID"].ToString();
             this.RegistrationRightID = record["Tournament_Matching_Tournament_Right_Registration_ID"].ToString();
+            this.LeftTime = record["Tournament_Matching_Left_Team_Time"].ToString();
+            this.RightTime = record["Tournament_Matching_Right_Team_Time"].ToString();
+            this.LeftTopSpeed = record["Tournament_Matching_Left_Team_Top_Speed"].ToString();
+            this.RightTopSpeed = record["Tournament_Matching_Right_Team_Top_Speed"].ToString();
         }
 
         public static Matching Read(string id)
@@ -128,6 +136,10 @@ namespace Davz.Tournament
             cmd.Parameters.AddWithValue("@Bracket_ID", BracketID);
             cmd.Parameters.AddWithValue("@Is_Done", IsDone);
             cmd.Parameters.AddWithValue("@Left_Team_Name", LeftTeamName);
+            cmd.Parameters.AddWithValue("@LeftTeamTime", LeftTime);
+            cmd.Parameters.AddWithValue("@RightTeamTime", RightTime);
+            cmd.Parameters.AddWithValue("@LeftTeamTopSpeed", LeftTopSpeed);
+            cmd.Parameters.AddWithValue("@RightTeamTopSpeed", RightTopSpeed);
             cmd.ExecuteNonQuery();
 
             conn.Close();

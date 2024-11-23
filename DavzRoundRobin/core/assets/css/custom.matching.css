@@ -604,3 +604,42 @@ h5.js-pop-up-name {
     -webkit-animation: blink 12s infinite;
     text-transform: uppercase;
 }
+
+
+.left-time-text {
+    margin: auto;
+    text-align: center;
+    background-color: white;
+    font-weight: bold;
+    width: 164px;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: red;
+    font-size: 23px;
+   
+}
+
+@font-face {
+    font-family: Digital-7;
+    src: url('/core/assets/fonts/digital-7.ttf');
+}
+
+.top-speed-text {
+    display: flex;
+}
+    .top-speed-text span {
+        background-color: white;
+        padding: 7px;
+        float: left;
+        width: 100%;
+        color: black !important;
+    }
+
+
+#lefTimerDisplay, #rightTimerDisplay {
+   
+}
+
+

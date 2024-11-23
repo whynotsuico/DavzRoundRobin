@@ -65,6 +65,7 @@
     <Folder Include="Stored Procedure\Tournament_Registration_Category" />
     <Folder Include="Views" />
     <Folder Include="Stored Procedure\Tournament_Matching_Bracket" />
+    <Folder Include="Stored Procedure\Davz Settings" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Tournament_Category.sql" />
@@ -116,6 +117,11 @@
     <Build Include="Stored Procedure\Tournament Registration\Read_Bike_Number_By_Bike_Number.sql" />
     <Build Include="Stored Procedure\Tournament Matching\ReadAll_Matching_By_Matching_ID_Is_Done_True.sql" />
     <Build Include="Stored Procedure\Tournament Category\ReadAll_Category_Not_In_Event.sql" />
+    <Build Include="Tables\Davz_Settings.sql" />
+    <Build Include="Stored Procedure\Davz Settings\Davz_Settings_Read.sql" />
+    <Build Include="Stored Procedure\Davz Settings\Davz_Settings_Update.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Print_Time_By_Matching_Bracket_ID.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Get_Tournament_Matching_Bike_Number_By_Bracket_ID.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />

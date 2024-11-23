@@ -11,6 +11,10 @@
 	, @Bracket_ID varchar(250)
 	, @Is_Done bit
 	, @Left_Team_Name varchar(250)
+	, @LeftTeamTime VARCHAR(250)
+	, @LeftTeamTopSpeed VARCHAR(250)
+	, @RightTeamTime VARCHAR(250)
+	, @RightTeamTopSpeed VARCHAR(250)
 AS
 	UPDATE dbo.Tournament_Matching
 	SET
@@ -25,5 +29,9 @@ AS
 		, Tournament_Matching_Bracket_ID = @Bracket_ID
 		, Tournament_Matching_Is_Done = @Is_Done
 		, Tournament_Matching_Left_Team_Name = @Left_Team_Name
+		, Tournament_Matching_Left_Team_Time = @LeftTeamTime
+		, Tournament_Matching_Right_Team_Time = @RightTeamTime
+		, Tournament_Matching_Left_Team_Top_Speed = @LeftTeamTopSpeed
+		, Tournament_Matching_Right_Team_Top_Speed = @RightTeamTopSpeed
 	WHERE
 		Tournament_Matching_ID = @ID

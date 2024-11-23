@@ -8,20 +8,27 @@
 <script RunAt="server">
     private static Thread udpListenerThread;
     private static UdpClient udpClient;
+    private static bool keepListening = true;
 
-    void Application_Start(object sender, EventArgs e)
+    public static void Application_Start(object sender, EventArgs e)
     {
         udpListenerThread = new Thread(StartUdpListener);
         udpListenerThread.IsBackground = true;
         udpListenerThread.Start();
     }
 
-    private void StartUdpListener()
+    private static void StartUdpListener()
     {
-        udpClient = new UdpClient(8080);
-        IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 8080);
+        int port = 8080;
+        if (!TryCreateUdpClient(port))
+        {
+            udpClient = null;
+            udpClient.Dispose();
+        }
 
-        while (true)
+        IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, port);
+
+        while (keepListening)
         {
             try
             {
@@ -30,25 +37,44 @@
 
                 // Send message to all connected clients via SignalR
                 var context = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
-                context.Clients.All.receiveMessage(receivedData);
+                context.Clients.All.receiveMessage("wilrey",receivedData);
             }
             catch (Exception ex)
             {
                 // Log exception or handle it
+                System.Diagnostics.Trace.WriteLine("UDP Listener Error: " + ex.Message);
             }
         }
     }
 
-    void Application_End(object sender, EventArgs e)
+    private static bool TryCreateUdpClient(int port)
     {
+        try
+        {
+            // Attempt to create and bind a new UdpClient
+            udpClient = new UdpClient(port);
+            return true;
+        }
+        catch (SocketException ex)
+        {
+            // Log exception if needed
+            System.Diagnostics.Trace.WriteLine($"Failed to create UdpClient on port {port}: {ex.Message}");
+            return false;
+        }
+    }
+
+    public static void Application_End(object sender, EventArgs e)
+    {
+        keepListening = false;
+
         if (udpListenerThread != null && udpListenerThread.IsAlive)
         {
-            udpListenerThread.Abort();
+            udpListenerThread.Join(); // Wait for the thread to complete
         }
 
         if (udpClient != null)
         {
             udpClient.Close();
+            udpClient = null; // Set to null to ensure proper cleanup
         }
-    }
-</script>
+    }</script>

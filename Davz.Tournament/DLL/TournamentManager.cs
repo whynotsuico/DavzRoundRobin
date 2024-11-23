@@ -64,6 +64,41 @@ namespace Davz.Tournament
             con.Close();
 
             return dt;
+        } 
+        
+        public static DataTable GetTournamentMatchingBikeNumbersByBracketID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Get_Tournament_Matching_Bike_Number_By_Bracket_ID", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
+
+        public static DataTable PrintTimeByMatchingBracketID(string ID,  string bikeNumber)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Print_Time_By_Matching_Bracket_ID", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@BikeNumber", bikeNumber);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
         }
         public static DataTable GetAllMatchingByMatchingIDIsDoneFalse(string ID)
         {

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBase.cs" />
+    <Compile Include="DLL\DavzSettings.cs" />
     <Compile Include="DLL\MatchingBracket.cs" />
     <Compile Include="DLL\RegistrationCategory.cs" />
     <Compile Include="DLL\RoundRobin.cs" />

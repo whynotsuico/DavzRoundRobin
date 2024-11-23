@@ -19,6 +19,10 @@ public class matching_update_handler : IHttpHandler
 
         string winner = context.Request["winnerNumber"];
         string losser = context.Request["losserNumber"];
+        string leftTime = context.Request["lefttime"];
+        string rightTime = context.Request["rightime"];
+        string leftTopSpeed = context.Request["lefttopspeed"];
+        string rightTopSpeed = context.Request["righttopspeed"];
         string s = string.Empty;
 
         var matching = Matching.Read(context.Request["id"]);
@@ -27,6 +31,10 @@ public class matching_update_handler : IHttpHandler
         {
             matching.WinnerBikeNumber = winner;
             matching.LoserBikeNumber = losser;
+            matching.LeftTime = leftTime;
+            matching.RightTime = rightTime;
+            matching.LeftTopSpeed = leftTopSpeed;
+            matching.RightTopSpeed = rightTopSpeed;
             matching.IsDone = true;
 
             matching.Update();
