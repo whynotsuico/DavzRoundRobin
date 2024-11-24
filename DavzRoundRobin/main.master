@@ -71,6 +71,11 @@
                                     <i class="bx bx-printer icon"></i>
                                     <span class="text nav-text">Print</span>
                                 </a>
+                            </li> <li class="nav-link">
+                                <a href='<%= CommonLinks.Reports %>'>
+                                    <i class="bx bxs-report icon"></i>
+                                    <span class="text nav-text">Reports</span>
+                                </a>
                             </li>
                             <li class="nav-link">
                                 <a href='<%= CommonLinks.Settings %>'>

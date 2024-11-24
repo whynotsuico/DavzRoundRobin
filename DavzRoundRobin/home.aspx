@@ -64,7 +64,7 @@
                 <div class="btn-wrapper">
                     <a href="javascript:;" class="btn btn-otline-dark align-items-center"><i class="bx bx-share-alt"></i>&nbsp;Share</a>
                     <a href="javascript:;" class="btn btn-otline-dark"><i class="bx bx-printer"></i>&nbsp;Print</a>
-                    <a href="javascript:;" class="btn btn-primary text-white me-0"><i class="bx bx-export"></i>&nbsp;Export</a>
+                    <a href="export.aspx" class="btn btn-primary text-white me-0"><i class="bx bx-export"></i>&nbsp;Export</a>
                 </div>
             </div>
         </div>

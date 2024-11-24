@@ -118,6 +118,7 @@
                             <table class="table table-sm table-hover table-striped" id="tbl-team-standing">
                                 <thead>
                                     <tr>
+                                        <th class="text-center">Run #</th>
                                         <th class="text-center">Time</th>
                                         <th class="text-center">Top Speed</th>
                                     </tr>
@@ -126,6 +127,7 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr class="event-detail-entry-item-list">
+                                <td class="text-center"><%# Container.ItemIndex + 1%></td>
                                 <td class="text-center"><%# Eval("Time").ToString() == DBNull.Value.ToString() ? "00.000" : Eval("Time")%></td>
                                 <td class="text-center"><%# Eval("Top_Speed").ToString() == DBNull.Value.ToString() ? "0" : Eval("Top_Speed") %> KPH</td>
                             </tr>

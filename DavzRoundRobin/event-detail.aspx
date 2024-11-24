@@ -13,8 +13,6 @@
 
         if (!IsPostBack)
         {
-
-
             var lstEventCategory = TournamentManager.ReadAllRegistrationCategory(_Event.ID).ToList();
 
             ddlFilterCategory.DataSource = lstEventCategory;

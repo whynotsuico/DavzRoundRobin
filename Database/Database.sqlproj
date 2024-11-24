@@ -122,6 +122,7 @@
     <Build Include="Stored Procedure\Davz Settings\Davz_Settings_Update.sql" />
     <Build Include="Stored Procedure\Tournament Matching\Print_Time_By_Matching_Bracket_ID.sql" />
     <Build Include="Stored Procedure\Tournament Matching\Get_Tournament_Matching_Bike_Number_By_Bracket_ID.sql" />
+    <Build Include="Stored Procedure\Tournament Matching\Get_Best_Team_Time_Tournament_Matching_By_Category_ID.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />

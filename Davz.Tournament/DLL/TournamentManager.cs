@@ -10,6 +10,23 @@ namespace Davz.Tournament
 {
     public class TournamentManager
     {
+
+        public static DataTable GetAllWinnersAndLosersByMatchingCategoryID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("ReadAll_Winners_And_Losers_By_Matching_Category_ID", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }
         public static Event GetEventIDByIsActive()
         {
             SqlConnection conn = new SqlConnection(DataBase.ConnectionString);
@@ -155,6 +172,21 @@ namespace Davz.Tournament
             con.Open();
             SqlCommand cmd = new SqlCommand("ReadAll_Matching_By_Matching_ID", con);
             cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataReader dr = cmd.ExecuteReader();
+            dt.Load(dr);
+
+            con.Close();
+
+            return dt;
+        }  public static DataTable GetBestTeamTimeTournamentMatchingByCategoryID(string ID)
+        {
+            SqlConnection con = new SqlConnection(DataBase.ConnectionString);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Get_Best_Team_Time_Tournament_Matching_By_Category_ID", con);
+            cmd.Parameters.AddWithValue("@CategoryID", ID);
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataReader dr = cmd.ExecuteReader();
             dt.Load(dr);
